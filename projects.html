@@ -68,6 +68,7 @@ body.dark .card-link:hover{color:#E8E6E1;}
 </style>
 </head>
 <body data-page="works">
+<script>(function(){var s=localStorage;if(s.getItem('sw_dark')==='1')document.body.classList.add('dark');if(s.getItem('sw_jp')==='1'){document.body.dataset.jp='1';document.body.classList.add('jp-loading');}})();</script>
 
 <div class="mock">
   <div class="main">
@@ -170,7 +171,7 @@ function renderGrid(){
 renderGrid();
 
 window.onToggleLangContent=function(jp){
-  document.getElementById('page-heading').childNodes[0].textContent=jp?'作品一覧\n':'all projects\n';
+  document.getElementById('page-heading').childNodes[0].textContent=jp?'制作実績\n':'all projects\n';
   document.getElementById('page-sub').textContent=jp?'作ったもの。':'things i\'ve built.';
   document.getElementById('grid-label').textContent=jp?'◤ プロジェクト':'◤ projects';
 };

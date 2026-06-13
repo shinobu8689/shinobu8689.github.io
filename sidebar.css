@@ -34,6 +34,9 @@
 /* ── mock layout ── */
 .mock{display:flex;width:100%;min-height:100vh;background:#F5F3EE;font-size:13px;}
 
+/* ── hide main content while JP translations are being applied ── */
+.jp-loading .main{visibility:hidden;}
+
 /* ── mobile layout ── */
 @media (max-width: 768px) {
   .sidebar{display:none;}

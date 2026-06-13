@@ -68,6 +68,7 @@ body.dark .card-link:hover{color:#E8E6E1;}
 </style>
 </head>
 <body data-page="art">
+<script>(function(){var s=localStorage;if(s.getItem('sw_dark')==='1')document.body.classList.add('dark');if(s.getItem('sw_jp')==='1'){document.body.dataset.jp='1';document.body.classList.add('jp-loading');}})();</script>
 
 <div class="mock">
   <div class="main">
@@ -163,8 +164,8 @@ function renderGrid(){
 renderGrid();
 
 window.onToggleLangContent=function(jp){
-  document.getElementById('page-heading').childNodes[0].textContent=jp?'イラスト\n':'art\n';
-  document.getElementById('page-sub').textContent=jp?'ドット絵とイラスト。':'pixel art & illustrations.';
+  document.getElementById('page-heading').childNodes[0].textContent=jp?'イラスト・ドット絵\n':'art & pixel art\n';
+  document.getElementById('page-sub').textContent=jp?'描いたもの。':'things i\'ve drawn.';
   document.getElementById('grid-label').textContent=jp?'◤ 作品':'◤ pieces';
 };
 </script>

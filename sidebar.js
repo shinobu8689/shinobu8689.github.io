@@ -1,12 +1,13 @@
 (function(){
-  var dark=false,jp=false;
+  var dark=localStorage.getItem('sw_dark')==='1';
+  var jp=localStorage.getItem('sw_jp')==='1';
 
   var NAV=[
-    {icon:'ti-home',        href:'index.html',          en:'home',    ja:'ホーム',       page:'index'},
-    {icon:'ti-layout-grid', href:'projects.html',         en:'works',   ja:'作品',         page:'works'},
-    {icon:'ti-brush',       href:'art.html',              en:'art',     ja:'アート',       page:'art'},
-    {icon:'ti-user',        href:'about.html',           en:'about',   ja:'自己紹介',     page:'about'},
-    {icon:'ti-mail',        href:'contact.html',         en:'contact', ja:'お問い合わせ', page:'contact'}
+    {icon:'ti-home',        href:'index.html',    en:'home',    ja:'ホーム',       page:'index'},
+    {icon:'ti-layout-grid', href:'projects.html', en:'works',   ja:'制作実績',     page:'works'},
+    {icon:'ti-brush',       href:'art.html',      en:'art',     ja:'イラスト',     page:'art'},
+    {icon:'ti-user',        href:'about.html',    en:'about',   ja:'自己紹介',     page:'about'},
+    {icon:'ti-mail',        href:'contact.html',  en:'contact', ja:'お問い合わせ', page:'contact'}
   ];
 
   var PAGE=document.body.getAttribute('data-page')||'';
@@ -67,6 +68,25 @@
       +'</div>';
   }
 
+  function applyDarkUI(){
+    var icon=dark?'ti ti-sun':'ti ti-moon';
+    var lbl=dark
+      ?(jp?'ライトモード':'light mode')
+      :(jp?'ダークモード':'dark mode');
+    document.getElementById('dark-icon').className=icon;
+    document.getElementById('dark-label').textContent=lbl;
+    document.getElementById('dark-icon-mob').className=icon;
+    document.getElementById('dark-label-mob').textContent=lbl;
+  }
+
+  function applyLangUI(){
+    var labels=NAV.map(function(n){return jp?n.ja:n.en;});
+    document.querySelectorAll('.desk-nav-lbl').forEach(function(n,i){n.textContent=labels[i];});
+    document.querySelectorAll('.mob-nav-lbl').forEach(function(n,i){n.textContent=labels[i];});
+    document.getElementById('lang-label').textContent=jp?'english':'日本語';
+    document.getElementById('lang-label-mob').textContent=jp?'english':'日本語';
+  }
+
   function inject(){
     var mock=document.querySelector('.mock');
 
@@ -93,6 +113,16 @@
     sb.id='sidebar';
     sb.innerHTML=buildDesktopSidebar();
     mock.insertBefore(sb,mock.querySelector('.main'));
+
+    applyDarkUI();
+    applyLangUI();
+    // onToggleLangContent is defined in the page's inline script which runs after
+    // this file, so defer one tick to let it register before calling it.
+    // Also remove jp-loading here to reveal content once translations are applied.
+    setTimeout(function(){
+      if(jp&&typeof window.onToggleLangContent==='function') window.onToggleLangContent(true);
+      document.body.classList.remove('jp-loading');
+    },0);
   }
 
   function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');}
@@ -111,23 +141,16 @@
 
   function toggleDark(){
     dark=!dark;
+    localStorage.setItem('sw_dark',dark?'1':'0');
     document.body.classList.toggle('dark',dark);
-    var icon=dark?'ti ti-sun':'ti ti-moon';
-    var lbl=dark?'light mode':'dark mode';
-    document.getElementById('dark-icon').className=icon;
-    document.getElementById('dark-label').textContent=lbl;
-    document.getElementById('dark-icon-mob').className=icon;
-    document.getElementById('dark-label-mob').textContent=lbl;
+    applyDarkUI();
   }
 
   function toggleLang(){
     jp=!jp;
+    localStorage.setItem('sw_jp',jp?'1':'0');
     document.body.dataset.jp=jp?'1':'';
-    var labels=NAV.map(function(n){return jp?n.ja:n.en;});
-    document.querySelectorAll('.desk-nav-lbl').forEach(function(n,i){n.textContent=labels[i];});
-    document.querySelectorAll('.mob-nav-lbl').forEach(function(n,i){n.textContent=labels[i];});
-    document.getElementById('lang-label').textContent=jp?'english':'日本語';
-    document.getElementById('lang-label-mob').textContent=jp?'english':'日本語';
+    applyLangUI();
     if(typeof window.onToggleLangContent==='function') window.onToggleLangContent(jp);
   }
 

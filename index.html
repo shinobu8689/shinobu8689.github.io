@@ -78,6 +78,7 @@ body.dark .more-btn:hover{color:#E8E6E1;border-color:#5C5A56;}
 </style>
 </head>
 <body data-page="index">
+<script>(function(){var s=localStorage;if(s.getItem('sw_dark')==='1')document.body.classList.add('dark');if(s.getItem('sw_jp')==='1'){document.body.dataset.jp='1';document.body.classList.add('jp-loading');}})();</script>
 
 <div class="mock">
   <div class="main">
@@ -94,7 +95,7 @@ body.dark .more-btn:hover{color:#E8E6E1;border-color:#5C5A56;}
           <i class="ti ti-layout-grid"></i><span class="nav-lbl">works</span>
           <i class="ti ti-chevron-down" style="font-size:11px"></i>
           <div class="dropdown">
-            <div class="dd-item" onclick="location.href='projects.html'">all projects</div>
+            <div class="dd-item" id="dd-all-projects" onclick="location.href='projects.html'">all projects</div>
             <div class="dd-item">shinobu_works</div>
             <div class="dd-item">Job Stream Express</div>
             <div class="dd-item">Image Edit Pipeline</div>
@@ -105,8 +106,8 @@ body.dark .more-btn:hover{color:#E8E6E1;border-color:#5C5A56;}
           <i class="ti ti-brush"></i><span class="nav-lbl">art</span>
           <i class="ti ti-chevron-down" style="font-size:11px"></i>
           <div class="dropdown">
-            <div class="dd-item" onclick="location.href='art.html'">all illustrations</div>
-            <div class="dd-item" onclick="location.href='art.html'">pixel art</div>
+            <div class="dd-item" id="dd-all-illustrations" onclick="location.href='art.html'">all illustrations</div>
+            <div class="dd-item" id="dd-pixel-art" onclick="location.href='art.html'">pixel art</div>
           </div>
         </div>
         <div class="nav-item" onclick="location.href='about.html'">
@@ -179,6 +180,9 @@ window.onToggleLangContent=function(jp){
   document.getElementById('more-btn').innerHTML=jp
     ?'<span>もっと見る</span><i class="ti ti-arrow-right" style="font-size:13px"></i>'
     :'<span>see all</span><i class="ti ti-arrow-right" style="font-size:13px"></i>';
+  document.getElementById('dd-all-projects').textContent=jp?'プロジェクト一覧':'all projects';
+  document.getElementById('dd-all-illustrations').textContent=jp?'イラスト一覧':'all illustrations';
+  document.getElementById('dd-pixel-art').textContent=jp?'ドット絵':'pixel art';
 };
 </script>
 </body>
