@@ -15,53 +15,27 @@ body{font-family:'Inter',sans-serif;background:#F5F3EE;min-height:100vh;display:
 
 .main{flex:1;display:flex;flex-direction:column;}
 .center-wrap{
-  flex:1;display:flex;flex-direction:column;
-  gap:28px;max-width:860px;width:100%;margin:0 auto;padding:60px 40px;
+  flex:1;display:flex;flex-direction:column;justify-content:center;
+  gap:28px;max-width:560px;width:100%;margin:0 auto;padding:60px 40px;
 }
 
 .site-name{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:400;color:#7A7773;letter-spacing:0.06em;}
 .page-title{font-size:26px;font-weight:500;color:#1A1917;line-height:1.35;}
 .page-title span{font-weight:400;color:#7A7773;}
-
 .divider{width:100%;height:0.5px;background:#C8C5BE;}
 .section-label{font-size:11px;color:#9E9B95;letter-spacing:0.08em;text-transform:uppercase;}
 
-/* ── form ── */
-.form{display:flex;flex-direction:column;gap:14px;}
-.field-row{display:flex;flex-direction:column;gap:4px;}
-.field-label{font-size:11px;color:#9E9B95;letter-spacing:0.06em;}
-.field-input{font-size:13px;font-family:'Inter',sans-serif;color:#1A1917;background:#FFFEFB;border:0.5px solid #D4D1CB;border-radius:8px;padding:8px 12px;width:100%;outline:none;transition:border-color 0.12s;}
-.field-input:focus{border-color:#8A8780;}
-.field-input::placeholder{color:#B0ADA6;}
-textarea.field-input{resize:vertical;min-height:120px;line-height:1.6;}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-
-.submit-row{display:flex;justify-content:flex-end;align-items:center;gap:10px;}
-.send-btn{display:flex;align-items:center;gap:6px;padding:8px 18px;background:#1A1917;border:0.5px solid #1A1917;border-radius:8px;color:#F5F3EE;font-size:12px;font-family:'Inter',sans-serif;cursor:pointer;transition:background 0.12s,border-color 0.12s;}
-.send-btn:hover{background:#333;border-color:#333;}
-.send-btn i{font-size:14px;}
-.send-note{font-size:11px;color:#B0ADA6;}
-
-/* ── social links ── */
 .social-list{display:flex;flex-direction:column;gap:2px;}
-.social-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:background 0.12s;text-decoration:none;color:inherit;}
+.social-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;text-decoration:none;color:inherit;transition:background 0.12s;}
 .social-item:hover{background:#EAE8E3;}
-.social-item i{font-size:16px;color:#7A7773;flex-shrink:0;}
-.social-name{font-size:12px;font-weight:500;color:#1A1917;font-family:'IBM Plex Mono',monospace;}
+.social-item i{font-size:18px;color:#7A7773;flex-shrink:0;width:22px;}
+.social-name{font-size:13px;font-weight:500;color:#1A1917;font-family:'IBM Plex Mono',monospace;}
 .social-handle{font-size:11px;color:#B0ADA6;margin-left:auto;}
-
-/* ── two-panel layout ── */
-.contact-grid{display:grid;grid-template-columns:1fr 280px;gap:40px;align-items:start;}
-
-/* ── availability badge ── */
-.avail{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;background:#EAE8E3;border:0.5px solid #C8C5BE;border-radius:20px;font-size:11px;color:#5C5A56;}
-.avail-dot{width:6px;height:6px;border-radius:50%;background:#9E9B95;}
-.avail-dot.open{background:#6BAF7A;}
+.social-arrow{font-size:13px;color:#C8C5BE;margin-left:6px;transition:color 0.12s;}
+.social-item:hover .social-arrow{color:#7A7773;}
 
 @media (max-width: 768px) {
-  .center-wrap{padding:80px 24px 40px;}
-  .contact-grid{grid-template-columns:1fr;}
-  .two-col{grid-template-columns:1fr;}
+  .center-wrap{padding:80px 24px 40px;justify-content:flex-start;}
   .page-title{font-size:22px;}
 }
 
@@ -71,18 +45,13 @@ body.dark .page-title{color:#E8E6E1;}
 body.dark .page-title span{color:#5C5A56;}
 body.dark .divider{background:#2E2D2A;}
 body.dark .section-label{color:#5C5A56;}
-body.dark .field-label{color:#5C5A56;}
-body.dark .field-input{background:#141412;border-color:#2E2D2A;color:#E8E6E1;}
-body.dark .field-input:focus{border-color:#5C5A56;}
-body.dark .field-input::placeholder{color:#3A3835;}
-body.dark .send-btn{background:#E8E6E1;border-color:#E8E6E1;color:#1A1917;}
-body.dark .send-btn:hover{background:#FFFEFB;border-color:#FFFEFB;}
-body.dark .send-note{color:#3A3835;}
 body.dark .social-item:hover{background:#1E1D1B;}
 body.dark .social-item i{color:#5C5A56;}
 body.dark .social-name{color:#E8E6E1;}
 body.dark .social-handle{color:#3A3835;}
-body.dark .avail{background:#1E1D1B;border-color:#2E2D2A;color:#7A7773;}
+body.dark .social-arrow{color:#2E2D2A;}
+body.dark .social-item:hover .social-arrow{color:#5C5A56;}
+body.dark #resp-text{color:#5C5A56;}
 </style>
 </head>
 <body data-page="contact">
@@ -93,129 +62,63 @@ body.dark .avail{background:#1E1D1B;border-color:#2E2D2A;color:#7A7773;}
     <div class="center-wrap">
       <span class="site-name">shinobu_works</span>
 
-      <div>
-        <div class="page-title" id="page-title">
-          get in touch<br>
-          <span id="page-sub">open to collaborations &amp; freelance work.</span>
-        </div>
-        <div style="margin-top:12px;">
-          <div class="avail" id="avail-badge">
-            <div class="avail-dot open" id="avail-dot"></div>
-            <span id="avail-text">available for work</span>
-          </div>
+      <div class="page-title" id="page-title">
+        find me here<br>
+        <span id="page-sub">pick your platform.</span>
+      </div>
+
+      <div class="divider"></div>
+
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="section-label" id="lbl-links">◤ links</div>
+        <div class="social-list">
+          <a class="social-item" href="mailto:your@email.com">
+            <i class="ti ti-mail"></i>
+            <span class="social-name">email</span>
+            <span class="social-handle">your@email.com</span>
+            <i class="ti ti-arrow-up-right social-arrow"></i>
+          </a>
+          <a class="social-item" href="#" target="_blank">
+            <i class="ti ti-brand-github"></i>
+            <span class="social-name">github</span>
+            <span class="social-handle">@username</span>
+            <i class="ti ti-arrow-up-right social-arrow"></i>
+          </a>
+          <a class="social-item" href="#" target="_blank">
+            <i class="ti ti-brand-x"></i>
+            <span class="social-name">twitter / x</span>
+            <span class="social-handle">@username</span>
+            <i class="ti ti-arrow-up-right social-arrow"></i>
+          </a>
+          <a class="social-item" href="#" target="_blank">
+            <i class="ti ti-brand-linkedin"></i>
+            <span class="social-name">linkedin</span>
+            <span class="social-handle">your name</span>
+            <i class="ti ti-arrow-up-right social-arrow"></i>
+          </a>
         </div>
       </div>
 
       <div class="divider"></div>
 
-      <div class="contact-grid">
-
-        <!-- form -->
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <div class="section-label" id="lbl-form">◤ send a message</div>
-          <form class="form" onsubmit="handleSend(event)">
-            <div class="two-col">
-              <div class="field-row">
-                <div class="field-label" id="lbl-fname">name</div>
-                <input class="field-input" type="text" id="inp-name" placeholder="your name" autocomplete="off">
-              </div>
-              <div class="field-row">
-                <div class="field-label" id="lbl-email">email</div>
-                <input class="field-input" type="email" id="inp-email" placeholder="you@example.com" autocomplete="off">
-              </div>
-            </div>
-            <div class="field-row">
-              <div class="field-label" id="lbl-subject">subject</div>
-              <input class="field-input" type="text" id="inp-subject" placeholder="what's this about?" autocomplete="off">
-            </div>
-            <div class="field-row">
-              <div class="field-label" id="lbl-msg">message</div>
-              <textarea class="field-input" id="inp-msg" placeholder="your message…"></textarea>
-            </div>
-            <div class="submit-row">
-              <span class="send-note" id="send-note">fill in all fields</span>
-              <button class="send-btn" type="submit">
-                <span id="btn-lbl">send</span><i class="ti ti-send" id="btn-icon"></i>
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <!-- sidebar info -->
-        <div style="display:flex;flex-direction:column;gap:20px;">
-          <div style="display:flex;flex-direction:column;gap:10px;">
-            <div class="section-label" id="lbl-reach">reach me at</div>
-            <div class="social-list">
-              <a class="social-item" href="mailto:your@email.com" id="link-email">
-                <i class="ti ti-mail"></i>
-                <span class="social-name">email</span>
-                <span class="social-handle" id="handle-email">your@email.com</span>
-              </a>
-              <a class="social-item" href="#" target="_blank" id="link-github">
-                <i class="ti ti-brand-github"></i>
-                <span class="social-name">github</span>
-                <span class="social-handle" id="handle-github">@username</span>
-              </a>
-              <a class="social-item" href="#" target="_blank" id="link-twitter">
-                <i class="ti ti-brand-x"></i>
-                <span class="social-name">twitter / x</span>
-                <span class="social-handle" id="handle-twitter">@username</span>
-              </a>
-              <a class="social-item" href="#" target="_blank" id="link-linkedin">
-                <i class="ti ti-brand-linkedin"></i>
-                <span class="social-name">linkedin</span>
-                <span class="social-handle" id="handle-linkedin">your name</span>
-              </a>
-            </div>
-          </div>
-
-          <div class="divider"></div>
-
-          <div style="display:flex;flex-direction:column;gap:6px;">
-            <div class="section-label" id="lbl-response">response time</div>
-            <div style="font-size:12px;color:#7A7773;line-height:1.6;" id="resp-text">usually within 1–2 days.<br>happy to chat about dev projects, freelance, or collabs.</div>
-          </div>
-        </div>
-
+      <div style="font-size:12px;color:#7A7773;line-height:1.8;" id="resp-text">
+        usually within 1–2 days.<br>
+        happy to chat about dev projects, freelance, or collabs.
       </div>
+
     </div>
   </div>
 </div>
 
 <script src="sidebar.js"></script>
 <script>
-function handleSend(e){
-  e.preventDefault();
-  var jp=document.body.dataset.jp==='1';
-  var n=document.getElementById('inp-name').value.trim();
-  var em=document.getElementById('inp-email').value.trim();
-  var s=document.getElementById('inp-subject').value.trim();
-  var m=document.getElementById('inp-msg').value.trim();
-  if(!n||!em||!s||!m){
-    document.getElementById('send-note').textContent=jp?'全項目を入力してください':'fill in all fields';
-    return;
-  }
-  document.getElementById('send-note').textContent=jp?'送信しました！':'sent!';
-  document.getElementById('btn-lbl').textContent=jp?'送信済み':'sent';
-  document.getElementById('btn-icon').className='ti ti-check';
-}
-
 window.onToggleLangContent=function(jp){
-  document.getElementById('page-title').childNodes[0].textContent=jp?'お問い合わせ\n':'get in touch\n';
-  document.getElementById('page-sub').textContent=jp?'コラボやフリーランスのご依頼、お気軽に。':'open to collaborations & freelance work.';
-  document.getElementById('avail-text').textContent=jp?'お仕事募集中':'available for work';
-  document.getElementById('lbl-form').textContent=jp?'◤ メッセージを送る':'◤ send a message';
-  document.getElementById('lbl-fname').textContent=jp?'お名前':'name';
-  document.getElementById('lbl-email').textContent=jp?'メール':'email';
-  document.getElementById('lbl-subject').textContent=jp?'件名':'subject';
-  document.getElementById('lbl-msg').textContent=jp?'メッセージ':'message';
-  document.getElementById('lbl-reach').textContent=jp?'連絡先':'reach me at';
-  document.getElementById('lbl-response').textContent=jp?'返信時間':'response time';
+  document.getElementById('page-title').childNodes[0].textContent=jp?'どこにいるか\n':'find me here\n';
+  document.getElementById('page-sub').textContent=jp?'好きな方法でどうぞ。':'pick your platform.';
+  document.getElementById('lbl-links').textContent=jp?'◤ リンク':'◤ links';
   document.getElementById('resp-text').innerHTML=jp
     ?'通常1〜2日以内に返信します。<br>開発案件やフリーランスのご相談、お気軽にどうぞ。'
     :'usually within 1–2 days.<br>happy to chat about dev projects, freelance, or collabs.';
-  document.getElementById('btn-lbl').textContent=jp?'送信':'send';
-  document.getElementById('send-note').textContent=jp?'全項目を入力してください':'fill in all fields';
 };
 </script>
 </body>
