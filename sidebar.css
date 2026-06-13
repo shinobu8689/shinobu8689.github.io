@@ -1,5 +1,5 @@
 /* ── desktop sidebar ── */
-.sidebar{width:48px;background:#E8E6E1;border-right:0.5px solid #C8C5BE;display:flex;flex-direction:column;align-items:flex-start;padding:12px 0;transition:width 0.22s ease;flex-shrink:0;overflow:hidden;}
+.sidebar{width:48px;background:#E8E6E1;border-right:0.5px solid #C8C5BE;display:flex;flex-direction:column;align-items:flex-start;padding:12px 0;transition:width 0.22s ease;flex-shrink:0;overflow:hidden;position:sticky;top:0;height:100vh;}
 .sidebar.open{width:148px;}
 .sb-top{display:flex;flex-direction:column;width:100%;flex:1;}
 .sb-bottom{display:flex;flex-direction:column;width:100%;padding-bottom:4px;}

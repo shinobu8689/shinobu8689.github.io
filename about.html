@@ -85,7 +85,7 @@ body.dark .tl-desc{color:#7A7773;}
 
       <!-- profile -->
       <div>
-        <div class="section-label">profile</div>
+        <div class="section-label" id="lbl-profile">◤ profile</div>
         <div class="profile-row">
           <div class="avatar"><i class="ti ti-user"></i></div>
           <div class="profile-meta">
@@ -165,6 +165,7 @@ window.onToggleLangContent=function(jp){
   document.getElementById('greeting').innerHTML=jp
     ?'自己紹介<br><span>作品の裏にいる人物。</span>'
     :'about me<br><span>the person behind the work.</span>';
+  document.getElementById('lbl-profile').textContent=jp?'◤ プロフィール':'◤ profile';
 };
 </script>
 </body>

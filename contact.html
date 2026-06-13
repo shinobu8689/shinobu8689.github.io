@@ -111,7 +111,7 @@ body.dark .avail{background:#1E1D1B;border-color:#2E2D2A;color:#7A7773;}
 
         <!-- form -->
         <div style="display:flex;flex-direction:column;gap:10px;">
-          <div class="section-label" id="lbl-form">send a message</div>
+          <div class="section-label" id="lbl-form">◤ send a message</div>
           <form class="form" onsubmit="handleSend(event)">
             <div class="two-col">
               <div class="field-row">
@@ -203,7 +203,7 @@ window.onToggleLangContent=function(jp){
   document.getElementById('page-title').childNodes[0].textContent=jp?'お問い合わせ\n':'get in touch\n';
   document.getElementById('page-sub').textContent=jp?'コラボやフリーランスのご依頼、お気軽に。':'open to collaborations & freelance work.';
   document.getElementById('avail-text').textContent=jp?'お仕事募集中':'available for work';
-  document.getElementById('lbl-form').textContent=jp?'メッセージを送る':'send a message';
+  document.getElementById('lbl-form').textContent=jp?'◤ メッセージを送る':'◤ send a message';
   document.getElementById('lbl-fname').textContent=jp?'お名前':'name';
   document.getElementById('lbl-email').textContent=jp?'メール':'email';
   document.getElementById('lbl-subject').textContent=jp?'件名':'subject';

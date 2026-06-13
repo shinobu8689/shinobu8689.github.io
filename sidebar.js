@@ -4,7 +4,7 @@
   var NAV=[
     {icon:'ti-home',        href:'index.html',          en:'home',    ja:'ホーム',       page:'index'},
     {icon:'ti-layout-grid', href:'projects.html',         en:'works',   ja:'作品',         page:'works'},
-    {icon:'ti-brush',       href:'shinobu_works.html',   en:'art',     ja:'アート',       page:'art'},
+    {icon:'ti-brush',       href:'art.html',              en:'art',     ja:'アート',       page:'art'},
     {icon:'ti-user',        href:'about.html',           en:'about',   ja:'自己紹介',     page:'about'},
     {icon:'ti-mail',        href:'contact.html',         en:'contact', ja:'お問い合わせ', page:'contact'}
   ];
