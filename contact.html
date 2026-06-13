@@ -8,46 +8,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="sidebar.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:#F5F3EE;min-height:100vh;display:flex;}
 
-.mock{display:flex;width:100%;min-height:100vh;background:#F5F3EE;font-size:13px;}
-
-/* ── desktop sidebar ── */
-.sidebar{width:48px;background:#E8E6E1;border-right:0.5px solid #C8C5BE;display:flex;flex-direction:column;align-items:flex-start;padding:12px 0;transition:width 0.22s ease;flex-shrink:0;overflow:hidden;}
-.sidebar.open{width:148px;}
-.sb-top{display:flex;flex-direction:column;width:100%;flex:1;}
-.sb-bottom{display:flex;flex-direction:column;width:100%;padding-bottom:4px;}
-.sb-item{display:flex;align-items:center;gap:10px;width:100%;height:38px;padding:0 15px;cursor:pointer;color:#5C5A56;white-space:nowrap;transition:background 0.12s;}
-.sb-item:hover{background:rgba(0,0,0,0.07);color:#1A1917;}
-.sb-item.active{color:#1A1917;background:rgba(0,0,0,0.04);}
-.sb-item i{font-size:18px;flex-shrink:0;}
-.sb-label{font-size:12px;opacity:0;white-space:nowrap;}
-.sidebar.open .sb-label{opacity:1;transition:opacity 0.15s 0.1s;}
-.sb-divider{width:24px;height:0.5px;background:#C8C5BE;margin:6px 12px;flex-shrink:0;}
-.sidebar.open .sb-divider{width:calc(100% - 24px);}
-
-/* ── mobile hamburger button ── */
-.mob-menu-btn{display:none;position:fixed;top:14px;left:14px;z-index:200;width:36px;height:36px;border-radius:50%;background:#E8E6E1;border:0.5px solid #C8C5BE;align-items:center;justify-content:center;cursor:pointer;transition:background 0.12s;}
-.mob-menu-btn:hover{background:#DEDAD4;}
-.mob-menu-btn i{font-size:18px;color:#5C5A56;}
-
-/* ── mobile drawer overlay ── */
-.mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.25);z-index:150;opacity:0;transition:opacity 0.2s;pointer-events:none;}
-.mob-overlay.visible{opacity:1;pointer-events:auto;}
-
-/* ── mobile drawer ── */
-.mob-drawer{position:fixed;top:0;left:0;height:100%;width:200px;background:#E8E6E1;border-right:0.5px solid #C8C5BE;z-index:160;transform:translateX(-100%);transition:transform 0.22s ease;padding:12px 0;display:flex;flex-direction:column;}
-.mob-drawer.open{transform:translateX(0);}
-.mob-drawer .sb-item{height:44px;padding:0 18px;font-size:13px;}
-.mob-drawer .sb-item i{font-size:20px;}
-.mob-drawer .sb-label{opacity:1;font-size:13px;}
-.mob-drawer .sb-divider{width:calc(100% - 24px);}
-.mob-drawer .sb-top{flex:1;}
-.mob-drawer .sb-bottom{padding-bottom:8px;}
-
-/* ── main ── */
 .main{flex:1;display:flex;flex-direction:column;}
 .center-wrap{
   flex:1;display:flex;flex-direction:column;
@@ -93,27 +58,14 @@ textarea.field-input{resize:vertical;min-height:120px;line-height:1.6;}
 .avail-dot{width:6px;height:6px;border-radius:50%;background:#9E9B95;}
 .avail-dot.open{background:#6BAF7A;}
 
-/* ── mobile ── */
 @media (max-width: 768px) {
-  .sidebar{display:none;}
-  .mob-menu-btn{display:flex;}
-  .mob-overlay{display:block;}
-  .mob-drawer{display:flex;}
   .center-wrap{padding:80px 24px 40px;}
   .contact-grid{grid-template-columns:1fr;}
   .two-col{grid-template-columns:1fr;}
   .page-title{font-size:22px;}
 }
 
-/* ── dark mode ── */
 body.dark{background:#1C1B19;}
-body.dark .mock{background:#1C1B19;}
-body.dark .sidebar,body.dark .mob-drawer{background:#141412;border-right-color:#2E2D2A;}
-body.dark .mob-menu-btn{background:#141412;border-color:#2E2D2A;}
-body.dark .mob-menu-btn i{color:#9E9B95;}
-body.dark .sb-item{color:#9E9B95;}
-body.dark .sb-item:hover,body.dark .sb-item.active{background:rgba(255,255,255,0.06);color:#E8E6E1;}
-body.dark .sb-divider{background:#2E2D2A;}
 body.dark .site-name{color:#5C5A56;}
 body.dark .page-title{color:#E8E6E1;}
 body.dark .page-title span{color:#5C5A56;}
@@ -131,72 +83,11 @@ body.dark .social-item i{color:#5C5A56;}
 body.dark .social-name{color:#E8E6E1;}
 body.dark .social-handle{color:#3A3835;}
 body.dark .avail{background:#1E1D1B;border-color:#2E2D2A;color:#7A7773;}
-body.dark .mob-overlay.visible{background:rgba(0,0,0,0.5);}
 </style>
 </head>
-<body>
-
-<!-- mobile hamburger -->
-<div class="mob-menu-btn" onclick="openMobDrawer()">
-  <i class="ti ti-menu-2"></i>
-</div>
-
-<!-- mobile overlay -->
-<div class="mob-overlay" id="mob-overlay" onclick="closeMobDrawer()"></div>
-
-<!-- mobile drawer -->
-<div class="mob-drawer" id="mob-drawer">
-  <div class="sb-top">
-    <div class="sb-item" onclick="closeMobDrawer()" style="margin-bottom:2px">
-      <i class="ti ti-menu-2"></i>
-      <span class="sb-label" style="font-size:11px;color:#9E9B95">close</span>
-    </div>
-    <div class="sb-divider"></div>
-    <div class="sb-item" onclick="location.href='shinobu_works.html'"><i class="ti ti-layout-grid"></i><span class="sb-label mob-nav-lbl">works</span></div>
-    <div class="sb-item" onclick="location.href='shinobu_works.html'"><i class="ti ti-brush"></i><span class="sb-label mob-nav-lbl">art</span></div>
-    <div class="sb-item" onclick="location.href='about.html'"><i class="ti ti-user"></i><span class="sb-label mob-nav-lbl">about</span></div>
-    <div class="sb-item active"><i class="ti ti-mail"></i><span class="sb-label mob-nav-lbl">contact</span></div>
-  </div>
-  <div class="sb-bottom">
-    <div class="sb-divider"></div>
-    <div class="sb-item" onclick="toggleDark()">
-      <i class="ti ti-moon" id="dark-icon-mob"></i>
-      <span class="sb-label" id="dark-label-mob">dark mode</span>
-    </div>
-    <div class="sb-item" onclick="toggleLang()">
-      <i class="ti ti-language"></i>
-      <span class="sb-label" id="lang-label-mob">日本語</span>
-    </div>
-  </div>
-</div>
+<body data-page="contact">
 
 <div class="mock">
-  <!-- desktop sidebar -->
-  <div class="sidebar" id="sidebar">
-    <div class="sb-top">
-      <div class="sb-item" onclick="toggleSidebar()" style="margin-bottom:2px">
-        <i class="ti ti-menu-2"></i>
-        <span class="sb-label" style="font-size:11px;color:#9E9B95">close</span>
-      </div>
-      <div class="sb-divider"></div>
-      <div class="sb-item" onclick="location.href='shinobu_works.html'"><i class="ti ti-layout-grid"></i><span class="sb-label">works</span></div>
-      <div class="sb-item" onclick="location.href='shinobu_works.html'"><i class="ti ti-brush"></i><span class="sb-label">art</span></div>
-      <div class="sb-item" onclick="location.href='about.html'"><i class="ti ti-user"></i><span class="sb-label">about</span></div>
-      <div class="sb-item active"><i class="ti ti-mail"></i><span class="sb-label">contact</span></div>
-    </div>
-    <div class="sb-bottom">
-      <div class="sb-divider"></div>
-      <div class="sb-item" onclick="toggleDark()">
-        <i class="ti ti-moon" id="dark-icon"></i>
-        <span class="sb-label" id="dark-label">dark mode</span>
-      </div>
-      <div class="sb-item" onclick="toggleLang()">
-        <i class="ti ti-language"></i>
-        <span class="sb-label" id="lang-label">日本語</span>
-      </div>
-    </div>
-  </div>
-
   <div class="main">
     <div class="center-wrap">
       <span class="site-name">shinobu_works</span>
@@ -290,35 +181,11 @@ body.dark .mob-overlay.visible{background:rgba(0,0,0,0.5);}
   </div>
 </div>
 
+<script src="sidebar.js"></script>
 <script>
-var dark=false,jp=false;
-
-function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');}
-
-function openMobDrawer(){
-  var d=document.getElementById('mob-drawer'),o=document.getElementById('mob-overlay');
-  d.classList.add('open');o.classList.add('visible');
-  document.querySelector('.mob-menu-btn').style.zIndex='140';
-}
-function closeMobDrawer(){
-  var d=document.getElementById('mob-drawer'),o=document.getElementById('mob-overlay');
-  d.classList.remove('open');o.classList.remove('visible');
-  document.querySelector('.mob-menu-btn').style.zIndex='200';
-}
-
-function toggleDark(){
-  dark=!dark;
-  document.body.classList.toggle('dark',dark);
-  var icon=dark?'ti ti-sun':'ti ti-moon';
-  var lbl=dark?'light mode':'dark mode';
-  document.getElementById('dark-icon').className=icon;
-  document.getElementById('dark-label').textContent=lbl;
-  document.getElementById('dark-icon-mob').className=icon;
-  document.getElementById('dark-label-mob').textContent=lbl;
-}
-
 function handleSend(e){
   e.preventDefault();
+  var jp=document.body.dataset.jp==='1';
   var n=document.getElementById('inp-name').value.trim();
   var em=document.getElementById('inp-email').value.trim();
   var s=document.getElementById('inp-subject').value.trim();
@@ -332,11 +199,7 @@ function handleSend(e){
   document.getElementById('btn-icon').className='ti ti-check';
 }
 
-function toggleLang(){
-  jp=!jp;
-  var nav=jp?['作品','アート','自己紹介','お問い合わせ']:['works','art','about','contact'];
-  document.querySelectorAll('.mob-nav-lbl').forEach(function(n,i){n.textContent=nav[i];});
-
+window.onToggleLangContent=function(jp){
   document.getElementById('page-title').childNodes[0].textContent=jp?'お問い合わせ\n':'get in touch\n';
   document.getElementById('page-sub').textContent=jp?'コラボやフリーランスのご依頼、お気軽に。':'open to collaborations & freelance work.';
   document.getElementById('avail-text').textContent=jp?'お仕事募集中':'available for work';
@@ -352,10 +215,7 @@ function toggleLang(){
     :'usually within 1–2 days.<br>happy to chat about dev projects, freelance, or collabs.';
   document.getElementById('btn-lbl').textContent=jp?'送信':'send';
   document.getElementById('send-note').textContent=jp?'全項目を入力してください':'fill in all fields';
-  var ll=jp?'english':'日本語';
-  document.getElementById('lang-label').textContent=ll;
-  document.getElementById('lang-label-mob').textContent=ll;
-}
+};
 </script>
 </body>
 </html>

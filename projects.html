@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>works — shinobu_works</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="sidebar.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#F5F3EE;min-height:100vh;display:flex;}
+
+.main{flex:1;display:flex;flex-direction:column;}
+.center-wrap{flex:1;display:flex;flex-direction:column;gap:24px;max-width:960px;width:100%;margin:0 auto;padding:60px 40px;}
+
+.site-name{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:400;color:#7A7773;letter-spacing:0.06em;}
+.page-heading{font-size:26px;font-weight:500;color:#1A1917;line-height:1.35;}
+.page-heading span{font-weight:400;color:#7A7773;}
+.divider{width:100%;height:0.5px;background:#C8C5BE;}
+.section-label{font-size:11px;color:#9E9B95;letter-spacing:0.08em;text-transform:uppercase;}
+
+/* ── project grid ── */
+.projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+
+/* ── project card ── */
+.card{background:#FFFEFB;border:0.5px solid #D4D1CB;border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color 0.15s,transform 0.15s;display:flex;flex-direction:column;}
+.card:hover{border-color:#8A8780;transform:translateY(-2px);}
+.card-thumb{height:120px;display:flex;align-items:center;justify-content:center;background:#EAE8E3;flex-shrink:0;}
+.card-thumb i{font-size:32px;color:#9E9B95;}
+.card-body{padding:14px;display:flex;flex-direction:column;flex:1;}
+.card-title{font-size:13px;font-weight:500;color:#1A1917;}
+.card-desc{font-size:12px;color:#7A7773;line-height:1.6;margin-top:5px;flex:1;}
+.card-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px;}
+.card-tag{font-size:10px;font-family:'IBM Plex Mono',monospace;color:#7A7773;background:#EAE8E3;border:0.5px solid #D4D1CB;border-radius:4px;padding:2px 7px;}
+.card-footer{display:flex;justify-content:flex-end;align-items:center;margin-top:10px;padding-top:10px;border-top:0.5px solid #EAE8E3;}
+.card-link{display:inline-flex;align-items:center;gap:3px;font-size:11px;color:#7A7773;text-decoration:none;transition:color 0.12s;}
+.card-link:hover{color:#1A1917;}
+.card-link i{font-size:12px;}
+
+@media (max-width: 768px) {
+  .center-wrap{padding:80px 24px 40px;}
+  .projects-grid{grid-template-columns:1fr;}
+  .page-heading{font-size:22px;}
+}
+@media (max-width: 1024px) and (min-width: 769px) {
+  .projects-grid{grid-template-columns:repeat(2,1fr);}
+}
+
+body.dark{background:#1C1B19;}
+body.dark .site-name{color:#5C5A56;}
+body.dark .page-heading{color:#E8E6E1;}
+body.dark .page-heading span{color:#5C5A56;}
+body.dark .divider{background:#2E2D2A;}
+body.dark .section-label{color:#5C5A56;}
+body.dark .card{background:#141412;border-color:#2E2D2A;}
+body.dark .card:hover{border-color:#5C5A56;}
+body.dark .card-thumb{background:#0E0D0C;}
+body.dark .card-thumb i{color:#5C5A56;}
+body.dark .card-title{color:#E8E6E1;}
+body.dark .card-desc{color:#5C5A56;}
+body.dark .card-tag{background:#1E1D1B;border-color:#2E2D2A;color:#7A7773;}
+body.dark .card-footer{border-top-color:#2E2D2A;}
+body.dark .card-link{color:#5C5A56;}
+body.dark .card-link:hover{color:#E8E6E1;}
+</style>
+</head>
+<body data-page="works">
+
+<div class="mock">
+  <div class="main">
+    <div class="center-wrap">
+      <span class="site-name">shinobu_works</span>
+
+      <div class="page-heading" id="page-heading">
+        all projects<br>
+        <span id="page-sub">things i've built.</span>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section-label" id="grid-label">◤ projects</div>
+      <div class="projects-grid" id="projects-grid"></div>
+    </div>
+  </div>
+</div>
+
+<script src="sidebar.js"></script>
+<script>
+// ─────────────────────────────────────────────
+// Add or edit projects here.
+// Fields: icon (tabler icon name), title, desc, tags[], github (url or null), demo (url or null)
+// ─────────────────────────────────────────────
+var PROJECTS=[
+  {
+    icon:'ti-photo',
+    title:'ImageEditPipeline',
+    desc:'Automated image processing pipeline with batch transformations, format conversion, and a REST API layer.',
+    tags:['python','pillow','fastapi'],
+    github:'#',
+    demo:null
+  },
+  {
+    icon:'ti-robot',
+    title:'JobStreamExpress',
+    desc:'Job listing scraper and tracker with AI-powered relevance scoring and one-click apply workflows.',
+    tags:['python','playwright','ollama'],
+    github:'#',
+    demo:null
+  },
+  {
+    icon:'ti-layout-grid',
+    title:'shinobu_works',
+    desc:'Personal portfolio site with dark mode, bilingual EN/JP support, and a minimal design system.',
+    tags:['html','css','javascript'],
+    github:'#',
+    demo:'#'
+  },
+  {
+    icon:'ti-train',
+    title:'Next Train Dashboard',
+    desc:'Real-time departure board for Melbourne using the PTV API with live countdown timers.',
+    tags:['python','flask','ptv api'],
+    github:'#',
+    demo:null
+  },
+  {
+    icon:'ti-chart-bar',
+    title:'Budget Tracker',
+    desc:'Lightweight personal finance tracker with category breakdowns and monthly CSV export.',
+    tags:['python','sqlite','rich'],
+    github:'#',
+    demo:null
+  },
+  {
+    icon:'ti-terminal',
+    title:'Dotfiles',
+    desc:'My personal shell config, editor setup, and scripts for a consistent dev environment across machines.',
+    tags:['bash','zsh','neovim'],
+    github:'#',
+    demo:null
+  }
+];
+
+function buildCard(p){
+  var footer='';
+  if(p.github||p.demo){
+    var links='';
+    if(p.github) links+='<a class="card-link" href="'+p.github+'" target="_blank" onclick="event.stopPropagation()">github<i class="ti ti-arrow-up-right"></i></a>';
+    if(p.demo)   links+='<a class="card-link" href="'+p.demo+'"   target="_blank" onclick="event.stopPropagation()" style="margin-left:12px">demo<i class="ti ti-arrow-up-right"></i></a>';
+    footer='<div class="card-footer">'+links+'</div>';
+  }
+  return '<div class="card">'
+    +'<div class="card-thumb"><i class="ti '+p.icon+'"></i></div>'
+    +'<div class="card-body">'
+    +'<div class="card-title">'+p.title+'</div>'
+    +'<div class="card-desc">'+p.desc+'</div>'
+    +'<div class="card-tags">'+p.tags.map(function(t){return '<span class="card-tag">'+t+'</span>';}).join('')+'</div>'
+    +footer
+    +'</div>'
+    +'</div>';
+}
+
+function renderGrid(){
+  document.getElementById('projects-grid').innerHTML=PROJECTS.map(buildCard).join('');
+}
+
+renderGrid();
+
+window.onToggleLangContent=function(jp){
+  document.getElementById('page-heading').childNodes[0].textContent=jp?'作品一覧\n':'all projects\n';
+  document.getElementById('page-sub').textContent=jp?'作ったもの。':'things i\'ve built.';
+  document.getElementById('grid-label').textContent=jp?'◤ プロジェクト':'◤ projects';
+};
+</script>
+</body>
+</html>
