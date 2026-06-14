@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Image Edit Pipeline — shinobu_works</title>
+<title>shinobu_works — shinobu_works</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,15 +43,11 @@ body{font-family:'Inter',sans-serif;background:#F5F3EE;min-height:100vh;display:
 .feature-item{display:flex;gap:10px;align-items:flex-start;}
 .feature-dot{width:4px;height:4px;border-radius:50%;background:#9E9B95;flex-shrink:0;margin-top:7px;}
 .feature-text{font-size:13px;color:#5C5A56;line-height:1.6;}
-.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
-.gallery-item{aspect-ratio:4/3;background:#EAE8E3;border:0.5px solid #D4D1CB;border-radius:8px;display:flex;align-items:center;justify-content:center;}
-.gallery-item i{font-size:24px;color:#B0ADA6;}
 .tag-group{display:flex;flex-wrap:wrap;gap:6px;}
 @media(max-width:768px){
   .center-wrap{padding:80px 24px 40px;}
   .detail-title{font-size:22px;}
   .hero{height:220px;}
-  .gallery{grid-template-columns:repeat(2,1fr);}
 }
 body.dark{background:#1C1B19;}
 body.dark .site-name{color:#5C5A56;}
@@ -72,8 +68,6 @@ body.dark .hero-hint{color:#3A3835;}
 body.dark .prose{color:#7A7773;}
 body.dark .feature-dot{background:#3A3835;}
 body.dark .feature-text{color:#7A7773;}
-body.dark .gallery-item{background:#0E0D0C;border-color:#2E2D2A;}
-body.dark .gallery-item i{color:#3A3835;}
 body.dark .info-chip{color:#5C5A56;}
 body.dark .info-chip i{color:#3A3835;}
 </style>
@@ -92,12 +86,12 @@ body.dark .info-chip i{color:#3A3835;}
       </a>
 
       <div>
-        <div class="detail-title" id="detail-title">Image Edit Pipeline</div>
-        <div class="detail-sub" id="detail-sub">A workflow-driven image editor featuring batch processing.</div>
+        <div class="detail-title" id="detail-title">shinobu_works</div>
+        <div class="detail-sub" id="detail-sub">Personal portfolio site with dark mode, bilingual EN/JP support, and a minimal design system.</div>
         <div class="info-row">
-          <span class="info-chip"><i class="ti ti-calendar"></i><span id="info-duration">May 2026 · 2 weeks</span></span>
+          <span class="info-chip"><i class="ti ti-calendar"></i><span id="info-duration">2026 · ongoing</span></span>
           <span class="info-chip"><i class="ti ti-user"></i><span id="info-team">Personal Project</span></span>
-          <span class="info-chip"><i class="ti ti-code"></i><span id="info-type">Full-Stack Web Application</span></span>
+          <span class="info-chip"><i class="ti ti-code"></i><span id="info-type">Static Website</span></span>
         </div>
       </div>
 
@@ -106,7 +100,7 @@ body.dark .info-chip i{color:#3A3835;}
       <div class="divider"></div>
 
       <div class="hero">
-        <i class="ti ti-photo-edit"></i>
+        <i class="ti ti-layout-grid"></i>
         <span class="hero-hint" id="hero-hint">screenshot / preview</span>
       </div>
 
@@ -129,14 +123,7 @@ body.dark .info-chip i{color:#3A3835;}
         <div class="feature-list" id="takeaways-list"></div>
       </div>
 
-      <div class="divider" id="takeaways-divider"></div>
-
-      <div id="gallery-section">
-        <div class="section-label" id="lbl-gallery">◤ gallery</div>
-        <div class="gallery" id="gallery"></div>
-      </div>
-
-      <div class="divider" id="gallery-divider"></div>
+      <div class="divider"></div>
 
       <div>
         <div class="section-label" id="lbl-stack">◤ stack &amp; tools</div>
@@ -153,47 +140,46 @@ body.dark .info-chip i{color:#3A3835;}
 var ITEM={
   type:'project',
   backHref:'../projects.html',
-  title:'Image Edit Pipeline',
-  sub:'A workflow-driven image editor featuring batch processing.',
-  status:'completed',
-  duration_en:'May 2026 · 2 weeks',
-  duration_ja:'2026年5月（2週間）',
+  title:'shinobu_works',
+  sub:'Personal portfolio site with dark mode, bilingual EN/JP support, and a minimal design system.',
+  status:'wip',
+  duration_en:'2026 · ongoing',
+  duration_ja:'2026年〜制作中',
   team_en:'Personal Project',
   team_ja:'個人開発',
-  apptype_en:'Full-Stack Web Application',
-  apptype_ja:'フルスタックウェブアプリ',
-  tags:['python','fastapi','pillow','rembg'],
-  github:'https://github.com/shinobu8689/ImageEditPipeline',
-  overview:'In the world of disinformation by AI-generated imagery and non-legal uses of illustration, this tool helps content creators edit images and add watermarks in batches via a user-customisable workflow. Users design a pipeline of operations once and apply it consistently across any number of images — both through a web UI and a resource-light CLI.',
+  apptype_en:'Static Website',
+  apptype_ja:'静的Webサイト',
+  tags:['html','css','javascript'],
+  github:null,
+  overview:'shinobu_works is a personal portfolio site built from scratch with plain HTML, CSS, and JavaScript — no frameworks, no build tooling. The focus was on building something clean and intentional, with a consistent design language throughout. Key challenges included sharing a sidebar across multiple pages and subdirectories, implementing dark mode and bilingual EN/JP switching without flashing on load, and keeping the codebase lightweight while still feeling polished.',
   features:[
-    'Workflow creation — design and build reusable editing workflows that are easy even for beginners.',
-    'Batch image editing — apply the same workflow consistently to any number of images.',
-    'Web and CLI support — run batch processing through the browser UI or the CLI for constrained environments.',
-    'AI-powered background removal via BiRefNet / Rembg integration.',
-    'Non-destructive image processing — data is passed safely layer by layer without altering originals.'
+    'Flash-free dark mode — state is restored from localStorage before the first render via a tiny early inline script.',
+    'Bilingual EN/JP toggle — all page content switches instantly via onToggleLangContent, persisted across sessions.',
+    'Shared sidebar — dynamically injected by sidebar.js with mobile drawer, overlay, and hamburger support.',
+    'Data-driven project grid — each project is a plain object in a PROJECTS array; cards render from that data.',
+    'Subdirectory-safe nav — a SW_BASE prefix system lets pages inside /projects/ share the same sidebar.js without broken links.'
   ],
   takeaways:[
-    'Pipeline Design — learned to design processes by breaking them into stages and assembling them flexibly.',
-    'Image Processing Flow — adopted non-destructive methods for securely transferring image data layer by layer.',
-    'Scalability — by combining AI and processing functions, built an editing platform that prioritises extensibility.'
+    'Stateless, lightweight architecture — built a multi-page site with shared components and no build pipeline or bundler.',
+    'Design systems in plain CSS — practised creating and maintaining a consistent visual language using only CSS rules.',
+    'Progressive enhancement mindset — features like dark mode and language toggle degrade gracefully and cause no layout shift on load.'
   ],
-  gallery:3,
-  stack:['html','css','javascript','python','fastapi','uvicorn','pillow','rembg','numpy','birefnet','vs code'],
+  stack:['html','css','javascript','tabler icons','google fonts','ibm plex mono'],
   ja:{
     back:'プロジェクト一覧へ',
-    sub:'バッチ処理ができるワークフロー型画像編集ツール。',
-    overview:'AI生成画像による誤情報の拡散や、イラストの無断利用が増加する現代において、本ツールはコンテンツ制作者向けに、画像編集や透かし（ウォーターマーク）の追加をバッチ処理で行えるワークフロー型画像編集ツールです。一度ワークフローを設計すれば、ウェブUIとCLIの両方から何枚でも統一的に処理できます。',
+    sub:'ダークモードと日英切替に対応したミニマルデザインのポートフォリオサイト。',
+    overview:'shinobu_worksは、フレームワークやビルドツールを使わず、HTML・CSS・JavaScriptのみで作ったポートフォリオサイトです。クリーンで一貫したデザイン言語を大切にしながら構築しました。主な課題は、複数ページ・サブディレクトリ間でサイドバーを共有すること、ページ読み込み時にフラッシュを起こさずダークモードと日英切替を実装すること、そして軽量でありながら完成度の高い仕上がりを維持することでした。',
     features:[
-      'ワークフロー作成 — 初心者でも使いやすいように、ワークフローを設計・作成できる。',
-      'バッチで画像編集 — 同じワークフローで、どの画像でも統一的な編集ができる。',
-      'ウェブ・CLI両対応 — ウェブだけでなく、リソース少な目なCLIでもバッチ処理できる。',
-      'BiRefNet / Rembgによる背景除去機能を統合。',
-      '非破壊式の画像処理 — 元画像を変えずにデータを安全にレイヤーごとに受け渡す。'
+      'フラッシュなしのダークモード — 小さなインラインスクリプトが初回レンダリング前にlocalStorageから状態を復元。',
+      '日英切替 — onToggleLangContentですべてのコンテンツが即座に切り替わり、セッションをまたいで保持。',
+      '共有サイドバー — sidebar.jsで動的に生成。モバイルドロワー・オーバーレイ・ハンバーガーに対応。',
+      'データ駆動型プロジェクトグリッド — PROJECTSの配列からカードを自動生成。',
+      'サブディレクトリ対応ナビ — SW_BASEの仕組みで/projects/配下のページもsidebar.jsを共有できる。'
     ],
     takeaways:[
-      'パイプライン設計 — 処理を段階化して柔軟に組み立てる設計を学んだ。',
-      '画像処理フロー — 画像データを安全に受け渡す非破壊式をメインに考慮した。',
-      '拡張性・モジュール統合 — AIや処理機能を組み合わせて拡張性を重視した編集基盤を作れるようになった。'
+      '軽量アーキテクチャ — ビルドパイプラインなしで、共有コンポーネントを持つマルチページサイトを構築した。',
+      '純粋なCSSによるデザインシステム — CSSのみで一貫したビジュアル言語を設計・維持する練習をした。',
+      'プログレッシブエンハンスメント — ダークモードや言語切替が、読み込み時にレイアウトシフトを起こさない設計を意識した。'
     ]
   }
 };
@@ -226,17 +212,6 @@ function render(jp){
     badge.appendChild(document.createTextNode((jp?STATUS_JA:STATUS_EN)[ITEM.status]||ITEM.status));
     meta.appendChild(badge);
   }
-  if(ITEM.github||ITEM.demo){
-    var sep2=document.createElement('span');sep2.className='meta-sep';meta.appendChild(sep2);
-    if(ITEM.github){
-      var a=document.createElement('a');a.className='ext-link';a.href=ITEM.github;a.target='_blank';
-      a.innerHTML='github<i class="ti ti-arrow-up-right"></i>';meta.appendChild(a);
-    }
-    if(ITEM.demo){
-      var a2=document.createElement('a');a2.className='ext-link';a2.href=ITEM.demo;a2.target='_blank';
-      a2.innerHTML=(jp?'デモ':'demo')+'<i class="ti ti-arrow-up-right"></i>';meta.appendChild(a2);
-    }
-  }
 
   document.getElementById('hero-hint').textContent=jp?'スクリーンショット / プレビュー':'screenshot / preview';
 
@@ -256,20 +231,6 @@ function render(jp){
   tas.forEach(function(t){
     tl.innerHTML+='<div class="feature-item"><span class="feature-dot"></span><span class="feature-text">'+t+'</span></div>';
   });
-
-  document.getElementById('lbl-gallery').textContent=jp?'◤ ギャラリー':'◤ gallery';
-  var galSection=document.getElementById('gallery-section');
-  var galDivider=document.getElementById('gallery-divider');
-  var count=ITEM.gallery||0;
-  if(count>0){
-    var g=document.getElementById('gallery');g.innerHTML='';
-    for(var i=0;i<count;i++){
-      g.innerHTML+='<div class="gallery-item"><i class="ti ti-photo"></i></div>';
-    }
-    galSection.style.display='';galDivider.style.display='';
-  } else {
-    galSection.style.display='none';galDivider.style.display='none';
-  }
 
   document.getElementById('lbl-stack').textContent=jp?'◤ 技術スタック':'◤ stack & tools';
   var st=document.getElementById('stack-tags');st.innerHTML='';
