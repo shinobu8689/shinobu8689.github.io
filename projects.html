@@ -75,6 +75,11 @@ body.dark .card-link:hover{color:#E8E6E1;}
     <div class="center-wrap">
       <span class="site-name">shinobu_works</span>
 
+      <a class="back-link" href="index.html">
+        <i class="ti ti-arrow-left"></i>
+        <span id="back-label">back to home</span>
+      </a>
+
       <div class="page-heading" id="page-heading">
         all projects<br>
         <span id="page-sub">things i've built.</span>
@@ -96,84 +101,96 @@ body.dark .card-link:hover{color:#E8E6E1;}
 // ─────────────────────────────────────────────
 var PROJECTS=[
   {
-    icon:'ti-photo',
-    title:'ImageEditPipeline',
-    desc:'Automated image processing pipeline with batch transformations, format conversion, and a REST API layer.',
-    tags:['python','pillow','fastapi'],
-    github:'#',
-    demo:null
+    icon:'ti-robot',
+    title:'Job Stream Express',
+    title_ja:'Job Stream Express',
+    desc:'Automated job search and eligibility comparison tool. AI-powered analysis for both Japanese and English job sites.',
+    desc_ja:'求人検索・適性分析・応募支援を自動化したワークフロー支援ツール。日英両対応のAI分析機能を搭載。',
+    tags:['python','playwright','ollama','gemma4'],
+    github:'https://github.com/shinobu8689/JobStreamExpress',
+    demo:'https://youtu.be/D9d1rY10CPs',
+    href:'projects/job-stream-express.html'
   },
   {
-    icon:'ti-robot',
-    title:'JobStreamExpress',
-    desc:'Job listing scraper and tracker with AI-powered relevance scoring and one-click apply workflows.',
-    tags:['python','playwright','ollama'],
-    github:'#',
-    demo:null
+    icon:'ti-photo-edit',
+    title:'Image Edit Pipeline',
+    title_ja:'Image Edit Pipeline',
+    desc:'Workflow-driven image editor with batch processing, background removal, and watermarking via a web UI and CLI.',
+    desc_ja:'ウォーターマークや背景除去などをバッチ処理できるワークフロー型画像編集ツール。WebとCLIの両方に対応。',
+    tags:['python','fastapi','pillow','rembg'],
+    github:'https://github.com/shinobu8689/ImageEditPipeline',
+    demo:'https://youtu.be/bg5ISd4IkwA',
+    href:'projects/image-edit-pipeline.html'
+  },
+  {
+    icon:'ti-train',
+    title:'Next Train',
+    title_ja:'Next Train',
+    desc:'Real-time Melbourne train dashboard using GTFS-RT and PTV data with delay visualisation and data validity control.',
+    desc_ja:'GTFSとPTVデータを使ったメルボルン列車のリアルタイム運行ダッシュボード。遅延情報とデータ有効性管理を搭載。',
+    tags:['python','fastapi','sqlite','gtfs-rt'],
+    github:'https://github.com/shinobu8689/NextTrainDashboard',
+    demo:'https://youtu.be/D6J2FoSG1EM',
+    href:'projects/next-train.html'
   },
   {
     icon:'ti-layout-grid',
     title:'shinobu_works',
+    title_ja:'shinobu_works',
     desc:'Personal portfolio site with dark mode, bilingual EN/JP support, and a minimal design system.',
+    desc_ja:'ダークモードと日英切替に対応したミニマルデザインのポートフォリオサイト。',
     tags:['html','css','javascript'],
     github:'#',
     demo:'#'
   },
   {
-    icon:'ti-train',
-    title:'Next Train Dashboard',
-    desc:'Real-time departure board for Melbourne using the PTV API with live countdown timers.',
-    tags:['python','flask','ptv api'],
-    github:'#',
-    demo:null
-  },
-  {
-    icon:'ti-chart-bar',
-    title:'Budget Tracker',
-    desc:'Lightweight personal finance tracker with category breakdowns and monthly CSV export.',
-    tags:['python','sqlite','rich'],
-    github:'#',
-    demo:null
-  },
-  {
-    icon:'ti-terminal',
-    title:'Dotfiles',
-    desc:'My personal shell config, editor setup, and scripts for a consistent dev environment across machines.',
-    tags:['bash','zsh','neovim'],
-    github:'#',
-    demo:null
+    icon:'ti-stack-2',
+    title:'Misc Projects',
+    title_ja:'その他のプロジェクト',
+    desc:'Kanban Board, StormworksPC, Nine Men\'s Morris, Sleep Medication App — team exercises and personal experiments.',
+    desc_ja:'Kanban Board・StormworksPC・ナイン・メンズ・モリス・睡眠補助アプリ — チーム開発と個人実験のまとめ。',
+    tags:['javascript','python','lua','java'],
+    github:null,
+    demo:null,
+    href:'projects/misc.html'
   }
 ];
 
-function buildCard(p){
+function buildCard(p, jp){
+  var title = jp&&p.title_ja ? p.title_ja : p.title;
+  var desc  = jp&&p.desc_ja  ? p.desc_ja  : p.desc;
+  var demoLabel = jp ? 'デモ' : 'demo';
   var footer='';
   if(p.github||p.demo){
     var links='';
     if(p.github) links+='<a class="card-link" href="'+p.github+'" target="_blank" onclick="event.stopPropagation()">github<i class="ti ti-arrow-up-right"></i></a>';
-    if(p.demo)   links+='<a class="card-link" href="'+p.demo+'"   target="_blank" onclick="event.stopPropagation()" style="margin-left:12px">demo<i class="ti ti-arrow-up-right"></i></a>';
+    if(p.demo)   links+='<a class="card-link" href="'+p.demo+'"   target="_blank" onclick="event.stopPropagation()" style="margin-left:12px">'+demoLabel+'<i class="ti ti-arrow-up-right"></i></a>';
     footer='<div class="card-footer">'+links+'</div>';
   }
-  return '<div class="card">'
+  var clickAttr=p.href?' onclick="location.href=\''+p.href+'\'" style="cursor:pointer"':'';
+  return '<div class="card"'+clickAttr+'>'
     +'<div class="card-thumb"><i class="ti '+p.icon+'"></i></div>'
     +'<div class="card-body">'
-    +'<div class="card-title">'+p.title+'</div>'
-    +'<div class="card-desc">'+p.desc+'</div>'
+    +'<div class="card-title">'+title+'</div>'
+    +'<div class="card-desc">'+desc+'</div>'
     +'<div class="card-tags">'+p.tags.map(function(t){return '<span class="card-tag">'+t+'</span>';}).join('')+'</div>'
     +footer
     +'</div>'
     +'</div>';
 }
 
-function renderGrid(){
-  document.getElementById('projects-grid').innerHTML=PROJECTS.map(buildCard).join('');
+function renderGrid(jp){
+  document.getElementById('projects-grid').innerHTML=PROJECTS.map(function(p){return buildCard(p,jp);}).join('');
 }
 
-renderGrid();
+renderGrid(false);
 
 window.onToggleLangContent=function(jp){
+  document.getElementById('back-label').textContent=jp?'ホームへ':'back to home';
   document.getElementById('page-heading').childNodes[0].textContent=jp?'制作実績\n':'all projects\n';
   document.getElementById('page-sub').textContent=jp?'作ったもの。':'things i\'ve built.';
   document.getElementById('grid-label').textContent=jp?'◤ プロジェクト':'◤ projects';
+  renderGrid(jp);
 };
 </script>
 </body>

@@ -75,6 +75,11 @@ body.dark .card-link:hover{color:#E8E6E1;}
     <div class="center-wrap">
       <span class="site-name">shinobu_works</span>
 
+      <a class="back-link" href="index.html">
+        <i class="ti ti-arrow-left"></i>
+        <span id="back-label">back to home</span>
+      </a>
+
       <div class="page-heading" id="page-heading">
         art<br>
         <span id="page-sub">pixel art &amp; illustrations.</span>
@@ -164,6 +169,7 @@ function renderGrid(){
 renderGrid();
 
 window.onToggleLangContent=function(jp){
+  document.getElementById('back-label').textContent=jp?'ホームへ':'back to home';
   document.getElementById('page-heading').childNodes[0].textContent=jp?'イラスト・ドット絵\n':'art & pixel art\n';
   document.getElementById('page-sub').textContent=jp?'描いたもの。':'things i\'ve drawn.';
   document.getElementById('grid-label').textContent=jp?'◤ 作品':'◤ pieces';

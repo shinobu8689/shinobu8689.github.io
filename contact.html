@@ -62,6 +62,11 @@ body.dark #resp-text{color:#5C5A56;}
     <div class="center-wrap">
       <span class="site-name">shinobu_works</span>
 
+      <a class="back-link" href="index.html">
+        <i class="ti ti-arrow-left"></i>
+        <span id="back-label">back to home</span>
+      </a>
+
       <div class="page-title" id="page-title">
         find me here<br>
         <span id="page-sub">pick your platform.</span>
@@ -113,6 +118,7 @@ body.dark #resp-text{color:#5C5A56;}
 <script src="sidebar.js"></script>
 <script>
 window.onToggleLangContent=function(jp){
+  document.getElementById('back-label').textContent=jp?'ホームへ':'back to home';
   document.getElementById('page-title').childNodes[0].textContent=jp?'どこにいるか\n':'find me here\n';
   document.getElementById('page-sub').textContent=jp?'好きな方法でどうぞ。':'pick your platform.';
   document.getElementById('lbl-links').textContent=jp?'◤ リンク':'◤ links';

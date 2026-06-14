@@ -77,6 +77,11 @@ body.dark .tl-desc{color:#7A7773;}
     <div class="center-wrap">
       <span class="site-name">shinobu_works</span>
 
+      <a class="back-link" href="index.html">
+        <i class="ti ti-arrow-left"></i>
+        <span id="back-label">back to home</span>
+      </a>
+
       <div class="greeting" id="greeting">
         about me<br>
         <span>the person behind the work.</span>
@@ -163,6 +168,7 @@ body.dark .tl-desc{color:#7A7773;}
 <script src="sidebar.js"></script>
 <script>
 window.onToggleLangContent=function(jp){
+  document.getElementById('back-label').textContent=jp?'ホームへ':'back to home';
   document.getElementById('greeting').innerHTML=jp
     ?'自己紹介<br><span>作品の裏にいる人物。</span>'
     :'about me<br><span>the person behind the work.</span>';

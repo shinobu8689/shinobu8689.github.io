@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Misc Projects — shinobu_works</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../sidebar.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#F5F3EE;min-height:100vh;display:flex;}
+.main{flex:1;display:flex;flex-direction:column;}
+.center-wrap{flex:1;display:flex;flex-direction:column;gap:28px;max-width:860px;width:100%;margin:0 auto;padding:60px 40px;}
+.site-name{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:400;color:#7A7773;letter-spacing:0.06em;}
+.divider{width:100%;height:0.5px;background:#C8C5BE;}
+.section-label{font-size:11px;color:#9E9B95;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;}
+.back-link{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:#7A7773;text-decoration:none;cursor:pointer;transition:color 0.12s;}
+.back-link:hover{color:#1A1917;}
+.back-link i{font-size:14px;}
+.detail-title{font-size:28px;font-weight:500;color:#1A1917;line-height:1.3;}
+.detail-sub{font-size:14px;color:#7A7773;margin-top:6px;line-height:1.5;}
+.prose{font-size:13px;color:#5C5A56;line-height:1.8;max-width:640px;}
+
+/* ── project card grid ── */
+.proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+.proj-card{background:#FFFEFB;border:0.5px solid #D4D1CB;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:12px;}
+.proj-card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+.proj-card-icon{width:36px;height:36px;background:#EAE8E3;border:0.5px solid #D4D1CB;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.proj-card-icon i{font-size:18px;color:#9E9B95;}
+.proj-card-links{display:flex;gap:8px;flex-shrink:0;}
+.ext-link{display:inline-flex;align-items:center;gap:3px;font-size:11px;color:#7A7773;text-decoration:none;transition:color 0.12s;}
+.ext-link:hover{color:#1A1917;}
+.ext-link i{font-size:12px;}
+.proj-card-title{font-size:14px;font-weight:500;color:#1A1917;}
+.proj-type-badge{display:inline-block;font-size:10px;font-family:'IBM Plex Mono',monospace;color:#9E9B95;margin-top:2px;}
+.proj-card-desc{font-size:12px;color:#7A7773;line-height:1.7;}
+.proj-feature-list{display:flex;flex-direction:column;gap:5px;}
+.proj-feature-item{display:flex;gap:8px;align-items:flex-start;}
+.proj-feature-dot{width:3px;height:3px;border-radius:50%;background:#C8C5BE;flex-shrink:0;margin-top:7px;}
+.proj-feature-text{font-size:11px;color:#7A7773;line-height:1.6;}
+.proj-tag-group{display:flex;flex-wrap:wrap;gap:4px;margin-top:auto;padding-top:4px;}
+.tag{font-size:10px;font-family:'IBM Plex Mono',monospace;color:#7A7773;background:#EAE8E3;border:0.5px solid #D4D1CB;border-radius:4px;padding:3px 8px;}
+
+@media(max-width:768px){
+  .center-wrap{padding:80px 24px 40px;}
+  .detail-title{font-size:22px;}
+  .proj-grid{grid-template-columns:1fr;}
+}
+
+body.dark{background:#1C1B19;}
+body.dark .site-name{color:#5C5A56;}
+body.dark .back-link{color:#5C5A56;}
+body.dark .back-link:hover{color:#E8E6E1;}
+body.dark .detail-title{color:#E8E6E1;}
+body.dark .detail-sub{color:#5C5A56;}
+body.dark .divider{background:#2E2D2A;}
+body.dark .section-label{color:#5C5A56;}
+body.dark .prose{color:#7A7773;}
+body.dark .proj-card{background:#141412;border-color:#2E2D2A;}
+body.dark .proj-card-icon{background:#0E0D0C;border-color:#2E2D2A;}
+body.dark .proj-card-icon i{color:#5C5A56;}
+body.dark .proj-card-title{color:#E8E6E1;}
+body.dark .proj-type-badge{color:#5C5A56;}
+body.dark .proj-card-desc{color:#5C5A56;}
+body.dark .proj-feature-dot{background:#3A3835;}
+body.dark .proj-feature-text{color:#5C5A56;}
+body.dark .tag{background:#1E1D1B;border-color:#2E2D2A;color:#7A7773;}
+body.dark .ext-link{color:#5C5A56;}
+body.dark .ext-link:hover{color:#E8E6E1;}
+</style>
+</head>
+<body data-page="">
+<script>(function(){var s=localStorage;if(s.getItem('sw_dark')==='1')document.body.classList.add('dark');if(s.getItem('sw_jp')==='1'){document.body.dataset.jp='1';document.body.classList.add('jp-loading');}})();</script>
+
+<div class="mock">
+  <div class="main">
+    <div class="center-wrap">
+      <span class="site-name">shinobu_works</span>
+
+      <a class="back-link" id="back-link" href="../projects.html">
+        <i class="ti ti-arrow-left"></i>
+        <span id="back-label">back to works</span>
+      </a>
+
+      <div>
+        <div class="detail-title" id="detail-title">Misc Projects</div>
+        <div class="detail-sub" id="detail-sub">Team exercises, coursework, and experiments.</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div>
+        <div class="section-label" id="lbl-overview">◤ overview</div>
+        <div class="prose" id="overview-text"></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div>
+        <div class="section-label" id="lbl-projects">◤ projects</div>
+        <div class="proj-grid" id="proj-grid"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>window.SW_BASE='../';</script>
+<script src="../sidebar.js"></script>
+<script>
+var DATA={
+  overview_en:'A collection of smaller projects built through team collaborations, coursework, and personal experiments. These span web development, game modding, board game remakes, and mobile app development — each one a different context for learning.',
+  overview_ja:'チーム開発・授業・個人実験で作った小規模プロジェクトのまとめです。Web開発・ゲーム改造・ボードゲームのデジタル化・モバイルアプリ開発など、それぞれ異なる学習の場で取り組みました。',
+  projects:[
+    {
+      icon:'ti-layout-kanban',
+      title:'Kanban Board',
+      title_ja:'Kanban Board',
+      type_en:'Team Project',
+      type_ja:'チーム開発',
+      desc_en:'Built a web-based Kanban board with drag-and-drop task management and client-side persistence.',
+      desc_ja:'タスク管理や、ワークフロー操作を備えたWebベースのカンバンボードアプリをチームで開発。',
+      features_en:['Project management tools','Touch-friendly frontend UI','Supported Agile workflows'],
+      features_ja:['プロジェクト情報の管理機能','タッチでも操作しやすいUI','スプリントによるアジャイル開発'],
+      tags:['javascript','html / css','sqlite'],
+      github:'#',
+      demo:'#'
+    },
+    {
+      icon:'ti-device-desktop',
+      title:'StormworksPC',
+      title_ja:'StormworksPC',
+      type_en:'Personal Project',
+      type_ja:'個人開発',
+      desc_en:'Developed a custom operating system for the game Stormworks, supporting survival gameplay with a resizable GUI and modular app architecture.',
+      desc_ja:'ゲーム「Stormworks」内で動作するカスタムOSを開発。生存型ゲームに必要なツールが欲しくて作った。',
+      features_en:['Resizable and snap-based UI','Modular architecture','Built-in Map, Notes, Chat, and notification features'],
+      features_ja:['リサイズ・スナップ対応のUI','モジュール型アプリ構造','マップ・ノート・通知・チャット機能'],
+      tags:['stormworks engine','lua'],
+      workshop:'#',
+      demo:'#'
+    },
+    {
+      icon:'ti-chess',
+      title:"Nine Men's Morris",
+      title_ja:'ナイン・メンズ・モリス',
+      type_en:'Solo (originally team)',
+      type_ja:'個人完成（元チーム開発）',
+      desc_en:"Recreated the board game Nine Men's Morris in PyGame with full game logic, UI interaction, and a beginner-friendly tutorial.",
+      desc_ja:'ボードゲーム「ナイン・メンズ・モリス」をPyGameでデジタル再現。ゲームロジックからUI操作まで実装し、初心者向けチュートリアルも含む完成版。',
+      features_en:['Fully playable end-to-end implementation','Turn handling, board validation, and input management'],
+      features_ja:['フルプレイ可能な完成版','ターン処理・盤面検証・入力管理'],
+      tags:['python','pygame'],
+      github:'#',
+      demo:'#'
+    },
+    {
+      icon:'ti-moon',
+      title:'Sleep Medication App',
+      title_ja:'睡眠補助アプリ',
+      type_en:'Team Project',
+      type_ja:'チーム開発',
+      desc_en:'Developed an Android sleep assistance app as part of a team, implementing core features for sleep tracking and relaxation.',
+      desc_ja:'チームでAndroid向けの睡眠補助アプリを開発。睡眠記録・音楽再生機能などを実装し、モバイルの開発環境に詳しくなった。',
+      features_en:['Sleep-inducing music playback','Sleep log recording and viewing','Agile workflow with iterative feature delivery'],
+      features_ja:['入眠支援向けの音楽再生機能','睡眠ログの記録・閲覧機能','アジャイル開発環境で機能追加・改善'],
+      tags:['android','java'],
+      github:'#',
+      demo:'#'
+    }
+  ]
+};
+
+function buildCard(p, jp){
+  var titleText = jp ? p.title_ja : p.title;
+  var typeText  = jp ? p.type_ja  : p.type_en;
+  var descText  = jp ? p.desc_ja  : p.desc_en;
+  var feats     = jp ? p.features_ja : p.features_en;
+
+  var links = '';
+  if(p.github){
+    links += '<a class="ext-link" href="'+p.github+'" target="_blank">github<i class="ti ti-arrow-up-right"></i></a>';
+  }
+  if(p.workshop){
+    links += '<a class="ext-link" href="'+p.workshop+'" target="_blank">'+(jp?'steam workshop':'workshop')+'<i class="ti ti-arrow-up-right"></i></a>';
+  }
+  if(p.demo){
+    links += '<a class="ext-link" href="'+p.demo+'" target="_blank">'+(jp?'デモ':'demo')+'<i class="ti ti-arrow-up-right"></i></a>';
+  }
+
+  var featsHtml = feats.map(function(f){
+    return '<div class="proj-feature-item"><span class="proj-feature-dot"></span><span class="proj-feature-text">'+f+'</span></div>';
+  }).join('');
+
+  var tagsHtml = p.tags.map(function(t){
+    return '<span class="tag">'+t+'</span>';
+  }).join('');
+
+  return '<div class="proj-card">'
+    +'<div class="proj-card-header">'
+    +'<div class="proj-card-icon"><i class="ti '+p.icon+'"></i></div>'
+    +'<div class="proj-card-links">'+links+'</div>'
+    +'</div>'
+    +'<div>'
+    +'<div class="proj-card-title">'+titleText+'</div>'
+    +'<div class="proj-type-badge">'+typeText+'</div>'
+    +'</div>'
+    +'<div class="proj-card-desc">'+descText+'</div>'
+    +'<div class="proj-feature-list">'+featsHtml+'</div>'
+    +'<div class="proj-tag-group">'+tagsHtml+'</div>'
+    +'</div>';
+}
+
+function render(jp){
+  document.getElementById('back-label').textContent=jp?'プロジェクト一覧へ':'back to works';
+  document.getElementById('detail-title').textContent=jp?'その他のプロジェクト':'Misc Projects';
+  document.getElementById('detail-sub').textContent=jp?'チーム開発・授業課題・個人実験。':'Team exercises, coursework, and experiments.';
+  document.getElementById('lbl-overview').textContent=jp?'◤ 概要':'◤ overview';
+  document.getElementById('overview-text').textContent=jp?DATA.overview_ja:DATA.overview_en;
+  document.getElementById('lbl-projects').textContent=jp?'◤ プロジェクト':'◤ projects';
+  document.getElementById('proj-grid').innerHTML=DATA.projects.map(function(p){return buildCard(p,jp);}).join('');
+}
+
+render(false);
+window.onToggleLangContent=function(jp){render(jp);};
+</script>
+</body>
+</html>

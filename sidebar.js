@@ -1,13 +1,14 @@
 (function(){
   var dark=localStorage.getItem('sw_dark')==='1';
   var jp=localStorage.getItem('sw_jp')==='1';
+  var BASE=window.SW_BASE||'';
 
   var NAV=[
-    {icon:'ti-home',        href:'index.html',    en:'home',    ja:'ホーム',       page:'index'},
-    {icon:'ti-layout-grid', href:'projects.html', en:'works',   ja:'制作実績',     page:'works'},
-    {icon:'ti-brush',       href:'art.html',      en:'art',     ja:'イラスト',     page:'art'},
-    {icon:'ti-user',        href:'about.html',    en:'about',   ja:'自己紹介',     page:'about'},
-    {icon:'ti-mail',        href:'contact.html',  en:'contact', ja:'お問い合わせ', page:'contact'}
+    {icon:'ti-home',        href:BASE+'index.html',    en:'home',    ja:'ホーム',       page:'index'},
+    {icon:'ti-layout-grid', href:BASE+'projects.html', en:'works',   ja:'制作実績',     page:'works'},
+    {icon:'ti-brush',       href:BASE+'art.html',      en:'art',     ja:'イラスト',     page:'art'},
+    {icon:'ti-user',        href:BASE+'about.html',    en:'about',   ja:'自己紹介',     page:'about'},
+    {icon:'ti-mail',        href:BASE+'contact.html',  en:'contact', ja:'お問い合わせ', page:'contact'}
   ];
 
   var PAGE=document.body.getAttribute('data-page')||'';

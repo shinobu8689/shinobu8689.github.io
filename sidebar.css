@@ -34,6 +34,13 @@
 /* ── mock layout ── */
 .mock{display:flex;width:100%;min-height:100vh;background:#F5F3EE;font-size:13px;}
 
+/* ── back link (shared across pages) ── */
+.back-link{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:#7A7773;text-decoration:none;cursor:pointer;transition:color 0.12s;}
+.back-link:hover{color:#1A1917;}
+.back-link i{font-size:14px;}
+body.dark .back-link{color:#5C5A56;}
+body.dark .back-link:hover{color:#E8E6E1;}
+
 /* ── hide main content while JP translations are being applied ── */
 .jp-loading .main{visibility:hidden;}
 

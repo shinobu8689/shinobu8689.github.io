@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Next Train — shinobu_works</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../sidebar.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#F5F3EE;min-height:100vh;display:flex;}
+.main{flex:1;display:flex;flex-direction:column;}
+.center-wrap{flex:1;display:flex;flex-direction:column;gap:28px;max-width:860px;width:100%;margin:0 auto;padding:60px 40px;}
+.site-name{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:400;color:#7A7773;letter-spacing:0.06em;}
+.divider{width:100%;height:0.5px;background:#C8C5BE;}
+.section-label{font-size:11px;color:#9E9B95;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;}
+.back-link{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:#7A7773;text-decoration:none;cursor:pointer;transition:color 0.12s;}
+.back-link:hover{color:#1A1917;}
+.back-link i{font-size:14px;}
+.detail-title{font-size:28px;font-weight:500;color:#1A1917;line-height:1.3;}
+.detail-sub{font-size:14px;color:#7A7773;margin-top:6px;line-height:1.5;}
+.info-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px;}
+.info-chip{display:flex;align-items:center;gap:5px;font-size:11px;color:#7A7773;font-family:'IBM Plex Mono',monospace;}
+.info-chip i{font-size:13px;color:#9E9B95;}
+.meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;}
+.tag{font-size:10px;font-family:'IBM Plex Mono',monospace;color:#7A7773;background:#EAE8E3;border:0.5px solid #D4D1CB;border-radius:4px;padding:3px 8px;}
+.status-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-family:'IBM Plex Mono',monospace;color:#5C5A56;background:#EAE8E3;border:0.5px solid #C8C5BE;border-radius:20px;padding:3px 10px;}
+.status-dot{width:6px;height:6px;border-radius:50%;background:#9E9B95;flex-shrink:0;}
+.status-dot.active{background:#6BAF7A;}
+.status-dot.wip{background:#D4A843;}
+.meta-sep{width:0.5px;height:14px;background:#D4D1CB;}
+.ext-link{display:inline-flex;align-items:center;gap:3px;font-size:11px;color:#7A7773;text-decoration:none;transition:color 0.12s;}
+.ext-link:hover{color:#1A1917;}
+.ext-link i{font-size:12px;}
+.hero{width:100%;height:360px;background:#EAE8E3;border:0.5px solid #D4D1CB;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
+.hero i{font-size:40px;color:#B0ADA6;}
+.hero-hint{font-size:11px;color:#B0ADA6;font-family:'IBM Plex Mono',monospace;}
+.prose{font-size:13px;color:#5C5A56;line-height:1.8;max-width:640px;}
+.feature-list{display:flex;flex-direction:column;gap:8px;}
+.feature-item{display:flex;gap:10px;align-items:flex-start;}
+.feature-dot{width:4px;height:4px;border-radius:50%;background:#9E9B95;flex-shrink:0;margin-top:7px;}
+.feature-text{font-size:13px;color:#5C5A56;line-height:1.6;}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.gallery-item{aspect-ratio:4/3;background:#EAE8E3;border:0.5px solid #D4D1CB;border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.gallery-item i{font-size:24px;color:#B0ADA6;}
+.tag-group{display:flex;flex-wrap:wrap;gap:6px;}
+@media(max-width:768px){
+  .center-wrap{padding:80px 24px 40px;}
+  .detail-title{font-size:22px;}
+  .hero{height:220px;}
+  .gallery{grid-template-columns:repeat(2,1fr);}
+}
+body.dark{background:#1C1B19;}
+body.dark .site-name{color:#5C5A56;}
+body.dark .back-link{color:#5C5A56;}
+body.dark .back-link:hover{color:#E8E6E1;}
+body.dark .detail-title{color:#E8E6E1;}
+body.dark .detail-sub{color:#5C5A56;}
+body.dark .divider{background:#2E2D2A;}
+body.dark .section-label{color:#5C5A56;}
+body.dark .tag{background:#1E1D1B;border-color:#2E2D2A;color:#7A7773;}
+body.dark .status-badge{background:#1E1D1B;border-color:#2E2D2A;color:#7A7773;}
+body.dark .meta-sep{background:#2E2D2A;}
+body.dark .ext-link{color:#5C5A56;}
+body.dark .ext-link:hover{color:#E8E6E1;}
+body.dark .hero{background:#0E0D0C;border-color:#2E2D2A;}
+body.dark .hero i{color:#3A3835;}
+body.dark .hero-hint{color:#3A3835;}
+body.dark .prose{color:#7A7773;}
+body.dark .feature-dot{background:#3A3835;}
+body.dark .feature-text{color:#7A7773;}
+body.dark .gallery-item{background:#0E0D0C;border-color:#2E2D2A;}
+body.dark .gallery-item i{color:#3A3835;}
+body.dark .info-chip{color:#5C5A56;}
+body.dark .info-chip i{color:#3A3835;}
+</style>
+</head>
+<body data-page="">
+<script>(function(){var s=localStorage;if(s.getItem('sw_dark')==='1')document.body.classList.add('dark');if(s.getItem('sw_jp')==='1'){document.body.dataset.jp='1';document.body.classList.add('jp-loading');}})();</script>
+
+<div class="mock">
+  <div class="main">
+    <div class="center-wrap">
+      <span class="site-name">shinobu_works</span>
+
+      <a class="back-link" id="back-link" href="../projects.html">
+        <i class="ti ti-arrow-left"></i>
+        <span id="back-label">back to works</span>
+      </a>
+
+      <div>
+        <div class="detail-title" id="detail-title">Next Train</div>
+        <div class="detail-sub" id="detail-sub">Dashboard that displays real-time info for trains with GTFS.</div>
+        <div class="info-row">
+          <span class="info-chip"><i class="ti ti-calendar"></i><span id="info-duration">Feb 2026 · 2 weeks</span></span>
+          <span class="info-chip"><i class="ti ti-user"></i><span id="info-team">Personal Project</span></span>
+          <span class="info-chip"><i class="ti ti-code"></i><span id="info-type">Full-Stack Web Application</span></span>
+        </div>
+      </div>
+
+      <div class="meta-row" id="meta-row"></div>
+
+      <div class="divider"></div>
+
+      <div class="hero">
+        <i class="ti ti-train"></i>
+        <span class="hero-hint" id="hero-hint">screenshot / preview</span>
+      </div>
+
+      <div>
+        <div class="section-label" id="lbl-overview">◤ overview</div>
+        <div class="prose" id="overview-text"></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div>
+        <div class="section-label" id="lbl-features">◤ features</div>
+        <div class="feature-list" id="feature-list"></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div id="takeaways-section">
+        <div class="section-label" id="lbl-takeaways">◤ key takeaways</div>
+        <div class="feature-list" id="takeaways-list"></div>
+      </div>
+
+      <div class="divider" id="takeaways-divider"></div>
+
+      <div id="gallery-section">
+        <div class="section-label" id="lbl-gallery">◤ gallery</div>
+        <div class="gallery" id="gallery"></div>
+      </div>
+
+      <div class="divider" id="gallery-divider"></div>
+
+      <div>
+        <div class="section-label" id="lbl-stack">◤ stack &amp; tools</div>
+        <div class="tag-group" id="stack-tags"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>window.SW_BASE='../';</script>
+<script src="../sidebar.js"></script>
+<script>
+var ITEM={
+  type:'project',
+  backHref:'../projects.html',
+  title:'Next Train',
+  sub:'Dashboard that displays real-time info for trains with GTFS.',
+  status:'completed',
+  duration_en:'Feb 2026 · 2 weeks',
+  duration_ja:'2026年2月（2週間）',
+  team_en:'Personal Project',
+  team_ja:'個人開発',
+  apptype_en:'Full-Stack Web Application',
+  apptype_ja:'フルスタックウェブアプリ',
+  tags:['python','fastapi','sqlite','gtfs-rt'],
+  github:'https://github.com/shinobu8689/NextTrainDashboard',
+  demo:'https://youtu.be/D6J2FoSG1EM',
+  overview:'Next Train Dashboard is a real-time public transport monitoring application that visualises live Melbourne train operations, delays, and service statuses using GTFS and PTV data. The project was born from a simple frustration — checking when the next train arrives takes too many steps on a phone. This always-on dashboard makes that glanceable at home.',
+  features:[
+    'Live Train Data — real-time train tracking, arrival times, and service status updates.',
+    'Delay Insights — delay visualisation with selectable station monitoring, shown per minute.',
+    'Data Validity Control — automatic data expiration checks with validity notifications.',
+    'GTFS-RT integration for real-time feed parsing alongside a static GTFS SQLite dataset.',
+    'Clear and interactive interface designed for at-a-glance readability.'
+  ],
+  takeaways:[
+    'Real-time data systems — learned how to fetch, process, and display live transport data with attention to latency and reliability.',
+    'Data-driven UI/UX — improved skills in turning raw GTFS data into clear, user-friendly visualisations for everyday users.',
+    'Full-stack development — built and integrated both frontend and backend into a complete, working product from scratch.'
+  ],
+  gallery:3,
+  stack:['html','javascript','python','fastapi','sqlite','gtfs-rt','ptv api','vs code'],
+  ja:{
+    back:'プロジェクト一覧へ',
+    sub:'GTFSデータを用いたリアルタイム列車情報ダッシュボード。',
+    overview:'スマホ・パソコンで「とある駅の次の電車はいつ」に至るまでの手順が多いと感じ、家で据え置きできる常時表示のダッシュボードとして開発しました。GTFSとPTVデータを使い、メルボルンの列車の運行状況・遅延・サービス状態をリアルタイムで可視化するアプリです。',
+    features:[
+      'リアルタイム列車情報 — リアルタイムで列車位置、到着時刻、運行情報を更新。',
+      '遅延情報表示 — 各路線・列車の遅延情報が分単位で表示され、駅を選択できる。',
+      'データ有効性管理 — データの有効期限を自動チェックし、切れたらお知らせする。',
+      'GTFS-RTのリアルタイムフィードとSQLiteの静的GTFSデータセットを統合。',
+      '直感的に確認できるシンプルなUIを目指した設計。'
+    ],
+    takeaways:[
+      'リアルタイムデータ処理 — 遅延や信頼性を考慮した交通データの取得・処理・表示の技術を学んだ。',
+      'データ駆動型UI/UX設計 — 複雑な交通データを、利用者にとって分かりやすい形で可視化する設計を学んだ。',
+      'フルスタック開発 — フロントとバックエンドを統合し、アプリ全体を一から構築した。'
+    ]
+  }
+};
+
+var STATUS_EN={completed:'completed',wip:'in progress',archived:'archived'};
+var STATUS_JA={completed:'完成',wip:'制作中',archived:'アーカイブ'};
+var STATUS_DOT={completed:'active',wip:'wip',archived:''};
+
+function render(jp){
+  document.getElementById('back-link').href=ITEM.backHref;
+  document.getElementById('back-label').textContent=(jp&&ITEM.ja&&ITEM.ja.back)?ITEM.ja.back:'back to works';
+
+  document.getElementById('detail-title').textContent=ITEM.title;
+  document.getElementById('detail-sub').textContent=(jp&&ITEM.ja&&ITEM.ja.sub)?ITEM.ja.sub:ITEM.sub;
+
+  document.getElementById('info-duration').textContent=jp?ITEM.duration_ja:ITEM.duration_en;
+  document.getElementById('info-team').textContent=jp?ITEM.team_ja:ITEM.team_en;
+  document.getElementById('info-type').textContent=jp?ITEM.apptype_ja:ITEM.apptype_en;
+
+  var meta=document.getElementById('meta-row');
+  meta.innerHTML='';
+  ITEM.tags.forEach(function(t){
+    var s=document.createElement('span');s.className='tag';s.textContent=t;meta.appendChild(s);
+  });
+  if(ITEM.status){
+    var sep=document.createElement('span');sep.className='meta-sep';meta.appendChild(sep);
+    var badge=document.createElement('span');badge.className='status-badge';
+    var dot=document.createElement('span');dot.className='status-dot '+(STATUS_DOT[ITEM.status]||'');
+    badge.appendChild(dot);
+    badge.appendChild(document.createTextNode((jp?STATUS_JA:STATUS_EN)[ITEM.status]||ITEM.status));
+    meta.appendChild(badge);
+  }
+  if(ITEM.github||ITEM.demo){
+    var sep2=document.createElement('span');sep2.className='meta-sep';meta.appendChild(sep2);
+    if(ITEM.github){
+      var a=document.createElement('a');a.className='ext-link';a.href=ITEM.github;a.target='_blank';
+      a.innerHTML='github<i class="ti ti-arrow-up-right"></i>';meta.appendChild(a);
+    }
+    if(ITEM.demo){
+      var a2=document.createElement('a');a2.className='ext-link';a2.href=ITEM.demo;a2.target='_blank';
+      a2.innerHTML=(jp?'デモ':'demo')+'<i class="ti ti-arrow-up-right"></i>';meta.appendChild(a2);
+    }
+  }
+
+  document.getElementById('hero-hint').textContent=jp?'スクリーンショット / プレビュー':'screenshot / preview';
+
+  document.getElementById('lbl-overview').textContent=jp?'◤ 概要':'◤ overview';
+  document.getElementById('overview-text').textContent=(jp&&ITEM.ja&&ITEM.ja.overview)?ITEM.ja.overview:ITEM.overview;
+
+  document.getElementById('lbl-features').textContent=jp?'◤ 主な機能':'◤ features';
+  var fl=document.getElementById('feature-list');fl.innerHTML='';
+  var feats=(jp&&ITEM.ja&&ITEM.ja.features)?ITEM.ja.features:ITEM.features;
+  feats.forEach(function(f){
+    fl.innerHTML+='<div class="feature-item"><span class="feature-dot"></span><span class="feature-text">'+f+'</span></div>';
+  });
+
+  document.getElementById('lbl-takeaways').textContent=jp?'◤ 学んだこと':'◤ key takeaways';
+  var tl=document.getElementById('takeaways-list');tl.innerHTML='';
+  var tas=(jp&&ITEM.ja&&ITEM.ja.takeaways)?ITEM.ja.takeaways:ITEM.takeaways;
+  tas.forEach(function(t){
+    tl.innerHTML+='<div class="feature-item"><span class="feature-dot"></span><span class="feature-text">'+t+'</span></div>';
+  });
+
+  document.getElementById('lbl-gallery').textContent=jp?'◤ ギャラリー':'◤ gallery';
+  var galSection=document.getElementById('gallery-section');
+  var galDivider=document.getElementById('gallery-divider');
+  var count=ITEM.gallery||0;
+  if(count>0){
+    var g=document.getElementById('gallery');g.innerHTML='';
+    for(var i=0;i<count;i++){
+      g.innerHTML+='<div class="gallery-item"><i class="ti ti-train"></i></div>';
+    }
+    galSection.style.display='';galDivider.style.display='';
+  } else {
+    galSection.style.display='none';galDivider.style.display='none';
+  }
+
+  document.getElementById('lbl-stack').textContent=jp?'◤ 技術スタック':'◤ stack & tools';
+  var st=document.getElementById('stack-tags');st.innerHTML='';
+  ITEM.stack.forEach(function(t){
+    st.innerHTML+='<span class="tag">'+t+'</span>';
+  });
+}
+
+render(false);
+window.onToggleLangContent=function(jp){render(jp);};
+</script>
+</body>
+</html>

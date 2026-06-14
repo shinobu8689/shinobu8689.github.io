@@ -96,10 +96,10 @@ body.dark .more-btn:hover{color:#E8E6E1;border-color:#5C5A56;}
           <i class="ti ti-chevron-down" style="font-size:11px"></i>
           <div class="dropdown">
             <div class="dd-item" id="dd-all-projects" onclick="location.href='projects.html'">all projects</div>
-            <div class="dd-item">shinobu_works</div>
-            <div class="dd-item">Job Stream Express</div>
-            <div class="dd-item">Image Edit Pipeline</div>
-            <div class="dd-item">Next Train Dashboard</div>
+            <div class="dd-item" id="dd-jse" onclick="location.href='projects/job-stream-express.html'">Job Stream Express</div>
+            <div class="dd-item" id="dd-iep" onclick="location.href='projects/image-edit-pipeline.html'">Image Edit Pipeline</div>
+            <div class="dd-item" id="dd-nt" onclick="location.href='projects/next-train.html'">Next Train</div>
+            <div class="dd-item" id="dd-misc" onclick="location.href='projects/misc.html'">Misc Projects</div>
           </div>
         </div>
         <div class="nav-item" onclick="toggleNav(this)">
@@ -123,25 +123,25 @@ body.dark .more-btn:hover{color:#E8E6E1;border-color:#5C5A56;}
       <div class="cards-section">
         <div class="section-label" id="sec-label">◤ recent works</div>
         <div class="cards">
-          <div class="card">
-            <div class="card-thumb"><i class="ti ti-photo"></i></div>
-            <div class="card-info">
-              <div class="card-title">ImageEditPipeline</div>
-              <div class="card-sub">python · pillow · fastapi</div>
-            </div>
-          </div>
-          <div class="card">
+          <div class="card" onclick="location.href='projects/job-stream-express.html'">
             <div class="card-thumb"><i class="ti ti-robot"></i></div>
             <div class="card-info">
-              <div class="card-title">JobStreamExpress</div>
-              <div class="card-sub">python · playwright · ollama</div>
+              <div class="card-title" id="card-title-1">Job Stream Express</div>
+              <div class="card-sub" id="card-sub-1">python · playwright · ollama</div>
             </div>
           </div>
-          <div class="card">
-            <div class="card-thumb"><i class="ti ti-grid-dots"></i></div>
+          <div class="card" onclick="location.href='projects/image-edit-pipeline.html'">
+            <div class="card-thumb"><i class="ti ti-photo-edit"></i></div>
             <div class="card-info">
-              <div class="card-title">pixel art</div>
-              <div class="card-sub">hand-drawn · original</div>
+              <div class="card-title" id="card-title-2">Image Edit Pipeline</div>
+              <div class="card-sub" id="card-sub-2">python · fastapi · pillow</div>
+            </div>
+          </div>
+          <div class="card" onclick="location.href='projects/next-train.html'">
+            <div class="card-thumb"><i class="ti ti-train"></i></div>
+            <div class="card-info">
+              <div class="card-title" id="card-title-3">Next Train</div>
+              <div class="card-sub" id="card-sub-3">python · fastapi · gtfs-rt</div>
             </div>
           </div>
         </div>
@@ -181,8 +181,18 @@ window.onToggleLangContent=function(jp){
     ?'<span>もっと見る</span><i class="ti ti-arrow-right" style="font-size:13px"></i>'
     :'<span>see all</span><i class="ti ti-arrow-right" style="font-size:13px"></i>';
   document.getElementById('dd-all-projects').textContent=jp?'プロジェクト一覧':'all projects';
+  document.getElementById('dd-jse').textContent=jp?'Job Stream Express':'Job Stream Express';
+  document.getElementById('dd-iep').textContent=jp?'Image Edit Pipeline':'Image Edit Pipeline';
+  document.getElementById('dd-nt').textContent=jp?'Next Train':'Next Train';
+  document.getElementById('dd-misc').textContent=jp?'その他のプロジェクト':'Misc Projects';
   document.getElementById('dd-all-illustrations').textContent=jp?'イラスト一覧':'all illustrations';
   document.getElementById('dd-pixel-art').textContent=jp?'ドット絵':'pixel art';
+  document.getElementById('card-title-1').textContent=jp?'Job Stream Express':'Job Stream Express';
+  document.getElementById('card-sub-1').textContent=jp?'python · playwright · ollama':'python · playwright · ollama';
+  document.getElementById('card-title-2').textContent=jp?'Image Edit Pipeline':'Image Edit Pipeline';
+  document.getElementById('card-sub-2').textContent=jp?'python · fastapi · pillow':'python · fastapi · pillow';
+  document.getElementById('card-title-3').textContent=jp?'Next Train':'Next Train';
+  document.getElementById('card-sub-3').textContent=jp?'python · fastapi · gtfs-rt':'python · fastapi · gtfs-rt';
 };
 </script>
 </body>
