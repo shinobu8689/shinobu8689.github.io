@@ -75,6 +75,20 @@ body.dark .dd-item{color:#7A7773;}
 body.dark .dd-item:hover{background:#1E1D1B;color:#E8E6E1;}
 body.dark .more-btn{color:#5C5A56;}
 body.dark .more-btn:hover{color:#E8E6E1;border-color:#5C5A56;}
+
+.lang-hint{position:fixed;bottom:24px;left:56px;z-index:90;display:flex;align-items:center;gap:10px;padding:10px 14px;background:#FFFEFB;border:0.5px solid #C8C5BE;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);cursor:pointer;font-size:12px;color:#5C5A56;opacity:0;transform:translateY(10px);transition:opacity 0.25s,transform 0.25s,border-color 0.12s,background 0.12s,color 0.12s;pointer-events:none;max-width:240px;}
+.lang-hint.visible{opacity:1;transform:translateY(0);pointer-events:auto;}
+.lang-hint:hover{border-color:#B0ADA6;background:#EAE8E3;color:#1A1917;}
+.lang-hint:hover .lang-hint-icon{color:#7A7773;}
+.lang-hint-icon{font-size:15px;color:#9E9B95;flex-shrink:0;transition:color 0.12s;}
+.lang-hint-close{font-size:14px;color:#C8C5BE;flex-shrink:0;margin-left:2px;line-height:1;transition:color 0.12s;}
+.lang-hint-close:hover{color:#7A7773;}
+@media(max-width:768px){.lang-hint{left:16px;bottom:20px;}}
+body.dark .lang-hint{background:#141412;border-color:#2E2D2A;color:#7A7773;}
+body.dark .lang-hint:hover{border-color:#3A3835;background:#1E1D1B;color:#E8E6E1;}
+body.dark .lang-hint-icon{color:#5C5A56;}
+body.dark .lang-hint-close{color:#3A3835;}
+body.dark .lang-hint-close:hover{color:#9E9B95;}
 </style>
 </head>
 <body data-page="index">
@@ -156,6 +170,42 @@ body.dark .more-btn:hover{color:#E8E6E1;border-color:#5C5A56;}
 </div>
 
 <script src="sidebar.js"></script>
+
+<div id="lang-hint" class="lang-hint">
+  <i class="ti ti-language lang-hint-icon"></i>
+  <span>click here for japanese<br><span style="color:#9E9B95;font-size:11px;">日本語に切り替える</span></span>
+  <span class="lang-hint-close" id="lang-hint-close">×</span>
+</div>
+
+<script>
+(function(){
+  var APPEAR_DELAY=1000; // ms before bubble appears
+  var DURATION=20000;    // ms the bubble stays visible — adjust this value
+  if(localStorage.getItem('sw_jp')==='1')return;
+  if(sessionStorage.getItem('sw_lang_hint_done'))return;
+  var hint=document.getElementById('lang-hint');
+  var closeBtn=document.getElementById('lang-hint-close');
+  var dismissTimer;
+  function dismiss(){
+    hint.classList.remove('visible');
+    sessionStorage.setItem('sw_lang_hint_done','1');
+    clearTimeout(dismissTimer);
+  }
+  hint.addEventListener('click',function(e){
+    dismiss();
+    if(!e.target.closest('#lang-hint-close')) toggleLang();
+  });
+  closeBtn.addEventListener('click',function(e){
+    e.stopPropagation();
+    dismiss();
+  });
+  setTimeout(function(){
+    hint.classList.add('visible');
+    dismissTimer=setTimeout(dismiss,DURATION);
+  },APPEAR_DELAY);
+})();
+</script>
+
 <script>
 function toggleNav(el){
   var was=el.classList.contains('active');

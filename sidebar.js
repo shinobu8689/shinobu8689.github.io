@@ -86,6 +86,7 @@
     document.querySelectorAll('.mob-nav-lbl').forEach(function(n,i){n.textContent=labels[i];});
     document.getElementById('lang-label').textContent=jp?'english':'日本語';
     document.getElementById('lang-label-mob').textContent=jp?'english':'日本語';
+    applyDarkUI();
   }
 
   function inject(){
