@@ -23,8 +23,8 @@ body{font-family:'Inter',sans-serif;background:#F5F3EE;min-height:100vh;display:
 .section-label{font-size:11px;color:#9E9B95;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;}
 
 .profile-row{display:flex;gap:20px;align-items:flex-start;}
-.avatar{width:72px;height:72px;border-radius:10px;background:#EAE8E3;border:0.5px solid #D4D1CB;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
-.avatar i{font-size:30px;color:#9E9B95;}
+.avatar{width:72px;height:72px;border-radius:10px;border:0.5px solid #D4D1CB;flex-shrink:0;overflow:hidden;}
+.avatar img{width:100%;height:100%;object-fit:cover;display:block;}
 .profile-meta{display:flex;flex-direction:column;gap:4px;justify-content:center;}
 .profile-name{font-size:16px;font-weight:500;color:#1A1917;}
 .profile-role{font-size:12px;color:#7A7773;}
@@ -35,14 +35,9 @@ body{font-family:'Inter',sans-serif;background:#F5F3EE;min-height:100vh;display:
 .tags{display:flex;flex-wrap:wrap;gap:6px;}
 .tag{font-size:11px;font-family:'IBM Plex Mono',monospace;color:#5C5A56;background:#EAE8E3;border:0.5px solid #C8C5BE;border-radius:6px;padding:4px 10px;}
 
-.timeline{display:flex;flex-direction:column;}
-.tl-item{display:flex;gap:16px;padding:14px 0;border-bottom:0.5px solid #E8E6E1;}
-.tl-item:last-child{border-bottom:none;}
-.tl-dot{width:7px;height:7px;border-radius:50%;background:#C8C5BE;border:0.5px solid #B0ADA6;flex-shrink:0;margin-top:5px;}
-.tl-body{flex:1;}
-.tl-title{font-size:13px;font-weight:500;color:#1A1917;}
-.tl-meta{font-size:11px;color:#9E9B95;font-family:'IBM Plex Mono',monospace;margin-top:2px;}
-.tl-desc{font-size:12px;color:#7A7773;line-height:1.6;margin-top:5px;}
+.stack-sections{display:flex;flex-direction:column;gap:18px;}
+.stack-cat-label{font-size:11px;font-family:'IBM Plex Mono',monospace;color:#7A7773;margin-bottom:8px;}
+.stack-sub-label{font-size:10px;font-family:'IBM Plex Mono',monospace;color:#B0ADA6;margin-bottom:5px;margin-top:10px;}
 
 @media(max-width:768px){
   .center-wrap{padding:80px 24px 40px;}
@@ -55,18 +50,14 @@ body.dark .greeting{color:#E8E6E1;}
 body.dark .greeting span{color:#5C5A56;}
 body.dark .divider{background:#2E2D2A;}
 body.dark .section-label{color:#5C5A56;}
-body.dark .avatar{background:#0E0D0C;border-color:#2E2D2A;}
-body.dark .avatar i{color:#5C5A56;}
+body.dark .avatar{border-color:#2E2D2A;}
 body.dark .profile-name{color:#E8E6E1;}
 body.dark .profile-role{color:#7A7773;}
 body.dark .profile-loc{color:#5C5A56;}
 body.dark .bio{color:#7A7773;}
 body.dark .tag{background:#1E1D1B;border-color:#2E2D2A;color:#9E9B95;}
-body.dark .tl-item{border-bottom-color:#2E2D2A;}
-body.dark .tl-dot{background:#2E2D2A;border-color:#3A3835;}
-body.dark .tl-title{color:#E8E6E1;}
-body.dark .tl-meta{color:#5C5A56;}
-body.dark .tl-desc{color:#7A7773;}
+body.dark .stack-cat-label{color:#5C5A56;}
+body.dark .stack-sub-label{color:#3A3835;}
 </style>
 </head>
 <body data-page="about">
@@ -93,19 +84,19 @@ body.dark .tl-desc{color:#7A7773;}
       <div>
         <div class="section-label" id="lbl-profile">◤ profile</div>
         <div class="profile-row">
-          <div class="avatar"><i class="ti ti-user"></i></div>
+          <div class="avatar"><img src="profile_icon.png" alt="profile"></div>
           <div class="profile-meta">
-            <div class="profile-name">Your Name</div>
-            <div class="profile-role">developer &amp; pixel artist</div>
-            <div class="profile-loc">melbourne, australia · english · 日本語</div>
+            <div class="profile-name">shinobu_gpt</div>
+            <div class="profile-role" id="profile-role">developer &amp; pixel artist</div>
+            <div class="profile-loc" id="profile-loc">cantonese · mandarin · english · 日本語</div>
           </div>
         </div>
       </div>
 
       <!-- bio -->
       <div>
-        <div class="section-label">bio</div>
-        <div class="bio">
+        <div class="section-label" id="lbl-bio">bio</div>
+        <div class="bio" id="bio-text">
           I'm a developer and pixel artist based in Melbourne. I like building small, focused tools that solve real problems — mostly in Python, sometimes with a web layer on top. When I'm not writing code I'm pushing pixels, usually for personal projects or game jams. I care about things that are clean, fast, and a little bit handmade.
         </div>
       </div>
@@ -114,52 +105,30 @@ body.dark .tl-desc{color:#7A7773;}
 
       <!-- stack -->
       <div>
-        <div class="section-label">stack &amp; tools</div>
-        <div class="tags">
-          <div class="tag">python</div>
-          <div class="tag">fastapi</div>
-          <div class="tag">playwright</div>
-          <div class="tag">pillow</div>
-          <div class="tag">html · css</div>
-          <div class="tag">javascript</div>
-          <div class="tag">ollama</div>
-          <div class="tag">aseprite</div>
-          <div class="tag">pixel art</div>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <!-- experience -->
-      <div>
-        <div class="section-label">experience</div>
-        <div class="timeline">
-          <div class="tl-item">
-            <div class="tl-dot"></div>
-            <div class="tl-body">
-              <div class="tl-title">Junior Developer</div>
-              <div class="tl-meta">Some Company · 2023 – present</div>
-              <div class="tl-desc">Built and maintained internal tooling for data pipelines. Worked across Python backend and a small React frontend. Reduced manual processing time by automating image ingestion workflows.</div>
-            </div>
+        <div class="section-label" id="lbl-stack">stack &amp; tools</div>
+        <div class="stack-sections">
+          <div>
+            <div class="stack-cat-label" id="lbl-cat-lang"></div>
+            <div class="stack-sub-label" id="lbl-primary"></div>
+            <div class="tags" id="tags-primary"></div>
+            <div class="stack-sub-label" id="lbl-addl-lang"></div>
+            <div class="tags" id="tags-addl-lang"></div>
           </div>
-          <div class="tl-item">
-            <div class="tl-dot"></div>
-            <div class="tl-body">
-              <div class="tl-title">Freelance Developer</div>
-              <div class="tl-meta">Self-employed · 2021 – 2023</div>
-              <div class="tl-desc">Took on small web and automation projects for local clients. Built scrapers, booking integrations, and a few portfolio sites. Learned to ship fast and communicate clearly.</div>
-            </div>
+          <div>
+            <div class="stack-cat-label" id="lbl-cat-fw"></div>
+            <div class="tags" id="tags-fw"></div>
           </div>
-          <div class="tl-item">
-            <div class="tl-dot"></div>
-            <div class="tl-body">
-              <div class="tl-title">Bachelor of Computer Science</div>
-              <div class="tl-meta">University Name · 2018 – 2021</div>
-              <div class="tl-desc">Majored in software engineering. Final year project was a real-time transit data visualiser built with Flask and D3.js.</div>
-            </div>
+          <div>
+            <div class="stack-cat-label" id="lbl-cat-tools"></div>
+            <div class="tags" id="tags-tools"></div>
+          </div>
+          <div>
+            <div class="stack-cat-label" id="lbl-cat-other"></div>
+            <div class="tags" id="tags-other"></div>
           </div>
         </div>
       </div>
+
 
     </div>
   </div>
@@ -167,12 +136,59 @@ body.dark .tl-desc{color:#7A7773;}
 
 <script src="sidebar.js"></script>
 <script>
+var STACK={
+  lang:{
+    primary:['java','python','javascript','typescript','lua'],
+    additional:['c / c++','haskell','assembly (mips)','sql','html / css']
+  },
+  frameworks:{
+    en:['docker','ci/cd workflows','android development','rest apis','fastapi','linux','agile / scrum','database design'],
+    ja:['docker','ci/cd workflows','android 開発','rest apis','fastapi','linux','アジャイル開発','データベース設計']
+  },
+  tools:['visual studio code','visual studio','intellij idea','pycharm','android studio','jira','github','google workspace','microsoft 365','github copilot','claude code'],
+  other:{
+    en:['os fundamentals (windows, linux)','networking fundamentals','cybersecurity basics','ui/ux design principles','troubleshooting','ai prompt engineering','workflow automation & optimisation','api integration & data processing','algorithm implementation','system design & modular architecture'],
+    ja:['os基礎知識 (windows, linux)','ネットワーク基礎','サイバーセキュリティ基礎','ui/uxデザイン原則','トラブルシューティング','ai プロンプトエンジニアリング','ワークフロー自動化・最適化','api連携・データ処理','アルゴリズム実装','システム・モジュール構成設計']
+  }
+};
+
+function makeTags(arr){
+  return arr.map(function(t){return '<span class="tag">'+t+'</span>';}).join('');
+}
+
+function renderStack(jp){
+  document.getElementById('lbl-cat-lang').textContent=jp?'プログラミング言語':'programminglanguages';
+  document.getElementById('lbl-primary').textContent=jp?'メイン':'primary';
+  document.getElementById('lbl-addl-lang').textContent=jp?'サポート':'additional';
+  document.getElementById('tags-primary').innerHTML=makeTags(STACK.lang.primary);
+  document.getElementById('tags-addl-lang').innerHTML=makeTags(STACK.lang.additional);
+
+  document.getElementById('lbl-cat-fw').textContent=jp?'フレームワーク':'frameworks';
+  document.getElementById('tags-fw').innerHTML=makeTags(jp?STACK.frameworks.ja:STACK.frameworks.en);
+
+  document.getElementById('lbl-cat-tools').textContent=jp?'開発ツール':'dev tools';
+  document.getElementById('tags-tools').innerHTML=makeTags(STACK.tools);
+
+  document.getElementById('lbl-cat-other').textContent=jp?'その他':'additional skills';
+  document.getElementById('tags-other').innerHTML=makeTags(jp?STACK.other.ja:STACK.other.en);
+}
+
+renderStack(document.body.dataset.jp==='1');
+
 window.onToggleLangContent=function(jp){
   document.getElementById('back-label').textContent=jp?'ホームへ':'back to home';
   document.getElementById('greeting').innerHTML=jp
-    ?'自己紹介<br><span>作品の裏にいる人物。</span>'
+    ?'自己紹介<br><span>その裏にいる人。</span>'
     :'about me<br><span>the person behind the work.</span>';
   document.getElementById('lbl-profile').textContent=jp?'◤ プロフィール':'◤ profile';
+  document.getElementById('profile-role').textContent=jp?'開発者・ピクセルアーティスト':'developer & pixel artist';
+  document.getElementById('profile-loc').textContent=jp?'広東語 · 中国語 · 英語 · 日本語':'cantonese · mandarin · english · 日本語';
+  document.getElementById('lbl-bio').textContent=jp?'':'bio';
+  document.getElementById('bio-text').textContent=jp
+    ?'なんか開発・描いている人です。主にPythonを使って、実際の課題を解決する小さくて実用的なツールを作るのが好きです。コードを書いていない時間はピクセルアートを描いています。シンプルで、少し手作りな感じ、機能性ミニマル的なものが好きです。'
+    :'I\'m a developer and pixel artist based in Melbourne. I like building small, focused tools that solve real problems — mostly in Python, sometimes with a web layer on top. When I\'m not writing code I\'m pushing pixels, usually for personal projects. I care about things that are clean, fast, and a little bit handmade.';
+  document.getElementById('lbl-stack').textContent=jp?'技術スタック':'stack & tools';
+  renderStack(jp);
 };
 </script>
 </body>

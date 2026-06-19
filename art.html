@@ -26,10 +26,11 @@ body{font-family:'Inter',sans-serif;background:#F5F3EE;min-height:100vh;display:
 .art-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
 
 /* ── art card ── */
-.card{background:#FFFEFB;border:0.5px solid #D4D1CB;border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color 0.15s,transform 0.15s;display:flex;flex-direction:column;}
+.card{background:#FFFEFB;border:0.5px solid #D4D1CB;border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color 0.15s,transform 0.15s;display:flex;flex-direction:column;text-decoration:none;color:inherit;}
 .card:hover{border-color:#8A8780;transform:translateY(-2px);}
-.card-thumb{height:160px;display:flex;align-items:center;justify-content:center;background:#EAE8E3;flex-shrink:0;}
+.card-thumb{height:160px;display:flex;align-items:center;justify-content:center;background:#EAE8E3;flex-shrink:0;overflow:hidden;}
 .card-thumb i{font-size:36px;color:#9E9B95;}
+.card-thumb img{width:100%;height:100%;object-fit:cover;image-rendering:pixelated;}
 .card-body{padding:14px;display:flex;flex-direction:column;flex:1;}
 .card-title{font-size:13px;font-weight:500;color:#1A1917;}
 .card-desc{font-size:12px;color:#7A7773;line-height:1.6;margin-top:5px;flex:1;}
@@ -59,6 +60,7 @@ body.dark .card{background:#141412;border-color:#2E2D2A;}
 body.dark .card:hover{border-color:#5C5A56;}
 body.dark .card-thumb{background:#0E0D0C;}
 body.dark .card-thumb i{color:#5C5A56;}
+body.dark .card-thumb img{opacity:0.9;}
 body.dark .card-title{color:#E8E6E1;}
 body.dark .card-desc{color:#5C5A56;}
 body.dark .card-tag{background:#1E1D1B;border-color:#2E2D2A;color:#7A7773;}
@@ -101,65 +103,86 @@ body.dark .card-link:hover{color:#E8E6E1;}
 // ─────────────────────────────────────────────
 var ART=[
   {
-    icon:'ti-grid-dots',
-    title:'Town at Dusk',
-    desc:'A small pixel art scene of a quiet town as the sky turns orange. Made in Aseprite.',
-    tags:['pixel art','aseprite','16×16'],
-    link:null
+    img:'arts_images/tokyo.png',
+    title:'Tokyo',
+    title_ja:'東京',
+    desc:'A pixel art cityscape of Tokyo — great night views.',
+    desc_ja:'東京の静かな夜の夜景をドット絵で描いた作品。',
+    tags:['pixel art','cityscape'],
+    href:'arts/tokyo.html'
   },
   {
-    icon:'ti-grid-dots',
-    title:'Frog Knight',
-    desc:'Character sprite for a personal game jam project. Idle + walk cycle.',
-    tags:['pixel art','aseprite','sprite'],
-    link:null
+    img:'arts_images/osaka.png',
+    title:'Osaka',
+    title_ja:'大阪',
+    desc:'A pixel art piece of Osaka Castle — the tenshu rising above stone walls and moat.',
+    desc_ja:'大阪城の天守がそびえる情景をドット絵で描いた作品。',
+    tags:['pixel art','cityscape'],
+    href:'arts/osaka.html'
   },
   {
-    icon:'ti-grid-dots',
-    title:'Rainy Window',
-    desc:'Looping animated scene — raindrops on glass with a blurry cityscape behind.',
-    tags:['pixel art','animation','loop'],
-    link:null
+    img:'arts_images/surface.png',
+    title:'Surface Duo 2',
+    title_ja:'Surface Duo 2',
+    desc:'Pixel art study of the Microsoft Surface Duo 2 — a dual-screen foldable device.',
+    desc_ja:'Microsoft Surface Duo 2のデュアルスクリーン折りたたみデザインをドット絵で描いた作品。',
+    tags:['pixel art','tech'],
+    href:'arts/surface-duo-2.html'
   },
   {
-    icon:'ti-brush',
-    title:'Character Sheet — Hana',
-    desc:'Original character illustration with front, side, and expression variants.',
-    tags:['illustration','original character'],
-    link:null
+    img:'arts_images/marukuDX.png',
+    title:'Marx',
+    title_ja:'マルク',
+    desc:'Fan pixel art of Marx from Kirby Super Star.',
+    desc_ja:'星のカービィ スーパーデラックスの「マルク」のファンアート。',
+    tags:['pixel art','fan art','kirby'],
+    href:'arts/marx.html'
   },
   {
-    icon:'ti-brush',
-    title:'Game Cover Mock',
-    desc:'Cover art concept for a small indie RPG. Ink-style with limited colour palette.',
-    tags:['illustration','concept art'],
-    link:null
+    img:'arts_images/mahoroa.png',
+    title:'Magolor Soul',
+    title_ja:'マホロア・ソウル',
+    desc:'Fan pixel art of Magolor Soul — true final boss of Kirby\'s Return to Dream Land.',
+    desc_ja:'星のカービィ Wiiの真のラスボス「マホロア・ソウル」のドット絵ファンアート。',
+    tags:['pixel art','fan art','kirby'],
+    href:'arts/magolor-soul.html'
   },
   {
-    icon:'ti-grid-dots',
-    title:'UI Tileset',
-    desc:'Reusable pixel art UI components — buttons, panels, icons — for a retro-style game.',
-    tags:['pixel art','ui','tileset'],
-    link:null
+    img:'arts_images/icons.png',
+    title:'UX Icon Set',
+    title_ja:'UXアイコンセット',
+    desc:'A cohesive set of pixel art icons designed for digital UI contexts.',
+    desc_ja:'デジタルUIでの使用を想定して制作したドット絵アイコンセット。',
+    tags:['pixel art','ui','icons'],
+    href:'arts/ux-icons.html'
+  },
+  {
+    img:'arts_images/fig.png',
+    title:'Mini-Fig & Game Mock-up',
+    title_ja:'ミニフィグ & ゲームモックアップ',
+    desc:'A mini-figure character design paired with pixel art game screen mock-ups.',
+    desc_ja:'ミニフィグキャラクターのデザインとゲーム画面のドット絵モックアップをセットにした作品。',
+    tags:['pixel art','game design','character'],
+    href:'arts/mini-fig.html'
   }
 ];
 
+var _jp=document.body.dataset.jp==='1';
+
 function buildCard(p){
-  var footer='';
-  if(p.link){
-    footer='<div class="card-footer">'
-      +'<a class="card-link" href="'+p.link+'" target="_blank" onclick="event.stopPropagation()">view<i class="ti ti-arrow-up-right"></i></a>'
-      +'</div>';
-  }
-  return '<div class="card">'
-    +'<div class="card-thumb"><i class="ti '+p.icon+'"></i></div>'
+  var thumb=p.img
+    ?'<div class="card-thumb"><img src="'+p.img+'" alt="'+p.title+'"></div>'
+    :'<div class="card-thumb"><i class="ti ti-grid-dots"></i></div>';
+  var title=(_jp&&p.title_ja)?p.title_ja:p.title;
+  var desc=(_jp&&p.desc_ja)?p.desc_ja:p.desc;
+  return '<a class="card" href="'+(p.href||'#')+'">'
+    +thumb
     +'<div class="card-body">'
-    +'<div class="card-title">'+p.title+'</div>'
-    +'<div class="card-desc">'+p.desc+'</div>'
+    +'<div class="card-title">'+title+'</div>'
+    +'<div class="card-desc">'+desc+'</div>'
     +'<div class="card-tags">'+p.tags.map(function(t){return '<span class="card-tag">'+t+'</span>';}).join('')+'</div>'
-    +footer
     +'</div>'
-    +'</div>';
+    +'</a>';
 }
 
 function renderGrid(){
@@ -169,10 +192,12 @@ function renderGrid(){
 renderGrid();
 
 window.onToggleLangContent=function(jp){
+  _jp=jp;
   document.getElementById('back-label').textContent=jp?'ホームへ':'back to home';
   document.getElementById('page-heading').childNodes[0].textContent=jp?'イラスト・ドット絵\n':'art & pixel art\n';
   document.getElementById('page-sub').textContent=jp?'描いたもの。':'things i\'ve drawn.';
   document.getElementById('grid-label').textContent=jp?'◤ 作品':'◤ pieces';
+  renderGrid();
 };
 </script>
 </body>
