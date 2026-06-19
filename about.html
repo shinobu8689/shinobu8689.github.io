@@ -157,7 +157,7 @@ function makeTags(arr){
 }
 
 function renderStack(jp){
-  document.getElementById('lbl-cat-lang').textContent=jp?'プログラミング言語':'programminglanguages';
+  document.getElementById('lbl-cat-lang').textContent=jp?'言語':'languages';
   document.getElementById('lbl-primary').textContent=jp?'メイン':'primary';
   document.getElementById('lbl-addl-lang').textContent=jp?'サポート':'additional';
   document.getElementById('tags-primary').innerHTML=makeTags(STACK.lang.primary);
