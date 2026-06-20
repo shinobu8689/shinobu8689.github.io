@@ -159,7 +159,7 @@ function makeTags(arr){
 function renderStack(jp){
   document.getElementById('lbl-cat-lang').textContent=jp?'言語':'languages';
   document.getElementById('lbl-primary').textContent=jp?'メイン':'primary';
-  document.getElementById('lbl-addl-lang').textContent=jp?'サポート':'additional';
+  document.getElementById('lbl-addl-lang').textContent=jp?'サブ':'secondary';
   document.getElementById('tags-primary').innerHTML=makeTags(STACK.lang.primary);
   document.getElementById('tags-addl-lang').innerHTML=makeTags(STACK.lang.additional);
 
@@ -182,7 +182,7 @@ window.onToggleLangContent=function(jp){
     :'about me<br><span>the person behind the work.</span>';
   document.getElementById('lbl-profile').textContent=jp?'◤ プロフィール':'◤ profile';
   document.getElementById('profile-role').textContent=jp?'開発者・ピクセルアーティスト':'developer & pixel artist';
-  document.getElementById('profile-loc').textContent=jp?'広東語 · 中国語 · 英語 · 日本語':'cantonese · mandarin · english · 日本語';
+  document.getElementById('profile-loc').textContent=jp?'広東語 · 中国語 · 英語 · 日本語':'cantonese · mandarin · english · japanese';
   document.getElementById('lbl-bio').textContent=jp?'':'bio';
   document.getElementById('bio-text').textContent=jp
     ?'なんか開発・描いている人です。主にPythonを使って、実際の課題を解決する小さくて実用的なツールを作るのが好きです。コードを書いていない時間はピクセルアートを描いています。シンプルで、少し手作りな感じ、機能性ミニマル的なものが好きです。'

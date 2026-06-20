@@ -39,8 +39,9 @@ body{font-family:'Inter',sans-serif;background:#F5F3EE;min-height:100vh;display:
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
 .card{background:#FFFEFB;border:0.5px solid #D4D1CB;border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color 0.15s,transform 0.15s;}
 .card:hover{border-color:#8A8780;transform:translateY(-2px);}
-.card-thumb{height:140px;display:flex;align-items:center;justify-content:center;background:#EAE8E3;}
+.card-thumb{height:140px;display:flex;align-items:center;justify-content:center;background:#EAE8E3;overflow:hidden;}
 .card-thumb i{font-size:36px;color:#9E9B95;}
+.card-thumb img{width:100%;height:100%;object-fit:cover;object-position:center;}
 .card-info{padding:12px 14px;}
 .card-title{font-size:13px;font-weight:500;color:#1A1917;margin-bottom:4px;}
 .card-sub{font-size:11px;color:#9E9B95;}
@@ -138,21 +139,21 @@ body.dark .lang-hint-close:hover{color:#9E9B95;}
         <div class="section-label" id="sec-label">◤ recent works</div>
         <div class="cards">
           <div class="card" onclick="location.href='projects/job-stream-express.html'">
-            <div class="card-thumb"><i class="ti ti-robot"></i></div>
+            <div class="card-thumb"><img src="project_images/jobexpress.png" alt="Job Stream Express"></div>
             <div class="card-info">
               <div class="card-title" id="card-title-1">Job Stream Express</div>
               <div class="card-sub" id="card-sub-1">python · playwright · ollama</div>
             </div>
           </div>
           <div class="card" onclick="location.href='projects/image-edit-pipeline.html'">
-            <div class="card-thumb"><i class="ti ti-photo-edit"></i></div>
+            <div class="card-thumb"><img src="project_images/imagedit.png" alt="Image Edit Pipeline"></div>
             <div class="card-info">
               <div class="card-title" id="card-title-2">Image Edit Pipeline</div>
               <div class="card-sub" id="card-sub-2">python · fastapi · pillow</div>
             </div>
           </div>
           <div class="card" onclick="location.href='projects/next-train.html'">
-            <div class="card-thumb"><i class="ti ti-train"></i></div>
+            <div class="card-thumb"><img src="project_images/nexttrain.png" alt="Next Train"></div>
             <div class="card-info">
               <div class="card-title" id="card-title-3">Next Train</div>
               <div class="card-sub" id="card-sub-3">python · fastapi · gtfs-rt</div>

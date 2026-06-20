@@ -35,23 +35,17 @@ body{font-family:'Inter',sans-serif;background:#F5F3EE;min-height:100vh;display:
 .ext-link{display:inline-flex;align-items:center;gap:3px;font-size:11px;color:#7A7773;text-decoration:none;transition:color 0.12s;}
 .ext-link:hover{color:#1A1917;}
 .ext-link i{font-size:12px;}
-.hero{width:100%;height:360px;background:#EAE8E3;border:0.5px solid #D4D1CB;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
-.hero i{font-size:40px;color:#B0ADA6;}
-.hero-hint{font-size:11px;color:#B0ADA6;font-family:'IBM Plex Mono',monospace;}
+.hero{width:100%;background:#EAE8E3;border:0.5px solid #D4D1CB;border-radius:12px;overflow:hidden;}
+.hero img{width:100%;height:auto;display:block;}
 .prose{font-size:13px;color:#5C5A56;line-height:1.8;max-width:640px;}
 .feature-list{display:flex;flex-direction:column;gap:8px;}
 .feature-item{display:flex;gap:10px;align-items:flex-start;}
 .feature-dot{width:4px;height:4px;border-radius:50%;background:#9E9B95;flex-shrink:0;margin-top:7px;}
 .feature-text{font-size:13px;color:#5C5A56;line-height:1.6;}
-.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
-.gallery-item{aspect-ratio:4/3;background:#EAE8E3;border:0.5px solid #D4D1CB;border-radius:8px;display:flex;align-items:center;justify-content:center;}
-.gallery-item i{font-size:24px;color:#B0ADA6;}
 .tag-group{display:flex;flex-wrap:wrap;gap:6px;}
 @media(max-width:768px){
   .center-wrap{padding:80px 24px 40px;}
   .detail-title{font-size:22px;}
-  .hero{height:220px;}
-  .gallery{grid-template-columns:repeat(2,1fr);}
 }
 body.dark{background:#1C1B19;}
 body.dark .site-name{color:#5C5A56;}
@@ -66,14 +60,10 @@ body.dark .status-badge{background:#1E1D1B;border-color:#2E2D2A;color:#7A7773;}
 body.dark .meta-sep{background:#2E2D2A;}
 body.dark .ext-link{color:#5C5A56;}
 body.dark .ext-link:hover{color:#E8E6E1;}
-body.dark .hero{background:#0E0D0C;border-color:#2E2D2A;}
-body.dark .hero i{color:#3A3835;}
-body.dark .hero-hint{color:#3A3835;}
+body.dark .hero{border-color:#2E2D2A;}
 body.dark .prose{color:#7A7773;}
 body.dark .feature-dot{background:#3A3835;}
 body.dark .feature-text{color:#7A7773;}
-body.dark .gallery-item{background:#0E0D0C;border-color:#2E2D2A;}
-body.dark .gallery-item i{color:#3A3835;}
 body.dark .info-chip{color:#5C5A56;}
 body.dark .info-chip i{color:#3A3835;}
 </style>
@@ -106,8 +96,7 @@ body.dark .info-chip i{color:#3A3835;}
       <div class="divider"></div>
 
       <div class="hero">
-        <i class="ti ti-terminal"></i>
-        <span class="hero-hint" id="hero-hint">screenshot / preview</span>
+        <img src="../project_images/jobexpress.png" alt="Job Stream Express screenshot">
       </div>
 
       <div>
@@ -131,12 +120,6 @@ body.dark .info-chip i{color:#3A3835;}
 
       <div class="divider" id="takeaways-divider"></div>
 
-      <div id="gallery-section">
-        <div class="section-label" id="lbl-gallery">◤ gallery</div>
-        <div class="gallery" id="gallery"></div>
-      </div>
-
-      <div class="divider" id="gallery-divider"></div>
 
       <div>
         <div class="section-label" id="lbl-stack">◤ stack &amp; tools</div>
@@ -177,7 +160,6 @@ var ITEM={
     'System Optimisation — improved processing efficiency by reducing unnecessary local LLM calls.',
     'Agent-assisted development — used Claude Code to modularise and rewrite the entire system from scratch.'
   ],
-  gallery:3,
   stack:['python','playwright','ollama','gemma4','cli','vs code','claude code'],
   ja:{
     back:'プロジェクト一覧へ',
@@ -238,7 +220,6 @@ function render(jp){
     }
   }
 
-  document.getElementById('hero-hint').textContent=jp?'スクリーンショット / プレビュー':'screenshot / preview';
 
   document.getElementById('lbl-overview').textContent=jp?'◤ 概要':'◤ overview';
   document.getElementById('overview-text').textContent=(jp&&ITEM.ja&&ITEM.ja.overview)?ITEM.ja.overview:ITEM.overview;
@@ -258,20 +239,6 @@ function render(jp){
   tas.forEach(function(t){
     tl.innerHTML+='<div class="feature-item"><span class="feature-dot"></span><span class="feature-text">'+t+'</span></div>';
   });
-
-  document.getElementById('lbl-gallery').textContent=jp?'◤ ギャラリー':'◤ gallery';
-  var galSection=document.getElementById('gallery-section');
-  var galDivider=document.getElementById('gallery-divider');
-  var count=ITEM.gallery||0;
-  if(count>0){
-    var g=document.getElementById('gallery');g.innerHTML='';
-    for(var i=0;i<count;i++){
-      g.innerHTML+='<div class="gallery-item"><i class="ti ti-terminal"></i></div>';
-    }
-    galSection.style.display='';galDivider.style.display='';
-  } else {
-    galSection.style.display='none';galDivider.style.display='none';
-  }
 
   document.getElementById('lbl-stack').textContent=jp?'◤ 技術スタック':'◤ stack & tools';
   var st=document.getElementById('stack-tags');st.innerHTML='';
