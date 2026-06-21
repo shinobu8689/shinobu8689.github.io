@@ -36,15 +36,38 @@ body{font-family:'Inter',sans-serif;background:#F5F3EE;min-height:100vh;display:
 .card-desc{font-size:12px;color:#7A7773;line-height:1.6;margin-top:5px;flex:1;}
 .card-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px;}
 .card-tag{font-size:10px;font-family:'IBM Plex Mono',monospace;color:#7A7773;background:#EAE8E3;border:0.5px solid #D4D1CB;border-radius:4px;padding:2px 7px;}
-.card-footer{display:flex;justify-content:flex-end;align-items:center;margin-top:10px;padding-top:10px;border-top:0.5px solid #EAE8E3;}
-.card-link{display:inline-flex;align-items:center;gap:3px;font-size:11px;color:#7A7773;text-decoration:none;transition:color 0.12s;}
-.card-link:hover{color:#1A1917;}
-.card-link i{font-size:12px;}
+
+/* ── lightbox ── */
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:1000;align-items:center;justify-content:center;padding:24px;}
+.lightbox.open{display:flex;}
+.lb-box{background:#FFFEFB;border-radius:16px;max-width:760px;width:100%;max-height:calc(100vh - 48px);display:flex;flex-direction:column;overflow:hidden;}
+.lb-topbar{display:flex;justify-content:flex-end;padding:10px 10px 0;flex-shrink:0;}
+.lb-close{width:30px;height:30px;border:none;background:transparent;cursor:pointer;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#7A7773;transition:background 0.12s,color 0.12s;}
+.lb-close:hover{background:#EAE8E3;color:#1A1917;}
+.lb-close i{font-size:16px;}
+.lb-body{overflow-y:auto;flex:1;display:flex;flex-direction:column;}
+.lb-img-area{position:relative;background:#EAE8E3;flex-shrink:0;}
+.lb-img-area img{width:100%;display:block;image-rendering:pixelated;max-height:60vh;object-fit:contain;}
+.lb-arrow{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border:none;background:rgba(255,254,251,0.9);backdrop-filter:blur(4px);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#1A1917;transition:background 0.12s,opacity 0.15s;box-shadow:0 1px 6px rgba(0,0,0,0.15);}
+.lb-arrow:hover{background:#fff;}
+.lb-arrow.hidden{opacity:0;pointer-events:none;}
+.lb-prev{left:10px;}
+.lb-next{right:10px;}
+.lb-arrow i{font-size:16px;}
+.lb-info{padding:18px 22px 22px;display:flex;flex-direction:column;gap:8px;}
+.lb-title{font-size:17px;font-weight:500;color:#1A1917;}
+.lb-desc{font-size:13px;color:#7A7773;line-height:1.6;}
+.lb-counter{font-size:11px;font-family:'IBM Plex Mono',monospace;color:#9E9B95;}
+.lb-tags{display:flex;flex-wrap:wrap;gap:4px;}
+.lb-tag{font-size:10px;font-family:'IBM Plex Mono',monospace;color:#7A7773;background:#EAE8E3;border:0.5px solid #D4D1CB;border-radius:4px;padding:2px 7px;}
+.lb-about{font-size:12px;color:#5C5A56;line-height:1.8;padding-top:10px;border-top:0.5px solid #EAE8E3;}
 
 @media (max-width: 768px) {
   .center-wrap{padding:80px 24px 40px;}
   .art-grid{grid-template-columns:1fr;}
   .page-heading{font-size:22px;}
+  .lightbox{padding:12px;}
+  .lb-img-area img{max-height:50vh;}
 }
 @media (max-width: 1024px) and (min-width: 769px) {
   .art-grid{grid-template-columns:repeat(2,1fr);}
@@ -64,9 +87,17 @@ body.dark .card-thumb img{opacity:0.9;}
 body.dark .card-title{color:#E8E6E1;}
 body.dark .card-desc{color:#5C5A56;}
 body.dark .card-tag{background:#1E1D1B;border-color:#2E2D2A;color:#7A7773;}
-body.dark .card-footer{border-top-color:#2E2D2A;}
-body.dark .card-link{color:#5C5A56;}
-body.dark .card-link:hover{color:#E8E6E1;}
+body.dark .lb-box{background:#141412;}
+body.dark .lb-close{color:#5C5A56;}
+body.dark .lb-close:hover{background:#1E1D1B;color:#E8E6E1;}
+body.dark .lb-img-area{background:#0E0D0C;}
+body.dark .lb-arrow{background:rgba(30,29,27,0.92);color:#E8E6E1;}
+body.dark .lb-arrow:hover{background:#2E2D2A;}
+body.dark .lb-title{color:#E8E6E1;}
+body.dark .lb-desc{color:#5C5A56;}
+body.dark .lb-counter{color:#5C5A56;}
+body.dark .lb-tag{background:#1E1D1B;border-color:#2E2D2A;color:#7A7773;}
+body.dark .lb-about{color:#7A7773;border-top-color:#2E2D2A;}
 </style>
 </head>
 <body data-page="art">
@@ -95,109 +126,211 @@ body.dark .card-link:hover{color:#E8E6E1;}
   </div>
 </div>
 
+<!-- ── Lightbox ── -->
+<div id="lightbox" class="lightbox" onclick="lbOverlayClick(event)">
+  <div class="lb-box" onclick="event.stopPropagation()">
+    <div class="lb-topbar">
+      <button class="lb-close" onclick="closeLightbox()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="lb-body">
+      <div class="lb-img-area">
+        <img id="lb-img" src="" alt="">
+        <button class="lb-arrow lb-prev hidden" id="lb-prev" onclick="lbNavigate(-1)"><i class="ti ti-chevron-left"></i></button>
+        <button class="lb-arrow lb-next hidden" id="lb-next" onclick="lbNavigate(1)"><i class="ti ti-chevron-right"></i></button>
+      </div>
+      <div class="lb-info">
+        <div class="lb-title" id="lb-title"></div>
+        <div class="lb-desc" id="lb-desc"></div>
+        <div class="lb-counter" id="lb-counter"></div>
+        <div class="lb-tags" id="lb-tags"></div>
+        <div class="lb-about" id="lb-about"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="sidebar.js"></script>
 <script>
 // ─────────────────────────────────────────────
 // Add or edit art pieces here.
-// Fields: icon (tabler icon name), title, desc, tags[], link (url or null)
+// images: array of image paths (required, at least one)
+// about / about_ja: longer description shown in the lightbox
 // ─────────────────────────────────────────────
-var ART=[
+var ART = [
   {
-    img:'arts_images/tokyo.png',
-    title:'Tokyo',
-    title_ja:'東京',
-    desc:'A pixel art cityscape of Tokyo — great night views.',
-    desc_ja:'東京の静かな夜の夜景をドット絵で描いた作品。',
-    tags:['pixel art','cityscape'],
-    href:'arts/tokyo.html'
+    images: ['arts_images/tokyo.png'],
+    title: 'Tokyo',
+    title_ja: '東京',
+    desc: 'A pixel art cityscape of Tokyo — great night views.',
+    desc_ja: '東京の静かな夜の夜景をドット絵で描いた作品。',
+    about: 'A pixel art recreation of Tokyo\'s streets — drawn from the feeling of wandering the city at night, where neon signs reflect off wet pavement and convenience stores glow against the dark. The piece tries to capture that familiar contrast between the city\'s relentless energy and its quieter, almost still pockets.',
+    about_ja: '東京の夜の街並みをドット絵で表現した作品。雨に濡れた路面に映るネオンサインや、深夜に光るコンビニなど、この街独特の静けさとエネルギーの対比を表現した。',
+    tags: ['pixel art', 'cityscape']
   },
   {
-    img:'arts_images/osaka.png',
-    title:'Osaka',
-    title_ja:'大阪',
-    desc:'A pixel art piece of Osaka Castle — the tenshu rising above stone walls and moat.',
-    desc_ja:'大阪城の天守がそびえる情景をドット絵で描いた作品。',
-    tags:['pixel art','cityscape'],
-    href:'arts/osaka.html'
+    images: ['arts_images/osaka.png'],
+    title: 'Osaka',
+    title_ja: '大阪',
+    desc: 'A pixel art piece of Osaka Castle — the tenshu rising above stone walls and moat.',
+    desc_ja: '大阪城の天守がそびえる情景をドット絵で描いた作品。',
+    about: 'Osaka Castle in pixel art — the tenshu rising above the surrounding grounds, stone walls and moat holding the weight of the structure. The castle sits at the centre of one of the most historically layered sites in Japan, and this piece tries to capture that sense of something solid and permanent standing quietly amid a city that never stops moving.',
+    about_ja: 'ドット絵で描いた大阪の街並み。東京とは違う、騒がしくて温かみのある大阪の雰囲気を表現した。あの独特のエネルギーを意識して描いた。',
+    tags: ['pixel art', 'cityscape']
   },
   {
-    img:'arts_images/surface.png',
-    title:'Surface Duo 2',
-    title_ja:'Surface Duo 2',
-    desc:'Pixel art study of the Microsoft Surface Duo 2 — a dual-screen foldable device.',
-    desc_ja:'Microsoft Surface Duo 2のデュアルスクリーン折りたたみデザインをドット絵で描いた作品。',
-    tags:['pixel art','tech'],
-    href:'arts/surface-duo-2.html'
+    images: ['arts_images/surface.png'],
+    title: 'Surface Duo 2',
+    title_ja: 'Surface Duo 2',
+    desc: 'Pixel art study of the Microsoft Surface Duo 2 — a dual-screen foldable device.',
+    desc_ja: 'Microsoft Surface Duo 2のデュアルスクリーン折りたたみデザインをドット絵で描いた作品。',
+    about: 'A pixel art study of the Microsoft Surface Duo 2. The device\'s dual-screen form factor with its folding hinge makes it visually distinct from almost everything else in the Android space — and that uniqueness is what drew me to draw it. The goal was to capture the hardware\'s clean geometry and the distinctive gap between the two screens as faithfully as possible in pixel form.',
+    about_ja: 'Microsoft Surface Duo 2をドット絵で描いた作品。二画面折りたたみという独特のフォームファクターが印象的で、Androidデバイスの中でもひときわ異彩を放つデザインに惹かれて描いた。二つの画面をつなぐヒンジ部分の隙間やデバイス全体のクリーンな輪郭をドット絵で忠実に再現することを意識した。',
+    tags: ['pixel art', 'tech']
   },
   {
-    img:'arts_images/marukuDX.png',
-    title:'Marx',
-    title_ja:'マルク',
-    desc:'Fan pixel art of Marx from Kirby Super Star.',
-    desc_ja:'星のカービィ スーパーデラックスの「マルク」のファンアート。',
-    tags:['pixel art','fan art','kirby'],
-    href:'arts/marx.html'
+    images: ['arts_images/marukuDX.png'],
+    title: 'Marx',
+    title_ja: 'マルク',
+    desc: 'Fan pixel art of Marx from Kirby Super Star.',
+    desc_ja: '星のカービィ スーパーデラックスの「マルク」のファンアート。',
+    about: 'Fan art of Marx from Kirby Super Star. Beneath his jester-like appearance as Kirby\'s companion lies a betrayer — Marx tricks Kirby before revealing his true goal of seizing the power of Nova. Small and comical on the surface, but a memorable character with a genuinely dark side.',
+    about_ja: '星のカービィ スーパーデラックスに登場するマルクのファンアート。道化師のような見た目でカービィに寄り添いながら、最後にはノヴァの力を奪おうとする裏切りのキャラクターがマルクの真の姿。小さくてコミカルながら、ダークな一面を持つ印象的として記憶に残るキャラクター。',
+    tags: ['pixel art', 'fan art', 'kirby']
   },
   {
-    img:'arts_images/mahoroa.png',
-    title:'Magolor Soul',
-    title_ja:'マホロア・ソウル',
-    desc:'Fan pixel art of Magolor Soul — true final boss of Kirby\'s Return to Dream Land.',
-    desc_ja:'星のカービィ Wiiの真のラスボス「マホロア・ソウル」のドット絵ファンアート。',
-    tags:['pixel art','fan art','kirby'],
-    href:'arts/magolor-soul.html'
+    images: ['arts_images/mahoroa.png'],
+    title: 'Magolor Soul',
+    title_ja: 'マホロア・ソウル',
+    desc: 'Fan pixel art of Magolor Soul — true final boss of Kirby\'s Return to Dream Land.',
+    desc_ja: '星のカービィ Wiiの真のラスボス「マホロア・ソウル」のドット絵ファンアート。',
+    about: 'Fan art of Magolor Soul from Kirby\'s Return to Dream Land — the corrupted true final form that emerges after Magolor is consumed by the Master Crown\'s power. What remains isn\'t quite Magolor anymore: a hollow, floating mask surrounded by cosmic energy and fractured geometry. It\'s one of the most visually striking designs in the Kirby series, and the contrast between the cute-game aesthetic and the unsettling emptiness of the Soul form is what made it worth drawing.',
+    about_ja: '星のカービィ Wiiに登場するマホロア・ソウルのファンアート。マスタークラウンの力に飲み込まれたマホロアの、もはや本人とは言えない最終形態。宇宙的なエネルギーに囲まれた虚ろな仮面だけが残る姿は、カービィシリーズの中でも特に印象的なデザインのひとつ。かわいらしいゲームの世界観と、ソウル形態が持つ不気味な空虚さのコントラストがこの作品を描くきっかけになった。',
+    tags: ['pixel art', 'fan art', 'kirby']
   },
   {
-    img:'arts_images/icons.png',
-    title:'UX Icon Set',
-    title_ja:'UXアイコンセット',
-    desc:'A cohesive set of pixel art icons designed for digital UI contexts.',
-    desc_ja:'デジタルUIでの使用を想定して制作したドット絵アイコンセット。',
-    tags:['pixel art','ui','icons'],
-    href:'arts/ux-icons.html'
+    images: ['arts_images/icons.png'],
+    title: 'UX Icon Set',
+    title_ja: 'UXアイコンセット',
+    desc: 'A cohesive set of pixel art icons designed for digital UI contexts.',
+    desc_ja: 'デジタルUIでの使用を想定して制作したドット絵アイコンセット。',
+    about: 'A set of pixel art icons made for digital UI and UX use. The main design challenge with pixel art icons is legibility at small sizes — shapes need to read clearly at a glance without relying on fine detail. Each icon was iterated on until it felt immediately recognisable, while keeping a consistent visual weight and style across the whole set.',
+    about_ja: 'UIやUX用途を意識して制作したドット絵アイコンセット。ドット絵アイコンのデザインにおいて難しいのは、小さいサイズでの視認性の確保で、細かいディテールに頼らずにひと目でわかる形に仕上げる必要がある。セット全体で統一したビジュアルウェイトとスタイルを維持しながら、各アイコンが直感的に読み取れるまで繰り返し調整した。',
+    tags: ['pixel art', 'ui', 'icons']
   },
   {
-    img:'arts_images/fig.png',
-    title:'Mini-Fig & Game Mock-up',
-    title_ja:'ミニフィグ & ゲームモックアップ',
-    desc:'A mini-figure character design paired with pixel art game screen mock-ups.',
-    desc_ja:'ミニフィグキャラクターのデザインとゲーム画面のドット絵モックアップをセットにした作品。',
-    tags:['pixel art','game design','character'],
-    href:'arts/mini-fig.html'
+    images: ['arts_images/fig_game2.png', 'arts_images/fig.png', 'arts_images/fig_game1.png'],
+    title: 'Mini-Fig & Game Mock-up',
+    title_ja: 'ミニフィグ & ゲームモックアップ',
+    desc: 'A mini-figure character design paired with pixel art game screen mock-ups.',
+    desc_ja: 'ミニフィグキャラクターのデザインとゲーム画面のドット絵モックアップをセットにした作品。',
+    about: 'A set of related pixel art pieces — a mini-figure character design alongside game screen mock-ups exploring how that character might exist in a playable context. The figure itself came first, then the mock-ups grew out of thinking about what kind of game world it would inhabit: what the UI would look like, how the environment would frame the character, what the overall feel of a game built around it might be.',
+    about_ja: 'ミニフィグキャラクターのデザインと、そのキャラクターがどんなゲーム世界に存在するかを探るゲーム画面モックアップをセットにした作品。まずキャラクター自体を描き、そこからUIのレイアウトや、ゲームとしての全体的な雰囲気へとアイデアを広げていった。',
+    tags: ['pixel art', 'game design', 'character']
   }
 ];
 
-var _jp=document.body.dataset.jp==='1';
+var _jp = document.body.dataset.jp === '1';
+var lbPiece = null;
+var lbIdx = 0;
 
-function buildCard(p){
-  var thumb=p.img
-    ?'<div class="card-thumb"><img src="'+p.img+'" alt="'+p.title+'"></div>'
-    :'<div class="card-thumb"><i class="ti ti-grid-dots"></i></div>';
-  var title=(_jp&&p.title_ja)?p.title_ja:p.title;
-  var desc=(_jp&&p.desc_ja)?p.desc_ja:p.desc;
-  return '<a class="card" href="'+(p.href||'#')+'">'
-    +thumb
-    +'<div class="card-body">'
-    +'<div class="card-title">'+title+'</div>'
-    +'<div class="card-desc">'+desc+'</div>'
-    +'<div class="card-tags">'+p.tags.map(function(t){return '<span class="card-tag">'+t+'</span>';}).join('')+'</div>'
-    +'</div>'
-    +'</a>';
+function buildCard(p, idx) {
+  var thumb = p.images && p.images.length
+    ? '<div class="card-thumb"><img src="' + p.images[0] + '" alt="' + p.title + '"></div>'
+    : '<div class="card-thumb"><i class="ti ti-grid-dots"></i></div>';
+  var title = (_jp && p.title_ja) ? p.title_ja : p.title;
+  var desc = (_jp && p.desc_ja) ? p.desc_ja : p.desc;
+  return '<div class="card" role="button" tabindex="0"'
+    + ' onclick="openLightbox(' + idx + ')"'
+    + ' onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();openLightbox(' + idx + ')}">'
+    + thumb
+    + '<div class="card-body">'
+    + '<div class="card-title">' + title + '</div>'
+    + '<div class="card-desc">' + desc + '</div>'
+    + '<div class="card-tags">' + p.tags.map(function(t){return '<span class="card-tag">'+t+'</span>';}).join('') + '</div>'
+    + '</div>'
+    + '</div>';
 }
 
-function renderGrid(){
-  document.getElementById('art-grid').innerHTML=ART.map(buildCard).join('');
+function renderGrid() {
+  document.getElementById('art-grid').innerHTML = ART.map(buildCard).join('');
 }
+
+// ── lightbox ──
+
+function openLightbox(idx) {
+  lbPiece = ART[idx];
+  lbIdx = 0;
+  updateLightbox();
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function lbOverlayClick(e) {
+  if (e.target === document.getElementById('lightbox')) closeLightbox();
+}
+
+function lbNavigate(dir) {
+  lbIdx = Math.max(0, Math.min(lbPiece.images.length - 1, lbIdx + dir));
+  updateLightbox();
+}
+
+function updateLightbox() {
+  var jp = _jp;
+  var title = (jp && lbPiece.title_ja) ? lbPiece.title_ja : lbPiece.title;
+  var desc  = (jp && lbPiece.desc_ja)  ? lbPiece.desc_ja  : lbPiece.desc;
+  var about = (jp && lbPiece.about_ja) ? lbPiece.about_ja : lbPiece.about;
+
+  document.getElementById('lb-img').src = lbPiece.images[lbIdx];
+  document.getElementById('lb-img').alt = title;
+  document.getElementById('lb-title').textContent = title;
+  document.getElementById('lb-desc').textContent = desc;
+
+  var tagsEl = document.getElementById('lb-tags');
+  tagsEl.innerHTML = lbPiece.tags.map(function(t){return '<span class="lb-tag">'+t+'</span>';}).join('');
+
+  var aboutEl = document.getElementById('lb-about');
+  if (about) {
+    aboutEl.textContent = about;
+    aboutEl.style.display = '';
+  } else {
+    aboutEl.style.display = 'none';
+  }
+
+  var total = lbPiece.images.length;
+  var counterEl = document.getElementById('lb-counter');
+  counterEl.textContent = total > 1 ? (lbIdx + 1) + ' / ' + total : '';
+  counterEl.style.display = total > 1 ? '' : 'none';
+
+  document.getElementById('lb-prev').classList.toggle('hidden', lbIdx === 0 || total <= 1);
+  document.getElementById('lb-next').classList.toggle('hidden', lbIdx === total - 1 || total <= 1);
+
+  // scroll image area back to top when navigating
+  var body = document.querySelector('.lb-body');
+  if (body) body.scrollTop = 0;
+}
+
+document.addEventListener('keydown', function(e) {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft')  lbNavigate(-1);
+  if (e.key === 'ArrowRight') lbNavigate(1);
+});
 
 renderGrid();
 
-window.onToggleLangContent=function(jp){
-  _jp=jp;
-  document.getElementById('back-label').textContent=jp?'ホームへ':'back to home';
-  document.getElementById('page-heading').childNodes[0].textContent=jp?'イラスト・ドット絵\n':'art & pixel art\n';
-  document.getElementById('page-sub').textContent=jp?'描いたもの。':'things i\'ve drawn.';
-  document.getElementById('grid-label').textContent=jp?'◤ 作品':'◤ pieces';
+window.onToggleLangContent = function(jp) {
+  _jp = jp;
+  document.getElementById('back-label').textContent = jp ? 'ホームへ' : 'back to home';
+  document.getElementById('page-heading').childNodes[0].textContent = jp ? 'イラスト・ドット絵\n' : 'art & pixel art\n';
+  document.getElementById('page-sub').textContent = jp ? '描いたもの。' : 'things i\'ve drawn.';
+  document.getElementById('grid-label').textContent = jp ? '◤ 作品' : '◤ pieces';
   renderGrid();
+  if (lbPiece) updateLightbox();
 };
 </script>
 </body>
