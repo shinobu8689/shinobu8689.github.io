@@ -77,12 +77,12 @@ body.dark .dd-item:hover{background:#1E1D1B;color:#E8E6E1;}
 body.dark .more-btn{color:#5C5A56;}
 body.dark .more-btn:hover{color:#E8E6E1;border-color:#5C5A56;}
 
-.lang-hint{position:fixed;bottom:24px;left:56px;z-index:90;display:flex;align-items:center;gap:10px;padding:10px 14px;background:#FFFEFB;border:0.5px solid #C8C5BE;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);cursor:pointer;font-size:12px;color:#5C5A56;opacity:0;transform:translateY(10px);transition:opacity 0.25s,transform 0.25s,border-color 0.12s,background 0.12s,color 0.12s;pointer-events:none;max-width:240px;}
+.lang-hint{position:fixed;bottom:24px;left:56px;z-index:90;display:flex;align-items:center;gap:14px;padding:16px 20px;background:#FFFEFB;border:0.5px solid #C8C5BE;border-radius:16px;box-shadow:0 4px 16px rgba(0,0,0,0.10);cursor:pointer;font-size:14px;color:#5C5A56;opacity:0;transform:translateY(10px);transition:opacity 0.25s,transform 0.25s,border-color 0.12s,background 0.12s,color 0.12s;pointer-events:none;max-width:300px;}
 .lang-hint.visible{opacity:1;transform:translateY(0);pointer-events:auto;}
 .lang-hint:hover{border-color:#B0ADA6;background:#EAE8E3;color:#1A1917;}
 .lang-hint:hover .lang-hint-icon{color:#7A7773;}
-.lang-hint-icon{font-size:15px;color:#9E9B95;flex-shrink:0;transition:color 0.12s;}
-.lang-hint-close{font-size:14px;color:#C8C5BE;flex-shrink:0;margin-left:2px;line-height:1;transition:color 0.12s;}
+.lang-hint-icon{font-size:20px;color:#9E9B95;flex-shrink:0;transition:color 0.12s;}
+.lang-hint-close{font-size:17px;color:#C8C5BE;flex-shrink:0;margin-left:4px;line-height:1;transition:color 0.12s;}
 .lang-hint-close:hover{color:#7A7773;}
 @media(max-width:768px){.lang-hint{left:16px;bottom:20px;}}
 body.dark .lang-hint{background:#141412;border-color:#2E2D2A;color:#7A7773;}
@@ -174,7 +174,7 @@ body.dark .lang-hint-close:hover{color:#9E9B95;}
 
 <div id="lang-hint" class="lang-hint">
   <i class="ti ti-language lang-hint-icon"></i>
-  <span>click here for japanese<br><span style="color:#9E9B95;font-size:11px;">日本語に切り替える</span></span>
+  <span>click here for japanese<br><span style="color:#9E9B95;font-size:13px;">日本語に切り替える</span></span>
   <span class="lang-hint-close" id="lang-hint-close">×</span>
 </div>
 

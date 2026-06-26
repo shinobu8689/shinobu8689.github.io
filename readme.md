@@ -1,3 +1,1 @@
-homesite about me
-
-WIP
+portfokio site

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+JP:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root{
+    --bg-card:#F6F3EC;
+    --ink:#1C1B18;
+    --ink-soft:#6B655C;
+    --accent:#2F4F46;
+    --accent-soft:#9FB8AE;
+    --hairline:#D8D3C6;
+    --pad-x: clamp(24px, 9cqw, 60px);
+    --pad-y: clamp(24px, 7.5cqh, 60px);
+  }
+  *{ box-sizing:border-box; }
+  html, body{
+    margin:0;
+    height:100%;
+    width:100%;
+    overflow:hidden;
+    background:var(--bg-card);
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--ink);
+  }
+
+  /* The card container IS the page — fills the full viewport, no canvas around it. */
+  .card-container{
+    container-type: size;
+    container-name: bcard;
+    width:100vw;
+    height:100vh;
+  }
+
+  .card-flip{
+    position:relative;
+    width:100%;
+    height:100%;
+    cursor:pointer;
+  }
+  .card-flip-inner{
+    position:relative;
+    width:100%;
+    height:100%;
+  }
+
+  .card-face{
+    position:absolute;
+    inset:0;
+    background:var(--bg-card);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    overflow:hidden;
+    padding-top: var(--pad-y);
+    padding-right: var(--pad-x);
+    padding-left: var(--pad-x);
+    padding-bottom: calc(var(--pad-y) + env(safe-area-inset-bottom, 0px) + clamp(14px, 2.2cqh, 32px));
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+  .card-face::after{
+    /* optional safe-margin guide, subtle on a full-bleed screen */
+    content:"";
+    position:absolute;
+    inset: clamp(15px, 3.6cqh, 33px) clamp(15px, 3.6cqw, 33px);
+    border:0.5px solid var(--hairline);
+    pointer-events:none;
+  }
+
+  .card-front{ opacity:1; transform:scale(1); z-index:2; pointer-events:auto; }
+  .card-back{ opacity:0; transform:scale(0.97); z-index:1; pointer-events:none; }
+  .card-flip.flipped .card-front{ opacity:0; transform:scale(0.97); z-index:1; pointer-events:none; }
+  .card-flip.flipped .card-back{ opacity:1; transform:scale(1); z-index:2; pointer-events:auto; }
+
+  .face-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap: clamp(9px, 3cqw, 21px);
+  }
+  .eyebrow{
+    font-size: clamp(13.5px, calc(1.05cqw + 0.9cqh), 21px);
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+
+  .pixel-mark{
+    display:grid;
+    grid-template-columns:repeat(7, clamp(4.5px, calc(0.825cqw + 0.825cqh), 10.5px));
+    grid-template-rows:repeat(7, clamp(4.5px, calc(0.825cqw + 0.825cqh), 10.5px));
+    gap: clamp(1.5px, 0.375cqw, 3px);
+    flex-shrink:0;
+  }
+  .pixel-mark span{ display:block; background:transparent; }
+  .pixel-mark span.on{ background:var(--accent); }
+
+  .face-middle{
+    position:absolute;
+    top:30%;
+    left: var(--pad-x);
+    right: var(--pad-x);
+    display:flex;
+    flex-direction:column;
+    gap: clamp(4.5px, 2.1cqh, 21px);
+  }
+  .furigana{
+    font-size: clamp(12px, calc(0.9cqw + 0.75cqh), 19.5px);
+    color:var(--ink-soft);
+    letter-spacing:0.05em;
+  }
+  .name-en{
+    font-family:'Source Serif 4', serif;
+    font-weight:500;
+    font-size: clamp(36px, calc(3.9cqw + 3.3cqh), 84px);
+    line-height:1.08;
+    color:var(--ink);
+  }
+  .name-jp{
+    font-family:'Noto Serif JP', serif;
+    font-weight:500;
+    font-size: clamp(36px, calc(3.9cqw + 3.3cqh), 81px);
+    line-height:1.15;
+    color:var(--ink);
+  }
+  .role-group{
+    display:flex;
+    flex-direction:column;
+    gap: clamp(1.5px, 0.6cqh, 6px);
+  }
+  .role-en{
+    font-size: clamp(16.5px, calc(1.5cqw + 1.275cqh), 27px);
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--accent);
+  }
+  .role-en-sub{
+    font-size: clamp(13.5px, calc(1.05cqw + 0.9cqh), 21px);
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--accent-soft);
+  }
+  .role-jp{
+    font-family:'Noto Serif JP', serif;
+    font-size: clamp(16.5px, calc(1.5cqw + 1.275cqh), 27.75px);
+    color:var(--accent);
+  }
+  .role-jp-sub{
+    font-family:'Noto Serif JP', serif;
+    font-size: clamp(14.25px, calc(1.05cqw + 0.9cqh), 21.75px);
+    color:var(--accent-soft);
+  }
+
+  .face-bottom{ display:flex; flex-direction:column; gap: clamp(9px, 2.1cqh, 21px); }
+  .divider{ width:100%; height:1px; background:var(--hairline); }
+  .bottom-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap: clamp(15px, 4.5cqw, 33px);
+  }
+  .contact-line{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    text-align:left;
+    font-size: clamp(15px, calc(1.275cqw + 1.05cqh), 24px);
+    color:var(--ink-soft);
+    gap: clamp(4.5px, 0.9cqh, 10.5px);
+  }
+  .contact-line .url{ color:var(--ink); }
+  .qr-code{
+    width: clamp(64px, calc(14.5cqw + 3.3cqh), 136px);
+    height: clamp(64px, calc(14.5cqw + 3.3cqh), 136px);
+    flex-shrink:0;
+    background:var(--bg-card);
+    padding: clamp(4.5px, 0.75cqw, 9px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .qr-code img, .qr-code canvas, .qr-code table{
+    width:100% !important;
+    height:100% !important;
+    display:block;
+  }
+  .flip-hint{
+    font-size: clamp(12px, calc(0.9cqw + 0.825cqh), 18px);
+    color:var(--ink-soft);
+    text-align:center;
+    letter-spacing:0.04em;
+  }
+</style>
+</head>
+<body>
+
+  <div class="card-container">
+    <div class="card-flip" id="cardFlip" tabindex="0" role="button" aria-label="Business card, tap to flip language">
+      <div class="card-flip-inner">
+
+        <div class="card-face card-front">
+          <div class="face-top">
+            <div class="eyebrow">Open to opportunities</div>
+            <div class="pixel-mark" id="mark-front"></div>
+          </div>
+          <div class="face-middle">
+            <div class="name-en">Cyrus Lo</div>
+            <div class="role-group">
+              <div class="role-en">Developer</div>
+              <div class="role-en-sub">Pixel Artist</div>
+            </div>
+          </div>
+          <div class="face-bottom">
+            <div class="divider"></div>
+            <div class="bottom-row">
+              <div class="contact-line">
+                <span class="url">shinobu8689.github.io</span>
+                <span>shinobu.digital@gmail.com</span>
+              </div>
+              <div class="qr-code" id="qr-front"></div>
+            </div>
+            <div class="flip-hint">タップで日本語 ⇄</div>
+          </div>
+        </div>
+
+        <div class="card-face card-back">
+          <div class="face-top">
+            <div class="eyebrow">一緒に働ける機会を探しています</div>
+            <div class="pixel-mark" id="mark-back"></div>
+          </div>
+          <div class="face-middle">
+            <div class="furigana">ろ　いんらむ</div>
+            <div class="name-jp">盧　彥霖</div>
+            <div class="role-group">
+              <div class="role-jp">ソフトウェア開発者</div>
+              <div class="role-jp-sub">ピクセルアーティスト</div>
+            </div>
+          </div>
+          <div class="face-bottom">
+            <div class="divider"></div>
+            <div class="bottom-row">
+              <div class="contact-line">
+                <span class="url">shinobu8689.github.io</span>
+                <span>shinobu.digital@gmail.com</span>
+              </div>
+              <div class="qr-code" id="qr-back"></div>
+            </div>
+            <div class="flip-hint">Tap for English ⇄</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+<script>
+  const pattern = [
+    "...#...",
+    "..###..",
+    ".##.##.",
+    "##...##",
+    ".##.##.",
+    "..###..",
+    "...#...",
+  ];
+  function buildMark(id){
+    const el = document.getElementById(id);
+    pattern.forEach(row => {
+      row.split('').forEach(ch => {
+        const cell = document.createElement('span');
+        if(ch === '#') cell.classList.add('on');
+        el.appendChild(cell);
+      });
+    });
+  }
+  buildMark('mark-front');
+  buildMark('mark-back');
+
+  function buildQR(id, text){
+    const el = document.getElementById(id);
+    if (typeof QRCode === 'undefined' || !el) {
+      if (el) el.textContent = 'QR';
+      return;
+    }
+    new QRCode(el, {
+      text: text,
+      width: 300,
+      height: 300,
+      colorDark: '#2F4F46',   /* accent — matches the card's forest tone */
+      colorLight: '#F6F3EC',  /* same off-white as the card background */
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  }
+  // QR points to the portfolio homepage, not this card page.
+  buildQR('qr-front', 'https://shinobu8689.github.io');
+  buildQR('qr-back', 'https://shinobu8689.github.io');
+
+  const flipEl = document.getElementById('cardFlip');
+  function toggleFlip(){ flipEl.classList.toggle('flipped'); }
+  flipEl.addEventListener('click', toggleFlip);
+  flipEl.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggleFlip(); }
+  });
+</script>
+
+</body>
+</html>
