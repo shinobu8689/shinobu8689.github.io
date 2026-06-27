@@ -173,7 +173,9 @@
     color:var(--ink-soft);
     gap: clamp(4.5px, 0.9cqh, 10.5px);
   }
-  .contact-line .url{ color:var(--ink); }
+  .contact-line .url{ color:var(--ink); text-decoration:none; }
+  .contact-line .url:hover{ text-decoration:underline; }
+  .contact-line .email{ cursor:text; user-select:text; }
   .qr-code{
     width: clamp(64px, calc(14.5cqw + 3.3cqh), 136px);
     height: clamp(64px, calc(14.5cqw + 3.3cqh), 136px);
@@ -220,8 +222,8 @@
             <div class="divider"></div>
             <div class="bottom-row">
               <div class="contact-line">
-                <span class="url">shinobu8689.github.io</span>
-                <span>shinobu.digital@gmail.com</span>
+                <a class="url" href="https://shinobu8689.github.io" target="_blank" rel="noopener noreferrer">shinobu8689.github.io</a>
+                <span class="email">shinobu.digital@gmail.com</span>
               </div>
               <div class="qr-code" id="qr-front"></div>
             </div>
@@ -246,8 +248,8 @@
             <div class="divider"></div>
             <div class="bottom-row">
               <div class="contact-line">
-                <span class="url">shinobu8689.github.io</span>
-                <span>shinobu.digital@gmail.com</span>
+                <a class="url" href="https://shinobu8689.github.io" target="_blank" rel="noopener noreferrer">shinobu8689.github.io</a>
+                <span class="email">shinobu.digital@gmail.com</span>
               </div>
               <div class="qr-code" id="qr-back"></div>
             </div>
@@ -300,6 +302,14 @@
   // QR points to the portfolio homepage, not this card page.
   buildQR('qr-front', 'https://shinobu8689.github.io');
   buildQR('qr-back', 'https://shinobu8689.github.io');
+
+  document.querySelectorAll('.url').forEach(el => {
+    el.addEventListener('click', e => e.stopPropagation());
+  });
+  document.querySelectorAll('.email').forEach(el => {
+    el.addEventListener('click', e => e.stopPropagation());
+    el.addEventListener('mousedown', e => e.stopPropagation());
+  });
 
   const flipEl = document.getElementById('cardFlip');
   function toggleFlip(){ flipEl.classList.toggle('flipped'); }
