@@ -7,243 +7,670 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="sidebar.css">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:#F5F3EE;min-height:100vh;display:flex;}
-
-.main{flex:1;display:flex;flex-direction:column;}
-.center-wrap{
-  flex:1;display:flex;flex-direction:column;justify-content:center;
-  gap:24px;max-width:860px;width:100%;margin:0 auto;padding:60px 40px;
+:root {
+  --bg: #EDEAE2;
+  --panel: #E4E1D7;
+  --ink: #151E1B;
+  --teal-deep: #0E332E;
+  --teal: #2C685D;
+  --sage: #8FA396;
+  --phosphor: #3FCB8E;
+  --phosphor-dim: #B7CFC2;
+  --line: #B7C0B6;
+  --amber: #C97F35;
+  --card-screen: #0E332E;
 }
 
-.site-name{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:400;color:#7A7773;letter-spacing:0.06em;}
-.greeting{font-size:26px;font-weight:500;color:#1A1917;line-height:1.35;}
-.greeting span{font-weight:400;color:#7A7773;}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-.nav-bar{display:flex;gap:2px;align-items:center;flex-wrap:wrap;}
-.nav-item{position:relative;display:flex;align-items:center;gap:4px;padding:6px 12px;border:0.5px solid transparent;border-radius:8px;cursor:pointer;font-size:12px;color:#5C5A56;transition:all 0.12s;user-select:none;}
-.nav-item:hover,.nav-item.active{border-color:#B0ADA6;background:#EBE9E4;color:#1A1917;}
-.nav-item i{font-size:14px;}
-.dropdown{display:none;position:absolute;top:calc(100% + 4px);left:0;background:#FFFEFB;border:0.5px solid #C8C5BE;border-radius:8px;padding:4px;min-width:130px;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
-.nav-item.active .dropdown{display:block;}
-.dd-item{padding:6px 10px;font-size:12px;color:#5C5A56;border-radius:6px;cursor:pointer;white-space:nowrap;}
-.dd-item:hover{background:#F0EEE9;color:#1A1917;}
+body {
+  font-family: 'IBM Plex Mono', monospace;
+  background: var(--bg);
+  min-height: 100vh;
+}
 
-.divider{width:100%;height:0.5px;background:#C8C5BE;}
+.main {
+  min-height: 100vh;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-attachment: fixed;
+  position: relative;
+}
 
-.cards-section{width:100%;display:flex;flex-direction:column;gap:14px;}
-.section-label{font-size:11px;color:#9E9B95;letter-spacing:0.08em;text-transform:uppercase;}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
-.card{background:#FFFEFB;border:0.5px solid #D4D1CB;border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color 0.15s,transform 0.15s;}
-.card:hover{border-color:#8A8780;transform:translateY(-2px);}
-.card-thumb{height:140px;display:flex;align-items:center;justify-content:center;background:#EAE8E3;overflow:hidden;}
-.card-thumb i{font-size:36px;color:#9E9B95;}
-.card-thumb img{width:100%;height:100%;object-fit:cover;object-position:center;}
-.card-info{padding:12px 14px;}
-.card-title{font-size:13px;font-weight:500;color:#1A1917;margin-bottom:4px;}
-.card-sub{font-size:11px;color:#9E9B95;}
+.grid-fade {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, transparent 0%, var(--bg) 72%);
+  pointer-events: none;
+  z-index: 0;
+}
 
-.more-row{display:flex;justify-content:flex-end;}
-.more-btn{font-size:12px;color:#7A7773;cursor:pointer;display:flex;align-items:center;gap:4px;border-bottom:0.5px solid transparent;transition:border-color 0.12s,color 0.12s;}
-.more-btn:hover{color:#1A1917;border-color:#7A7773;}
+.frame {
+  position: relative;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 32px 80px;
+  z-index: 1;
+}
 
+/* ---- topbar ---- */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--ink);
+}
+.site-mark {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--teal-deep);
+}
+.topbar-controls { display: flex; align-items: center; gap: 8px; }
+.topbar-btn {
+  background: transparent;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  padding: 5px 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.15s, color 0.15s;
+  line-height: 1;
+}
+.topbar-btn:hover { background: var(--ink); color: var(--bg); }
+.icon-sun { display: none; }
+.icon-moon { display: inline; }
+body.dark .icon-sun { display: inline; }
+body.dark .icon-moon { display: none; }
+
+/* ---- file header ---- */
+.file-header {
+  margin-top: 40px;
+  border: 1px solid var(--ink);
+  background: var(--panel);
+  position: relative;
+}
+.file-header::before {
+  content: "";
+  position: absolute; top: 8px; left: 8px; right: 8px; bottom: 8px;
+  border: 1px dashed var(--sage);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero { padding: 40px 32px 44px; position: relative; z-index: 1; }
+.eyebrow {
+  font-size: 10.5px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--sage);
+  margin-bottom: 16px;
+}
+h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(38px, 6vw, 62px);
+  letter-spacing: -0.01em;
+  color: var(--teal-deep);
+  line-height: 1.02;
+}
+h1 .cursor {
+  display: inline-block;
+  width: 0.45ch;
+  background: var(--phosphor);
+  animation: blink 1s steps(1) infinite;
+  margin-left: 3px;
+  vertical-align: text-bottom;
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+.role-line {
+  margin-top: 18px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(16px, 2.2vw, 21px);
+  color: var(--ink);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: baseline;
+}
+.role-line .sep { color: var(--sage); }
+.role-line .loc { color: var(--teal); }
+
+.hero-divider {
+  margin-top: 28px;
+  height: 1px;
+  background: repeating-linear-gradient(90deg, var(--ink) 0 5px, transparent 5px 10px);
+  opacity: 0.4;
+}
+
+/* ---- inline nav ---- */
+.nav-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+.nav-item {
+  flex: 1;
+  text-align: center;
+  color: var(--teal-deep);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 14px 6px 12px;
+  border: 1px solid var(--ink);
+  border-bottom: 3px solid var(--phosphor);
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.nav-item .num {
+  display: block;
+  font-size: 9.5px;
+  font-weight: 400;
+  color: var(--phosphor);
+  margin-bottom: 5px;
+  letter-spacing: 0.1em;
+}
+.nav-item:hover, .nav-item.active {
+  background: var(--teal-deep);
+  color: var(--bg);
+  border-color: var(--teal-deep);
+  border-bottom-color: var(--phosphor);
+}
+.nav-item:hover .num, .nav-item.active .num { color: var(--phosphor); }
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 1px);
+  left: 0; right: 0;
+  background: var(--panel);
+  border: 1px solid var(--ink);
+  padding: 4px;
+  z-index: 20;
+}
+.nav-item.active .dropdown { display: block; }
+.dd-item {
+  padding: 7px 10px;
+  font-size: 10.5px;
+  color: var(--ink);
+  cursor: pointer;
+  text-transform: none;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  text-align: left;
+}
+.dd-item:hover { background: var(--teal-deep); color: var(--bg); }
+
+/* ---- section label ---- */
+.section-label {
+  margin: 52px 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 10.5px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--teal-deep);
+}
+.section-label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--ink);
+  opacity: 0.4;
+}
+.section-label .tri { color: var(--phosphor); }
+
+/* ---- cards ---- */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.card {
+  border: 1px solid var(--ink);
+  background: var(--card-screen);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.card:hover { transform: translateY(-3px); }
+.card:hover .scan { opacity: 1; }
+
+.card-head {
+  padding: 7px 11px;
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(183, 207, 194, 0.2);
+  color: var(--phosphor);
+}
+
+.card-thumb {
+  height: 148px;
+  position: relative;
+  overflow: hidden;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(63, 203, 142, 0.05) 0px,
+    rgba(63, 203, 142, 0.05) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+.card-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  opacity: 0.7;
+  filter: saturate(0.45) brightness(0.75);
+  transition: opacity 0.25s, filter 0.25s;
+  display: block;
+}
+.card:hover .card-thumb img {
+  opacity: 0.88;
+  filter: saturate(0.65) brightness(0.88);
+}
+.scan {
+  position: absolute; left: 0; right: 0; height: 40%;
+  background: linear-gradient(180deg, transparent, rgba(63, 203, 142, 0.15), transparent);
+  top: -40%;
+  opacity: 0;
+  animation: scan 2.8s linear infinite;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+.phosphor-glow {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(63, 203, 142, 0.1) 100%);
+  pointer-events: none;
+}
+@keyframes scan { to { top: 100%; } }
+
+.card-body {
+  padding: 14px 13px 16px;
+  background: var(--panel);
+  color: var(--ink);
+}
+.card-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+.card-sub {
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  color: var(--teal);
+  text-transform: uppercase;
+}
+
+.more-row {
+  margin-top: 22px;
+  text-align: right;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--teal-deep);
+  cursor: pointer;
+  border-bottom: 1px solid var(--teal-deep);
+  padding-bottom: 2px;
+  transition: color 0.12s, border-color 0.12s;
+}
+.more-btn:hover { color: var(--amber); border-color: var(--amber); }
+
+footer {
+  margin-top: 64px;
+  padding-top: 16px;
+  border-top: 1px solid var(--ink);
+  display: flex;
+  justify-content: space-between;
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  color: var(--sage);
+}
+
+/* ---- lang hint — anchored below the lang button ---- */
+.lang-btn-wrap { position: relative; }
+.lang-hint {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--panel);
+  border: 1px solid var(--ink);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  color: var(--teal-deep);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.22s, transform 0.22s, background 0.12s, color 0.12s;
+  pointer-events: none;
+  width: max-content;
+  cursor: pointer;
+}
+.lang-hint.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.lang-hint:hover { background: var(--teal-deep); color: var(--bg); }
+.lang-hint:hover .lang-hint-icon { color: var(--phosphor); }
+.lang-hint:hover .lang-hint-close { color: var(--phosphor-dim); }
+.lang-hint-icon { font-size: 18px; color: var(--teal); flex-shrink: 0; transition: color 0.12s; }
+.lang-hint-close { font-size: 16px; color: var(--sage); flex-shrink: 0; margin-left: 4px; line-height: 1; transition: color 0.12s; }
+
+/* ---- dark mode ---- */
+body.dark {
+  --bg: #0C1F1B;
+  --panel: #112920;
+  --ink: #B7C9C0;
+  --teal-deep: #3FCB8E;
+  --teal: #6BAFA0;
+  --sage: #3D6055;
+  --line: #1C3530;
+  --card-screen: #071310;
+}
+body.dark .file-header { background: var(--panel); border-color: #2A4A40; }
+body.dark .file-header::before { border-color: var(--sage); }
+body.dark h1 { color: var(--teal-deep); }
+body.dark .topbar { border-color: #2A4A40; }
+body.dark .card-body { background: var(--panel); }
+body.dark footer { border-color: #2A4A40; }
+body.dark .nav-bar { border-color: #2A4A40; }
+body.dark .nav-item { border-color: #2A4A40; border-bottom-color: var(--phosphor); color: var(--teal-deep); }
+body.dark .nav-item:hover, body.dark .nav-item.active { background: #1D4A3A; color: #EDEAE2; border-color: #1D4A3A; border-bottom-color: var(--phosphor); }
+body.dark .nav-item:hover .num, body.dark .nav-item.active .num { color: var(--phosphor); }
+body.dark .dropdown { background: var(--panel); border-color: #2A4A40; }
+body.dark .dd-item { color: var(--ink); }
+body.dark .dd-item:hover { background: #1D4A3A; color: #EDEAE2; }
+body.dark .lang-hint { background: var(--panel); border-color: #2A4A40; color: var(--ink); }
+body.dark .lang-hint:hover { background: #1D4A3A; color: #EDEAE2; }
+body.dark .lang-hint-icon { color: var(--teal); }
+body.dark .lang-hint-close { color: var(--sage); }
+body.dark .more-btn { color: var(--teal-deep); border-color: var(--teal-deep); }
+body.dark .card { border-color: #2A4A40; }
+
+/* ---- mobile ---- */
 @media (max-width: 768px) {
-  .center-wrap{padding:80px 24px 40px;justify-content:flex-start;}
-  .cards{grid-template-columns:1fr;}
-  .card-thumb{height:180px;}
-  .greeting{font-size:22px;}
+  .frame { padding: 0 20px 60px; }
+  .hero { padding: 26px 18px 30px; }
+  .cards { grid-template-columns: 1fr; }
+  .nav-bar { flex-wrap: wrap; gap: 6px; }
+  .nav-item { min-width: calc(50% - 3px); flex: none; }
+  .lang-hint { max-width: calc(100vw - 40px); }
+  .topbar-btn { font-size: 9.5px; padding: 4px 8px; }
 }
 
-body.dark{background:#1C1B19;}
-body.dark .site-name{color:#5C5A56;}
-body.dark .greeting{color:#E8E6E1;}
-body.dark .greeting span{color:#5C5A56;}
-body.dark .nav-item{color:#7A7773;}
-body.dark .nav-item:hover,body.dark .nav-item.active{border-color:#3A3835;background:#242320;color:#E8E6E1;}
-body.dark .divider{background:#2E2D2A;}
-body.dark .section-label{color:#5C5A56;}
-body.dark .card{background:#141412;border-color:#2E2D2A;}
-body.dark .card:hover{border-color:#5C5A56;}
-body.dark .card-thumb{background:#0E0D0C;}
-body.dark .card-thumb i{color:#5C5A56;}
-body.dark .card-title{color:#E8E6E1;}
-body.dark .card-sub{color:#5C5A56;}
-body.dark .dropdown{background:#141412;border-color:#2E2D2A;}
-body.dark .dd-item{color:#7A7773;}
-body.dark .dd-item:hover{background:#1E1D1B;color:#E8E6E1;}
-body.dark .more-btn{color:#5C5A56;}
-body.dark .more-btn:hover{color:#E8E6E1;border-color:#5C5A56;}
-
-.lang-hint{position:fixed;bottom:24px;left:56px;z-index:90;display:flex;align-items:center;gap:14px;padding:16px 20px;background:#FFFEFB;border:0.5px solid #C8C5BE;border-radius:16px;box-shadow:0 4px 16px rgba(0,0,0,0.10);cursor:pointer;font-size:14px;color:#5C5A56;opacity:0;transform:translateY(10px);transition:opacity 0.25s,transform 0.25s,border-color 0.12s,background 0.12s,color 0.12s;pointer-events:none;max-width:300px;}
-.lang-hint.visible{opacity:1;transform:translateY(0);pointer-events:auto;}
-.lang-hint:hover{border-color:#B0ADA6;background:#EAE8E3;color:#1A1917;}
-.lang-hint:hover .lang-hint-icon{color:#7A7773;}
-.lang-hint-icon{font-size:20px;color:#9E9B95;flex-shrink:0;transition:color 0.12s;}
-.lang-hint-close{font-size:17px;color:#C8C5BE;flex-shrink:0;margin-left:4px;line-height:1;transition:color 0.12s;}
-.lang-hint-close:hover{color:#7A7773;}
-@media(max-width:768px){.lang-hint{left:16px;bottom:20px;}}
-body.dark .lang-hint{background:#141412;border-color:#2E2D2A;color:#7A7773;}
-body.dark .lang-hint:hover{border-color:#3A3835;background:#1E1D1B;color:#E8E6E1;}
-body.dark .lang-hint-icon{color:#5C5A56;}
-body.dark .lang-hint-close{color:#3A3835;}
-body.dark .lang-hint-close:hover{color:#9E9B95;}
+.jp-loading .main { visibility: hidden; }
 </style>
 </head>
 <body data-page="index">
 <script>(function(){var s=localStorage;if(s.getItem('sw_dark')==='1')document.body.classList.add('dark');if(s.getItem('sw_jp')==='1'){document.body.dataset.jp='1';document.body.classList.add('jp-loading');}})();</script>
 
-<div class="mock">
-  <div class="main">
-    <div class="center-wrap">
-      <span class="site-name">shinobu_works</span>
+<div class="main">
+  <div class="grid-fade"></div>
+  <div class="frame">
 
-      <div class="greeting" id="greeting">
-        developer &amp; casual pixel artist<br>
-        <span>based in melbourne.</span>
-      </div>
-
-      <div class="nav-bar" id="navbar">
-        <div class="nav-item" onclick="toggleNav(this)">
-          <i class="ti ti-layout-grid"></i><span class="nav-lbl">works</span>
-          <i class="ti ti-chevron-down" style="font-size:11px"></i>
-          <div class="dropdown">
-            <div class="dd-item" id="dd-all-projects" onclick="location.href='projects.html'">all projects</div>
-            <div class="dd-item" id="dd-jse" onclick="location.href='projects/job-stream-express.html'">Job Stream Express</div>
-            <div class="dd-item" id="dd-iep" onclick="location.href='projects/image-edit-pipeline.html'">Image Edit Pipeline</div>
-            <div class="dd-item" id="dd-nt" onclick="location.href='projects/next-train.html'">Next Train</div>
-            <div class="dd-item" id="dd-misc" onclick="location.href='projects/misc.html'">Misc Projects</div>
-          </div>
-        </div>
-        <div class="nav-item" onclick="toggleNav(this)">
-          <i class="ti ti-brush"></i><span class="nav-lbl">art</span>
-          <i class="ti ti-chevron-down" style="font-size:11px"></i>
-          <div class="dropdown">
-            <div class="dd-item" id="dd-all-illustrations" onclick="location.href='art.html'">all illustrations</div>
-            <div class="dd-item" id="dd-pixel-art" onclick="location.href='art.html'">pixel art</div>
-          </div>
-        </div>
-        <div class="nav-item" onclick="location.href='about.html'">
-          <i class="ti ti-user"></i><span class="nav-lbl">about</span>
-        </div>
-        <div class="nav-item" onclick="location.href='contact.html'">
-          <i class="ti ti-mail"></i><span class="nav-lbl">contact</span>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="cards-section">
-        <div class="section-label" id="sec-label">◤ recent works</div>
-        <div class="cards">
-          <div class="card" onclick="location.href='projects/job-stream-express.html'">
-            <div class="card-thumb"><img src="project_images/jobexpress.png" alt="Job Stream Express"></div>
-            <div class="card-info">
-              <div class="card-title" id="card-title-1">Job Stream Express</div>
-              <div class="card-sub" id="card-sub-1">python · playwright · ollama</div>
-            </div>
-          </div>
-          <div class="card" onclick="location.href='projects/image-edit-pipeline.html'">
-            <div class="card-thumb"><img src="project_images/imagedit.png" alt="Image Edit Pipeline"></div>
-            <div class="card-info">
-              <div class="card-title" id="card-title-2">Image Edit Pipeline</div>
-              <div class="card-sub" id="card-sub-2">python · fastapi · pillow</div>
-            </div>
-          </div>
-          <div class="card" onclick="location.href='projects/next-train.html'">
-            <div class="card-thumb"><img src="project_images/nexttrain.png" alt="Next Train"></div>
-            <div class="card-info">
-              <div class="card-title" id="card-title-3">Next Train</div>
-              <div class="card-sub" id="card-sub-3">python · fastapi · gtfs-rt</div>
-            </div>
-          </div>
-        </div>
-        <div class="more-row">
-          <div class="more-btn" id="more-btn" onclick="location.href='projects.html'">
-            <span>see all</span><i class="ti ti-arrow-right" style="font-size:13px"></i>
+    <div class="topbar">
+      <span class="site-mark">shinobu_works</span>
+      <div class="topbar-controls">
+        <button class="topbar-btn" onclick="toggleDark()">
+          <i class="ti ti-moon icon-moon"></i>
+          <i class="ti ti-sun icon-sun"></i>
+        </button>
+        <div class="lang-btn-wrap">
+          <button class="topbar-btn" id="topbar-lang-btn" onclick="toggleLang()">日本語</button>
+          <div id="lang-hint" class="lang-hint">
+            <i class="ti ti-language lang-hint-icon"></i>
+            <span>click here for japanese<br><span style="color:var(--sage);font-size:12px;">日本語に切り替える</span></span>
+            <span class="lang-hint-close" id="lang-hint-close">×</span>
           </div>
         </div>
       </div>
     </div>
+
+    <div class="file-header">
+      <div class="hero">
+        <div class="eyebrow" id="eyebrow"></div>
+        <h1>shinobu_works<span class="cursor">&nbsp;</span></h1>
+        <div class="role-line">
+          <span id="role-main">DEVELOPER</span>
+          <span class="sep">/</span>
+          <span id="role-sub">CASUAL PIXEL ARTIST</span>
+          <span class="sep">·</span>
+          <span class="loc" id="role-loc">MELBOURNE</span>
+        </div>
+        <div class="hero-divider"></div>
+
+        <div class="nav-bar" id="navbar">
+          <div class="nav-item" onclick="toggleNav(this)">
+            <span class="num">§ 01</span>
+            <span id="nav-works">works</span>
+            <div class="dropdown">
+              <div class="dd-item" id="dd-all-projects" onclick="location.href='projects.html'">all projects</div>
+              <div class="dd-item" id="dd-jse" onclick="location.href='projects/job-stream-express.html'">Job Stream Express</div>
+              <div class="dd-item" id="dd-iep" onclick="location.href='projects/image-edit-pipeline.html'">Image Edit Pipeline</div>
+              <div class="dd-item" id="dd-nt" onclick="location.href='projects/next-train.html'">Next Train</div>
+              <div class="dd-item" id="dd-misc" onclick="location.href='projects/misc.html'">Misc Projects</div>
+            </div>
+          </div>
+          <div class="nav-item" onclick="toggleNav(this)">
+            <span class="num">§ 02</span>
+            <span id="nav-art">art</span>
+            <div class="dropdown">
+              <div class="dd-item" id="dd-all-illustrations" onclick="location.href='art.html'">all illustrations</div>
+              <div class="dd-item" id="dd-pixel-art" onclick="location.href='art.html'">pixel art</div>
+            </div>
+          </div>
+          <div class="nav-item" onclick="location.href='about.html'">
+            <span class="num">§ 03</span>
+            <span id="nav-about">about</span>
+          </div>
+          <div class="nav-item" onclick="location.href='contact.html'">
+            <span class="num">§ 04</span>
+            <span id="nav-contact">contact</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">
+      <span class="tri">▸</span>
+      <span id="sec-label">RECENT WORKS</span>
+    </div>
+
+    <div class="cards">
+      <div class="card" onclick="location.href='projects/job-stream-express.html'">
+        <div class="card-head">Project 01</div>
+        <div class="card-thumb">
+          <img src="project_images/jobexpress.png" alt="Job Stream Express">
+          <div class="scan"></div>
+          <div class="phosphor-glow"></div>
+        </div>
+        <div class="card-body">
+          <div class="card-title" id="card-title-1">Job Stream Express</div>
+          <div class="card-sub" id="card-sub-1">python · playwright · ollama</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="location.href='projects/image-edit-pipeline.html'">
+        <div class="card-head">Project 02</div>
+        <div class="card-thumb">
+          <img src="project_images/imagedit.png" alt="Image Edit Pipeline">
+          <div class="scan"></div>
+          <div class="phosphor-glow"></div>
+        </div>
+        <div class="card-body">
+          <div class="card-title" id="card-title-2">Image Edit Pipeline</div>
+          <div class="card-sub" id="card-sub-2">python · fastapi · pillow</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="location.href='projects/next-train.html'">
+        <div class="card-head">Project 03</div>
+        <div class="card-thumb">
+          <img src="project_images/nexttrain.png" alt="Next Train">
+          <div class="scan"></div>
+          <div class="phosphor-glow"></div>
+        </div>
+        <div class="card-body">
+          <div class="card-title" id="card-title-3">Next Train</div>
+          <div class="card-sub" id="card-sub-3">python · fastapi · gtfs-rt</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="more-row">
+      <div class="more-btn" id="more-btn" onclick="location.href='projects.html'">
+        <span>see all</span><i class="ti ti-arrow-right" style="font-size:13px"></i>
+      </div>
+    </div>
+
+    <footer>
+      <span id="footer-left">© 2025 All rights reserved.</span>
+      <span>shinobu_works</span>
+    </footer>
+
   </div>
-</div>
-
-<script src="sidebar.js"></script>
-
-<div id="lang-hint" class="lang-hint">
-  <i class="ti ti-language lang-hint-icon"></i>
-  <span>click here for japanese<br><span style="color:#9E9B95;font-size:13px;">日本語に切り替える</span></span>
-  <span class="lang-hint-close" id="lang-hint-close">×</span>
 </div>
 
 <script>
 (function(){
-  var APPEAR_DELAY=1000; // ms before bubble appears
-  var DURATION=20000;    // ms the bubble stays visible — adjust this value
-  if(localStorage.getItem('sw_jp')==='1')return;
-  if(sessionStorage.getItem('sw_lang_hint_done'))return;
-  var hint=document.getElementById('lang-hint');
-  var closeBtn=document.getElementById('lang-hint-close');
+  var dark = localStorage.getItem('sw_dark') === '1';
+  var jp   = localStorage.getItem('sw_jp')   === '1';
+
+  function applyLang(){
+    var btn = document.getElementById('topbar-lang-btn');
+    if(btn) btn.textContent = jp ? 'English' : '日本語';
+    document.documentElement.lang = jp ? 'ja' : 'en';
+    if(typeof window.onToggleLangContent === 'function') window.onToggleLangContent(jp);
+  }
+
+  window.toggleDark = function(){
+    dark = !dark;
+    localStorage.setItem('sw_dark', dark ? '1' : '0');
+    document.body.classList.toggle('dark', dark);
+  };
+
+  window.toggleLang = function(){
+    jp = !jp;
+    localStorage.setItem('sw_jp', jp ? '1' : '0');
+    document.body.dataset.jp = jp ? '1' : '';
+    applyLang();
+  };
+
+  setTimeout(function(){
+    if(jp) applyLang();
+    document.body.classList.remove('jp-loading');
+  }, 0);
+})();
+</script>
+
+<script>
+(function(){
+  var APPEAR_DELAY = 1000;
+  var DURATION     = 20000;
+  if(localStorage.getItem('sw_jp') === '1') return;
+  if(sessionStorage.getItem('sw_lang_hint_done')) return;
+  var hint      = document.getElementById('lang-hint');
+  var closeBtn  = document.getElementById('lang-hint-close');
   var dismissTimer;
   function dismiss(){
     hint.classList.remove('visible');
     sessionStorage.setItem('sw_lang_hint_done','1');
     clearTimeout(dismissTimer);
   }
-  hint.addEventListener('click',function(e){
+  hint.addEventListener('click', function(e){
     dismiss();
     if(!e.target.closest('#lang-hint-close')) toggleLang();
   });
-  closeBtn.addEventListener('click',function(e){
+  closeBtn.addEventListener('click', function(e){
     e.stopPropagation();
     dismiss();
   });
   setTimeout(function(){
     hint.classList.add('visible');
-    dismissTimer=setTimeout(dismiss,DURATION);
-  },APPEAR_DELAY);
+    dismissTimer = setTimeout(dismiss, DURATION);
+  }, APPEAR_DELAY);
 })();
 </script>
 
 <script>
+var EYEBROW_EN = [
+  'code, pixels, and the occasional bad idea',
+  'making stuff that works (mostly)',
+  'things i built because they didn\'t exist'
+];
+var EYEBROW_JP = [
+  'コード、ピクセル、たまにポンコツなアイデア',
+  'だいたい動くものを作ってる',
+  'なかったから作ったもの'
+];
+var eyebrowIdx = Math.floor(Math.random() * EYEBROW_EN.length);
+document.getElementById('eyebrow').textContent = EYEBROW_EN[eyebrowIdx];
+
 function toggleNav(el){
-  var was=el.classList.contains('active');
-  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
-  if(!was)el.classList.add('active');
+  var was = el.classList.contains('active');
+  document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
+  if(!was) el.classList.add('active');
 }
-document.addEventListener('click',function(e){
+document.addEventListener('click', function(e){
   if(!e.target.closest('.nav-item')){
-    document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+    document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
   }
 });
 
-window.onToggleLangContent=function(jp){
-  var labels=jp
-    ?['制作実績','イラスト','自己紹介','お問い合わせ']
-    :['works','art','about','contact'];
-  document.querySelectorAll('.nav-lbl').forEach(function(n,i){n.textContent=labels[i];});
-  document.getElementById('greeting').innerHTML=jp
-    ?'個人開発、趣味でドット絵描いてる人<br><span></span>'
-    :'developer &amp; casual pixel artist<br><span>based in melbourne.</span>';
-  document.getElementById('sec-label').textContent=jp?'◤ 制作実績（一部）':'◤ recent works';
-  document.getElementById('more-btn').innerHTML=jp
-    ?'<span>もっと見る</span><i class="ti ti-arrow-right" style="font-size:13px"></i>'
-    :'<span>see all</span><i class="ti ti-arrow-right" style="font-size:13px"></i>';
-  document.getElementById('dd-all-projects').textContent=jp?'プロジェクト一覧':'all projects';
-  document.getElementById('dd-jse').textContent=jp?'Job Stream Express':'Job Stream Express';
-  document.getElementById('dd-iep').textContent=jp?'Image Edit Pipeline':'Image Edit Pipeline';
-  document.getElementById('dd-nt').textContent=jp?'Next Train':'Next Train';
-  document.getElementById('dd-misc').textContent=jp?'その他のプロジェクト':'Misc Projects';
-  document.getElementById('dd-all-illustrations').textContent=jp?'イラスト一覧':'all illustrations';
-  document.getElementById('dd-pixel-art').textContent=jp?'ドット絵':'pixel art';
-  document.getElementById('card-title-1').textContent=jp?'Job Stream Express':'Job Stream Express';
-  document.getElementById('card-sub-1').textContent=jp?'python · playwright · ollama':'python · playwright · ollama';
-  document.getElementById('card-title-2').textContent=jp?'Image Edit Pipeline':'Image Edit Pipeline';
-  document.getElementById('card-sub-2').textContent=jp?'python · fastapi · pillow':'python · fastapi · pillow';
-  document.getElementById('card-title-3').textContent=jp?'Next Train':'Next Train';
-  document.getElementById('card-sub-3').textContent=jp?'python · fastapi · gtfs-rt':'python · fastapi · gtfs-rt';
+window.onToggleLangContent = function(jp){
+  document.getElementById('eyebrow').textContent    = jp ? EYEBROW_JP[eyebrowIdx] : EYEBROW_EN[eyebrowIdx];
+  document.getElementById('role-main').textContent  = jp ? '個人開発者' : 'DEVELOPER';
+  document.getElementById('role-sub').textContent   = jp ? 'ドット絵作家' : 'CASUAL PIXEL ARTIST';
+  document.getElementById('role-loc').textContent   = jp ? 'メルボルン' : 'MELBOURNE';
+  document.getElementById('sec-label').textContent  = jp ? '制作実績（一部）' : 'RECENT WORKS';
+  document.getElementById('more-btn').innerHTML = jp
+    ? '<span>もっと見る</span><i class="ti ti-arrow-right" style="font-size:13px"></i>'
+    : '<span>see all</span><i class="ti ti-arrow-right" style="font-size:13px"></i>';
+
+  document.getElementById('nav-works').textContent   = jp ? '制作実績' : 'works';
+  document.getElementById('nav-art').textContent     = jp ? 'イラスト' : 'art';
+  document.getElementById('nav-about').textContent   = jp ? '自己紹介' : 'about';
+  document.getElementById('nav-contact').textContent = jp ? 'お問い合わせ' : 'contact';
+
+  document.getElementById('dd-all-projects').textContent      = jp ? 'プロジェクト一覧' : 'all projects';
+  document.getElementById('dd-jse').textContent               = 'Job Stream Express';
+  document.getElementById('dd-iep').textContent               = 'Image Edit Pipeline';
+  document.getElementById('dd-nt').textContent                = 'Next Train';
+  document.getElementById('dd-misc').textContent              = jp ? 'その他のプロジェクト' : 'Misc Projects';
+  document.getElementById('dd-all-illustrations').textContent = jp ? 'イラスト一覧' : 'all illustrations';
+  document.getElementById('dd-pixel-art').textContent         = jp ? 'ドット絵' : 'pixel art';
+
+  document.getElementById('card-title-1').textContent = 'Job Stream Express';
+  document.getElementById('card-sub-1').textContent   = 'python · playwright · ollama';
+  document.getElementById('card-title-2').textContent = 'Image Edit Pipeline';
+  document.getElementById('card-sub-2').textContent   = 'python · fastapi · pillow';
+  document.getElementById('card-title-3').textContent = 'Next Train';
+  document.getElementById('card-sub-3').textContent   = 'python · fastapi · gtfs-rt';
 };
 </script>
 </body>
