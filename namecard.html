@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Card</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&family=Noto+Serif+JP:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root {
+  --bg:           #EDEAE2;
+  --panel:        #E4E1D7;
+  --ink:          #151E1B;
+  --teal-deep:    #0E332E;
+  --teal:         #2C685D;
+  --sage:         #8FA396;
+  --phosphor:     #3FCB8E;
+  --phosphor-dim: #B7CFC2;
+  --line:         #B7C0B6;
+  --amber:        #C97F35;
+  --pad: clamp(20px, 7cqw, 44px);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--ink);
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.grid-fade {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, transparent 0%, var(--bg) 72%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---- card shell ---- */
+.card-container {
+  container-type: size;
+  container-name: bcard;
+  position: relative;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+}
+.card-flip {
+  position: relative;
+  width: 100%; height: 100%;
+  cursor: pointer;
+}
+.card-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: var(--pad);
+  padding-bottom: calc(var(--pad) + env(safe-area-inset-bottom, 0px));
+  gap: clamp(10px, 2cqh, 16px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.card-front { opacity: 1; transform: scale(1);    z-index: 2; pointer-events: auto; }
+.card-back  { opacity: 0; transform: scale(0.97); z-index: 1; pointer-events: none; }
+.card-flip.flipped .card-front { opacity: 0; transform: scale(0.97); z-index: 1; pointer-events: none; }
+.card-flip.flipped .card-back  { opacity: 1; transform: scale(1);    z-index: 2; pointer-events: auto; }
+
+/* ---- main panel (mirrors .file-header) ---- */
+.card-panel {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  border: 1px solid var(--ink);
+  background: var(--panel);
+  padding: clamp(16px, 5cqw, 32px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.card-panel::before {
+  content: "";
+  position: absolute;
+  top: 7px; left: 7px; right: 7px; bottom: 7px;
+  border: 1px dashed var(--sage);
+  pointer-events: none;
+}
+
+/* ---- panel top ---- */
+.panel-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.site-mark {
+  font-size: clamp(8px, 1.8cqw, 11px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--sage);
+}
+.status-dot {
+  width: clamp(7px, 1.5cqw, 9px);
+  height: clamp(7px, 1.5cqw, 9px);
+  border-radius: 50%;
+  background: var(--phosphor);
+  box-shadow: 0 0 5px var(--phosphor);
+  animation: pulse 2.4s ease-in-out infinite;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+/* ---- panel middle ---- */
+.panel-middle {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(5px, 1.4cqh, 13px);
+}
+.eyebrow {
+  font-size: clamp(8.5px, 1.9cqw, 11px);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--sage);
+}
+.name-en {
+  font-family: 'Source Serif 4', serif;
+  font-weight: 500;
+  font-size: clamp(36px, calc(5cqw + 4.5cqh), 80px);
+  letter-spacing: 0;
+  color: var(--teal-deep);
+  line-height: 1.02;
+}
+.name-jp {
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 500;
+  font-size: clamp(34px, calc(5cqw + 4cqh), 76px);
+  color: var(--teal-deep);
+  line-height: 1.1;
+}
+.furigana {
+  font-size: clamp(10px, 2.1cqw, 13px);
+  color: var(--sage);
+  letter-spacing: 0.06em;
+}
+.role-group {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2px, 0.5cqh, 5px);
+}
+.role-en {
+  font-size: clamp(11px, calc(1.4cqw + 1.1cqh), 17px);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+.role-en-sub {
+  font-size: clamp(9.5px, calc(1.1cqw + 0.9cqh), 14px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sage);
+}
+.role-jp {
+  font-family: 'Noto Serif JP', serif;
+  font-size: clamp(11px, calc(1.4cqw + 1.1cqh), 17px);
+  color: var(--teal);
+}
+.role-jp-sub {
+  font-family: 'Noto Serif JP', serif;
+  font-size: clamp(9.5px, calc(1.1cqw + 0.9cqh), 14px);
+  color: var(--sage);
+}
+
+/* ---- panel bottom ---- */
+.panel-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1.8cqh, 14px);
+}
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: clamp(8px, 1.7cqw, 10.5px);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--teal-deep);
+}
+.section-label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--ink);
+  opacity: 0.3;
+}
+.section-label .tri { color: var(--phosphor); }
+
+.bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: clamp(12px, 4cqw, 24px);
+}
+.contact-lines {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3px, 0.7cqh, 7px);
+  font-size: clamp(10.5px, calc(1.2cqw + 0.9cqh), 15px);
+  color: var(--sage);
+}
+.contact-lines .url {
+  color: var(--teal-deep);
+  text-decoration: none;
+  transition: color 0.12s;
+}
+.contact-lines .url:hover { color: var(--amber); }
+.contact-lines .email { cursor: text; user-select: text; }
+
+.qr-wrap {
+  flex-shrink: 0;
+  width: clamp(60px, calc(12cqw + 2cqh), 116px);
+  height: clamp(60px, calc(12cqw + 2cqh), 116px);
+  background: var(--panel);
+}
+.qr-wrap img, .qr-wrap canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* ---- footer strip below panel ---- */
+.card-footer {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: clamp(8px, 1.7cqw, 10.5px);
+  letter-spacing: 0.14em;
+  color: var(--sage);
+}
+.flip-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: color 0.12s;
+}
+.flip-hint:hover { color: var(--teal-deep); }
+
+/* ---- dark mode ---- */
+body.dark {
+  --bg:        #0C1F1B;
+  --panel:     #112920;
+  --ink:       #B7C9C0;
+  --teal-deep: #3FCB8E;
+  --teal:      #6BAFA0;
+  --sage:      #3D6055;
+  --line:      #1C3530;
+}
+body.dark .card-panel { border-color: #2A4A40; }
+body.dark .card-panel::before { border-color: var(--sage); }
+</style>
+</head>
+<body>
+<script>(function(){ if(localStorage.getItem('sw_dark')==='1') document.body.classList.add('dark'); })();</script>
+
+<div class="grid-fade"></div>
+
+<div class="card-container">
+  <div class="card-flip" id="cardFlip" tabindex="0" role="button" aria-label="Business card, tap to flip language">
+
+    <!-- FRONT — English -->
+    <div class="card-face card-front">
+      <div class="card-panel">
+        <div class="panel-top">
+          <div class="eyebrow">Open to opportunities</div>
+          <div class="status-dot"></div>
+        </div>
+        <div class="panel-middle">
+          <div class="name-en">Cyrus Lo</div>
+          <div class="role-group">
+            <div class="role-en">Developer</div>
+            <div class="role-en-sub">Pixel Artist</div>
+          </div>
+        </div>
+        <div class="panel-bottom">
+          <div class="section-label"><span class="tri">▸</span> contact</div>
+          <div class="bottom-row">
+            <div class="contact-lines">
+              <a class="url" href="https://shinobu8689.github.io" target="_blank" rel="noopener noreferrer">shinobu8689.github.io</a>
+              <span class="email">shinobu.digital@gmail.com</span>
+            </div>
+            <div class="qr-wrap" id="qr-front"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span>§ EN</span>
+        <div class="flip-hint">タップで日本語&nbsp;<i class="ti ti-arrows-exchange" style="font-size:12px"></i></div>
+      </div>
+    </div>
+
+    <!-- BACK — Japanese -->
+    <div class="card-face card-back">
+      <div class="card-panel">
+        <div class="panel-top">
+          <div class="eyebrow">一緒に働ける機会を探しています</div>
+          <div class="status-dot"></div>
+        </div>
+        <div class="panel-middle">
+          <div class="furigana">ろ&nbsp;&nbsp;いんらむ</div>
+          <div class="name-jp">盧&nbsp;&nbsp;彥霖</div>
+          <div class="role-group">
+            <div class="role-jp">ソフトウェア開発者</div>
+            <div class="role-jp-sub">ピクセルアーティスト</div>
+          </div>
+        </div>
+        <div class="panel-bottom">
+          <div class="section-label"><span class="tri">▸</span> 連絡先</div>
+          <div class="bottom-row">
+            <div class="contact-lines">
+              <a class="url" href="https://shinobu8689.github.io" target="_blank" rel="noopener noreferrer">shinobu8689.github.io</a>
+              <span class="email">shinobu.digital@gmail.com</span>
+            </div>
+            <div class="qr-wrap" id="qr-back"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span>§ JP</span>
+        <div class="flip-hint">Tap for English&nbsp;<i class="ti ti-arrows-exchange" style="font-size:12px"></i></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function buildQR(id, url) {
+    var el = document.getElementById(id);
+    if (!el || typeof QRCode === 'undefined') return;
+    var dark = document.body.classList.contains('dark');
+    new QRCode(el, {
+      text: url,
+      width: 300, height: 300,
+      colorDark:  dark ? '#3FCB8E' : '#0E332E',
+      colorLight: dark ? '#112920' : '#E4E1D7',
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  }
+  buildQR('qr-front', 'https://shinobu8689.github.io');
+  buildQR('qr-back',  'https://shinobu8689.github.io');
+
+  document.querySelectorAll('.url').forEach(function(el) {
+    el.addEventListener('click', function(e) { e.stopPropagation(); });
+  });
+  document.querySelectorAll('.email').forEach(function(el) {
+    el.addEventListener('click', function(e) { e.stopPropagation(); });
+    el.addEventListener('mousedown', function(e) { e.stopPropagation(); });
+  });
+
+  var flipEl = document.getElementById('cardFlip');
+  flipEl.addEventListener('click', function() { flipEl.classList.toggle('flipped'); });
+  flipEl.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flipEl.classList.toggle('flipped'); }
+  });
+</script>
+</body>
+</html>
