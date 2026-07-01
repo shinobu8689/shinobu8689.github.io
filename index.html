@@ -94,6 +94,34 @@ body {
 body.dark .icon-sun { display: inline; }
 body.dark .icon-moon { display: none; }
 
+/* ---- nav dropdown ---- */
+.nav-btn-wrap { position: relative; }
+.nav-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: var(--panel);
+  border: 1px solid var(--ink);
+  padding: 4px;
+  z-index: 90;
+  min-width: 150px;
+}
+.nav-btn-wrap.open .nav-dropdown { display: block; }
+.nav-dd-item {
+  display: block;
+  padding: 7px 12px;
+  font-size: 10.5px;
+  color: var(--ink);
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.1s, color 0.1s;
+}
+.nav-dd-item:hover { background: var(--teal-deep); color: var(--bg); }
+.nav-dd-item.current { color: var(--phosphor); pointer-events: none; }
+
 /* ---- file header ---- */
 .file-header {
   margin-top: 40px;
@@ -396,6 +424,9 @@ body.dark .file-header { background: var(--panel); border-color: #2A4A40; }
 body.dark .file-header::before { border-color: var(--sage); }
 body.dark h1 { color: var(--teal-deep); }
 body.dark .topbar { border-color: #2A4A40; }
+body.dark .nav-dropdown { background: var(--panel); border-color: #2A4A40; }
+body.dark .nav-dd-item { color: var(--ink); }
+body.dark .nav-dd-item:hover { background: #1D4A3A; color: #EDEAE2; }
 body.dark .card-body { background: var(--panel); }
 body.dark footer { border-color: #2A4A40; }
 body.dark .nav-bar { border-color: #2A4A40; }
@@ -436,6 +467,18 @@ body.dark .card { border-color: #2A4A40; }
     <div class="topbar">
       <span class="site-mark">shinobu_works</span>
       <div class="topbar-controls">
+        <div class="nav-btn-wrap" id="nav-btn-wrap">
+          <button class="topbar-btn" onclick="toggleNavDropdown()">
+            <i class="ti ti-layout-grid"></i><span>site</span>
+          </button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item current" href="index.html" id="tb-nav-home">home</a>
+            <a class="nav-dd-item" href="projects.html" id="tb-nav-works">works</a>
+            <a class="nav-dd-item" href="art.html" id="tb-nav-art">art</a>
+            <a class="nav-dd-item" href="about.html" id="tb-nav-about">about</a>
+            <a class="nav-dd-item" href="contact.html" id="tb-nav-contact">contact</a>
+          </div>
+        </div>
         <button class="topbar-btn" onclick="toggleDark()">
           <i class="ti ti-moon icon-moon"></i>
           <i class="ti ti-sun icon-sun"></i>
@@ -581,6 +624,16 @@ body.dark .card { border-color: #2A4A40; }
     applyLang();
   };
 
+  window.toggleNavDropdown = function(){
+    document.getElementById('nav-btn-wrap').classList.toggle('open');
+  };
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('#nav-btn-wrap')){
+      var wrap = document.getElementById('nav-btn-wrap');
+      if(wrap) wrap.classList.remove('open');
+    }
+  });
+
   setTimeout(function(){
     if(jp) applyLang();
     document.body.classList.remove('jp-loading');
@@ -645,7 +698,7 @@ document.addEventListener('click', function(e){
 window.onToggleLangContent = function(jp){
   document.getElementById('eyebrow').textContent    = jp ? EYEBROW_JP[eyebrowIdx] : EYEBROW_EN[eyebrowIdx];
   document.getElementById('role-main').textContent  = jp ? '個人開発者' : 'DEVELOPER';
-  document.getElementById('role-sub').textContent   = jp ? 'ドット絵作家' : 'CASUAL PIXEL ARTIST';
+  document.getElementById('role-sub').textContent   = jp ? 'ドット絵の人' : 'CASUAL PIXEL ARTIST';
   document.getElementById('role-loc').textContent   = jp ? 'メルボルン' : 'MELBOURNE';
   document.getElementById('sec-label').textContent  = jp ? '制作実績（一部）' : 'RECENT WORKS';
   document.getElementById('more-btn').innerHTML = jp
@@ -656,6 +709,12 @@ window.onToggleLangContent = function(jp){
   document.getElementById('nav-art').textContent     = jp ? 'イラスト' : 'art';
   document.getElementById('nav-about').textContent   = jp ? '自己紹介' : 'about';
   document.getElementById('nav-contact').textContent = jp ? 'お問い合わせ' : 'contact';
+
+  document.getElementById('tb-nav-home').textContent    = jp ? 'ホーム' : 'home';
+  document.getElementById('tb-nav-works').textContent   = jp ? '制作実績' : 'works';
+  document.getElementById('tb-nav-art').textContent     = jp ? 'イラスト' : 'art';
+  document.getElementById('tb-nav-about').textContent   = jp ? '自己紹介' : 'about';
+  document.getElementById('tb-nav-contact').textContent = jp ? 'お問い合わせ' : 'contact';
 
   document.getElementById('dd-all-projects').textContent      = jp ? 'プロジェクト一覧' : 'all projects';
   document.getElementById('dd-jse').textContent               = 'Job Stream Express';

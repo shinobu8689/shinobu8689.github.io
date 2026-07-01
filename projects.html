@@ -7,99 +7,484 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="sidebar.css">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:#F5F3EE;min-height:100vh;display:flex;}
+:root {
+  --bg: #EDEAE2;
+  --panel: #E4E1D7;
+  --ink: #151E1B;
+  --teal-deep: #0E332E;
+  --teal: #2C685D;
+  --sage: #8FA396;
+  --phosphor: #3FCB8E;
+  --line: #B7C0B6;
+  --card-screen: #0E332E;
+}
 
-.main{flex:1;display:flex;flex-direction:column;}
-.center-wrap{flex:1;display:flex;flex-direction:column;gap:24px;max-width:960px;width:100%;margin:0 auto;padding:60px 40px;}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-.site-name{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:400;color:#7A7773;letter-spacing:0.06em;}
-.page-heading{font-size:26px;font-weight:500;color:#1A1917;line-height:1.35;}
-.page-heading span{font-weight:400;color:#7A7773;}
-.divider{width:100%;height:0.5px;background:#C8C5BE;}
-.section-label{font-size:11px;color:#9E9B95;letter-spacing:0.08em;text-transform:uppercase;}
+body {
+  font-family: 'IBM Plex Mono', monospace;
+  background: var(--bg);
+  min-height: 100vh;
+}
 
-/* ── project grid ── */
-.projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.main {
+  min-height: 100vh;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-attachment: fixed;
+  position: relative;
+}
 
-/* ── project card ── */
-.card{background:#FFFEFB;border:0.5px solid #D4D1CB;border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color 0.15s,transform 0.15s;display:flex;flex-direction:column;}
-.card:hover{border-color:#8A8780;transform:translateY(-2px);}
-.card-thumb{height:120px;display:flex;align-items:center;justify-content:center;background:#EAE8E3;flex-shrink:0;overflow:hidden;}
-.card-thumb i{font-size:32px;color:#9E9B95;}
-.card-thumb img{width:100%;height:100%;object-fit:cover;object-position:center;}
-.card-body{padding:14px;display:flex;flex-direction:column;flex:1;}
-.card-title{font-size:13px;font-weight:500;color:#1A1917;}
-.card-desc{font-size:12px;color:#7A7773;line-height:1.6;margin-top:5px;flex:1;}
-.card-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px;}
-.card-tag{font-size:10px;font-family:'IBM Plex Mono',monospace;color:#7A7773;background:#EAE8E3;border:0.5px solid #D4D1CB;border-radius:4px;padding:2px 7px;}
-.card-footer{display:flex;justify-content:flex-end;align-items:center;margin-top:10px;padding-top:10px;border-top:0.5px solid #EAE8E3;}
-.card-link{display:inline-flex;align-items:center;gap:3px;font-size:11px;color:#7A7773;text-decoration:none;transition:color 0.12s;}
-.card-link:hover{color:#1A1917;}
-.card-link i{font-size:12px;}
+.grid-fade {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, transparent 0%, var(--bg) 72%);
+  pointer-events: none;
+  z-index: 0;
+}
 
+.frame {
+  position: relative;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 32px 80px;
+  z-index: 1;
+}
+
+/* ---- topbar ---- */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--ink);
+}
+.site-mark {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--teal-deep);
+}
+.topbar-controls { display: flex; align-items: center; gap: 8px; }
+.topbar-btn {
+  background: transparent;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  padding: 5px 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.15s, color 0.15s;
+  line-height: 1;
+}
+.topbar-btn:hover { background: var(--ink); color: var(--bg); }
+.icon-sun { display: none; }
+.icon-moon { display: inline; }
+body.dark .icon-sun { display: inline; }
+body.dark .icon-moon { display: none; }
+
+/* ---- nav dropdown ---- */
+.nav-btn-wrap { position: relative; }
+.nav-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: var(--panel);
+  border: 1px solid var(--ink);
+  padding: 4px;
+  z-index: 90;
+  min-width: 150px;
+}
+.nav-btn-wrap.open .nav-dropdown { display: block; }
+.nav-dd-item {
+  display: block;
+  padding: 7px 12px;
+  font-size: 10.5px;
+  color: var(--ink);
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.1s, color 0.1s;
+}
+.nav-dd-item:hover { background: var(--teal-deep); color: var(--bg); }
+.nav-dd-item.current { color: var(--phosphor); pointer-events: none; }
+
+/* ---- file header ---- */
+.file-header {
+  margin-top: 40px;
+  border: 1px solid var(--ink);
+  background: var(--panel);
+  position: relative;
+}
+.file-header::before {
+  content: "";
+  position: absolute; top: 8px; left: 8px; right: 8px; bottom: 8px;
+  border: 1px dashed var(--sage);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero { padding: 40px 32px 44px; position: relative; z-index: 1; }
+.eyebrow {
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  color: var(--teal);
+  margin-bottom: 16px;
+}
+.eyebrow-back {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  padding: 3px 9px;
+  transition: background 0.15s, color 0.15s;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+.eyebrow-back:hover { background: var(--ink); color: var(--bg); }
+h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(38px, 6vw, 62px);
+  letter-spacing: -0.01em;
+  color: var(--teal-deep);
+  line-height: 1.02;
+}
+h1 .cursor {
+  display: inline-block;
+  width: 0.45ch;
+  background: var(--phosphor);
+  animation: blink 1s steps(1) infinite;
+  margin-left: 3px;
+  vertical-align: text-bottom;
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+.role-line {
+  margin-top: 18px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(14px, 1.8vw, 18px);
+  color: var(--ink);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: baseline;
+}
+.role-line .sep { color: var(--sage); }
+.role-line .count { color: var(--teal); }
+
+.hero-divider {
+  margin-top: 28px;
+  height: 1px;
+  background: repeating-linear-gradient(90deg, var(--ink) 0 5px, transparent 5px 10px);
+  opacity: 0.4;
+}
+
+/* ---- section label ---- */
+.section-label {
+  margin: 52px 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 10.5px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--teal-deep);
+}
+.section-label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--ink);
+  opacity: 0.4;
+}
+.section-label .tri { color: var(--phosphor); }
+
+/* ---- cards ---- */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.card {
+  border: 1px solid var(--ink);
+  background: var(--card-screen);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+.card:hover { transform: translateY(-3px); }
+.card:hover .scan { opacity: 1; }
+
+.card-head {
+  padding: 7px 11px;
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(183, 207, 194, 0.2);
+  color: var(--phosphor);
+}
+
+.card-thumb {
+  height: 148px;
+  position: relative;
+  overflow: hidden;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(63, 203, 142, 0.05) 0px,
+    rgba(63, 203, 142, 0.05) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  flex-shrink: 0;
+}
+.card-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  opacity: 0.7;
+  filter: saturate(0.45) brightness(0.75);
+  transition: opacity 0.25s, filter 0.25s;
+  display: block;
+}
+.card:hover .card-thumb img {
+  opacity: 0.88;
+  filter: saturate(0.65) brightness(0.88);
+}
+.card-icon {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+}
+.card-icon i { font-size: 38px; color: var(--phosphor); opacity: 0.4; }
+.scan {
+  position: absolute; left: 0; right: 0; height: 40%;
+  background: linear-gradient(180deg, transparent, rgba(63, 203, 142, 0.15), transparent);
+  top: -40%;
+  opacity: 0;
+  animation: scan 2.8s linear infinite;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+.phosphor-glow {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(63, 203, 142, 0.1) 100%);
+  pointer-events: none;
+}
+@keyframes scan { to { top: 100%; } }
+
+.card-body {
+  padding: 14px 13px 16px;
+  background: var(--panel);
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.card-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+.card-desc {
+  font-size: 10.5px;
+  color: var(--sage);
+  line-height: 1.65;
+  flex: 1;
+}
+.card-sub {
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  color: var(--teal);
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+.card-footer {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(183, 192, 182, 0.25);
+}
+.card-link {
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--teal);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  transition: color 0.12s;
+}
+.card-link:hover { color: var(--phosphor); }
+.card-link i { font-size: 12px; }
+
+footer {
+  margin-top: 64px;
+  padding-top: 16px;
+  border-top: 1px solid var(--ink);
+  display: flex;
+  justify-content: space-between;
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  color: var(--sage);
+}
+
+/* ---- dark mode ---- */
+body.dark {
+  --bg: #0C1F1B;
+  --panel: #112920;
+  --ink: #B7C9C0;
+  --teal-deep: #3FCB8E;
+  --teal: #6BAFA0;
+  --sage: #3D6055;
+  --line: #1C3530;
+  --card-screen: #071310;
+}
+body.dark .file-header { background: var(--panel); border-color: #2A4A40; }
+body.dark .file-header::before { border-color: var(--sage); }
+body.dark h1 { color: var(--teal-deep); }
+body.dark .topbar { border-color: #2A4A40; }
+body.dark .card-body { background: var(--panel); }
+body.dark footer { border-color: #2A4A40; }
+body.dark .card { border-color: #2A4A40; }
+body.dark .nav-dropdown { background: var(--panel); border-color: #2A4A40; }
+body.dark .nav-dd-item { color: var(--ink); }
+body.dark .nav-dd-item:hover { background: #1D4A3A; color: #EDEAE2; }
+
+/* ---- mobile ---- */
 @media (max-width: 768px) {
-  .center-wrap{padding:80px 24px 40px;}
-  .projects-grid{grid-template-columns:1fr;}
-  .page-heading{font-size:22px;}
+  .frame { padding: 0 20px 60px; }
+  .hero { padding: 26px 18px 30px; }
+  .cards { grid-template-columns: 1fr; }
+  .topbar-btn { font-size: 9.5px; padding: 4px 8px; }
 }
 @media (max-width: 1024px) and (min-width: 769px) {
-  .projects-grid{grid-template-columns:repeat(2,1fr);}
+  .cards { grid-template-columns: repeat(2, 1fr); }
 }
 
-body.dark{background:#1C1B19;}
-body.dark .site-name{color:#5C5A56;}
-body.dark .page-heading{color:#E8E6E1;}
-body.dark .page-heading span{color:#5C5A56;}
-body.dark .divider{background:#2E2D2A;}
-body.dark .section-label{color:#5C5A56;}
-body.dark .card{background:#141412;border-color:#2E2D2A;}
-body.dark .card:hover{border-color:#5C5A56;}
-body.dark .card-thumb{background:#0E0D0C;}
-body.dark .card-thumb i{color:#5C5A56;}
-body.dark .card-title{color:#E8E6E1;}
-body.dark .card-desc{color:#5C5A56;}
-body.dark .card-tag{background:#1E1D1B;border-color:#2E2D2A;color:#7A7773;}
-body.dark .card-footer{border-top-color:#2E2D2A;}
-body.dark .card-link{color:#5C5A56;}
-body.dark .card-link:hover{color:#E8E6E1;}
+.jp-loading .main { visibility: hidden; }
 </style>
 </head>
 <body data-page="works">
 <script>(function(){var s=localStorage;if(s.getItem('sw_dark')==='1')document.body.classList.add('dark');if(s.getItem('sw_jp')==='1'){document.body.dataset.jp='1';document.body.classList.add('jp-loading');}})();</script>
 
-<div class="mock">
-  <div class="main">
-    <div class="center-wrap">
-      <span class="site-name">shinobu_works</span>
+<div class="main">
+  <div class="grid-fade"></div>
+  <div class="frame">
 
-      <a class="back-link" href="index.html">
-        <i class="ti ti-arrow-left"></i>
-        <span id="back-label">back to home</span>
-      </a>
-
-      <div class="page-heading" id="page-heading">
-        all projects<br>
-        <span id="page-sub">things i've built.</span>
+    <div class="topbar">
+      <span class="site-mark">shinobu_works</span>
+      <div class="topbar-controls">
+        <div class="nav-btn-wrap" id="nav-btn-wrap">
+          <button class="topbar-btn" onclick="toggleNavDropdown()">
+            <i class="ti ti-layout-grid"></i><span>site</span>
+          </button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="index.html" id="nav-home">home</a>
+            <a class="nav-dd-item current" href="projects.html" id="nav-works">works</a>
+            <a class="nav-dd-item" href="art.html" id="nav-art">art</a>
+            <a class="nav-dd-item" href="about.html" id="nav-about">about</a>
+            <a class="nav-dd-item" href="contact.html" id="nav-contact">contact</a>
+          </div>
+        </div>
+        <button class="topbar-btn" onclick="toggleDark()">
+          <i class="ti ti-moon icon-moon"></i>
+          <i class="ti ti-sun icon-sun"></i>
+        </button>
+        <button class="topbar-btn" id="topbar-lang-btn" onclick="toggleLang()">日本語</button>
       </div>
-
-      <div class="divider"></div>
-
-      <div class="section-label" id="grid-label">◤ projects</div>
-      <div class="projects-grid" id="projects-grid"></div>
     </div>
+
+    <div class="file-header">
+      <div class="hero">
+        <div class="eyebrow"><a class="eyebrow-back" href="index.html">← back</a>shinobu_works/projects</div>
+        <h1 id="page-h1">all projects<span class="cursor">&nbsp;</span></h1>
+        <div class="role-line">
+          <span id="page-sub">things i've built.</span>
+          <span class="sep">/</span>
+          <span class="count" id="page-count">5 projects</span>
+        </div>
+        <div class="hero-divider"></div>
+      </div>
+    </div>
+
+    <div class="section-label">
+      <span class="tri">▸</span>
+      <span id="sec-label">ALL PROJECTS</span>
+    </div>
+
+    <div class="cards" id="projects-grid"></div>
+
+    <footer>
+      <span>© 2025 All rights reserved.</span>
+      <span>shinobu_works</span>
+    </footer>
+
   </div>
 </div>
 
-<script src="sidebar.js"></script>
 <script>
-// ─────────────────────────────────────────────
-// Add or edit projects here.
-// Fields: icon (tabler icon name), title, desc, tags[], github (url or null), demo (url or null)
-// ─────────────────────────────────────────────
+(function(){
+  var dark = localStorage.getItem('sw_dark') === '1';
+  var jp   = localStorage.getItem('sw_jp')   === '1';
+
+  function applyLang(){
+    var btn = document.getElementById('topbar-lang-btn');
+    if(btn) btn.textContent = jp ? 'English' : '日本語';
+    document.documentElement.lang = jp ? 'ja' : 'en';
+    if(typeof window.onToggleLangContent === 'function') window.onToggleLangContent(jp);
+  }
+
+  window.toggleDark = function(){
+    dark = !dark;
+    localStorage.setItem('sw_dark', dark ? '1' : '0');
+    document.body.classList.toggle('dark', dark);
+  };
+
+  window.toggleLang = function(){
+    jp = !jp;
+    localStorage.setItem('sw_jp', jp ? '1' : '0');
+    document.body.dataset.jp = jp ? '1' : '';
+    applyLang();
+  };
+
+  window.toggleNavDropdown = function(){
+    document.getElementById('nav-btn-wrap').classList.toggle('open');
+  };
+
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('#nav-btn-wrap')){
+      var wrap = document.getElementById('nav-btn-wrap');
+      if(wrap) wrap.classList.remove('open');
+    }
+  });
+
+  setTimeout(function(){
+    if(jp) applyLang();
+    document.body.classList.remove('jp-loading');
+  }, 0);
+})();
+</script>
+
+<script>
 var PROJECTS=[
   {
     icon:'ti-robot',
@@ -141,59 +526,68 @@ var PROJECTS=[
     desc:'Personal portfolio site with dark mode, bilingual EN/JP support, and a minimal design system.',
     desc_ja:'ダークモードと日英切替に対応したミニマルデザインのポートフォリオサイト。',
     tags:['html','css','javascript'],
-    github:'#',
+    github:null,
     href:'projects/shinobu-works.html'
   },
   {
     icon:'ti-stack-2',
     title:'Misc Projects',
     title_ja:'その他のプロジェクト',
-    desc:'Kanban Board, StormworksPC, Nine Men\'s Morris, Sleep Medication App — team exercises and personal experiments.',
+    desc:"Kanban Board, StormworksPC, Nine Men's Morris, Sleep Medication App — team exercises and personal experiments.",
     desc_ja:'Kanban Board・StormworksPC・ナイン・メンズ・モリス・睡眠補助アプリ — チーム開発と個人実験のまとめ。',
     tags:['javascript','python','lua','java'],
     github:null,
-    demo:null,
     href:'projects/misc.html'
   }
 ];
 
-function buildCard(p, jp){
+function buildCard(p, jp, num){
   var title = jp&&p.title_ja ? p.title_ja : p.title;
   var desc  = jp&&p.desc_ja  ? p.desc_ja  : p.desc;
-  var demoLabel = jp ? 'デモ' : 'demo';
-  var footer='';
-  if(p.github||p.demo){
-    var links='';
-    if(p.github) links+='<a class="card-link" href="'+p.github+'" target="_blank" onclick="event.stopPropagation()">github<i class="ti ti-arrow-up-right"></i></a>';
-    if(p.demo)   links+='<a class="card-link" href="'+p.demo+'"   target="_blank" onclick="event.stopPropagation()" style="margin-left:12px">'+demoLabel+'<i class="ti ti-arrow-up-right"></i></a>';
-    footer='<div class="card-footer">'+links+'</div>';
+  var tags  = p.tags.join(' · ');
+  var numStr = num < 10 ? '0'+num : ''+num;
+  var footer = '';
+  if(p.github){
+    footer = '<div class="card-footer">'
+      +'<a class="card-link" href="'+p.github+'" target="_blank" onclick="event.stopPropagation()">'
+      +'github <i class="ti ti-arrow-up-right"></i></a>'
+      +'</div>';
   }
-  var thumb=p.image
-    ?'<img src="'+p.image+'" alt="'+title+'">'
-    :'<i class="ti '+p.icon+'"></i>';
-  var clickAttr=p.href?' onclick="location.href=\''+p.href+'\'" style="cursor:pointer"':'';
+  var thumb = p.image
+    ? '<img src="'+p.image+'" alt="'+title+'"><div class="scan"></div><div class="phosphor-glow"></div>'
+    : '<div class="card-icon"><i class="ti '+p.icon+'"></i></div><div class="scan"></div><div class="phosphor-glow"></div>';
+  var clickAttr = p.href ? ' onclick="location.href=\''+p.href+'\'"' : '';
   return '<div class="card"'+clickAttr+'>'
+    +'<div class="card-head">Project '+numStr+'</div>'
     +'<div class="card-thumb">'+thumb+'</div>'
     +'<div class="card-body">'
     +'<div class="card-title">'+title+'</div>'
     +'<div class="card-desc">'+desc+'</div>'
-    +'<div class="card-tags">'+p.tags.map(function(t){return '<span class="card-tag">'+t+'</span>';}).join('')+'</div>'
+    +'<div class="card-sub">'+tags+'</div>'
     +footer
     +'</div>'
     +'</div>';
 }
 
 function renderGrid(jp){
-  document.getElementById('projects-grid').innerHTML=PROJECTS.map(function(p){return buildCard(p,jp);}).join('');
+  document.getElementById('projects-grid').innerHTML = PROJECTS.map(function(p, i){
+    return buildCard(p, jp, i+1);
+  }).join('');
 }
 
 renderGrid(false);
 
-window.onToggleLangContent=function(jp){
-  document.getElementById('back-label').textContent=jp?'ホームへ':'back to home';
-  document.getElementById('page-heading').childNodes[0].textContent=jp?'制作実績\n':'all projects\n';
-  document.getElementById('page-sub').textContent=jp?'作ったもの。':'things i\'ve built.';
-  document.getElementById('grid-label').textContent=jp?'◤ プロジェクト':'◤ projects';
+window.onToggleLangContent = function(jp){
+  var h1 = document.getElementById('page-h1');
+  h1.childNodes[0].textContent = jp ? '制作実績' : 'all projects';
+  document.getElementById('page-sub').textContent   = jp ? '作ったもの。' : "things i've built.";
+  document.getElementById('page-count').textContent = jp ? '5件' : '5 projects';
+  document.getElementById('sec-label').textContent  = jp ? 'すべてのプロジェクト' : 'ALL PROJECTS';
+  document.getElementById('nav-home').textContent    = jp ? 'ホーム' : 'home';
+  document.getElementById('nav-works').textContent   = jp ? '制作実績' : 'works';
+  document.getElementById('nav-art').textContent     = jp ? 'イラスト' : 'art';
+  document.getElementById('nav-about').textContent   = jp ? '自己紹介' : 'about';
+  document.getElementById('nav-contact').textContent = jp ? 'お問い合わせ' : 'contact';
   renderGrid(jp);
 };
 </script>
