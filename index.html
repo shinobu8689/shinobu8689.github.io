@@ -516,16 +516,13 @@ body.dark .card { border-color: #2A4A40; }
               <div class="dd-item" id="dd-jse" onclick="location.href='projects/job-stream-express.html'">Job Stream Express</div>
               <div class="dd-item" id="dd-iep" onclick="location.href='projects/image-edit-pipeline.html'">Image Edit Pipeline</div>
               <div class="dd-item" id="dd-nt" onclick="location.href='projects/next-train.html'">Next Train</div>
+              <div class="dd-item" id="dd-swpc" onclick="location.href='projects/stormworks-pc.html'">StormworksPC</div>
               <div class="dd-item" id="dd-misc" onclick="location.href='projects/misc.html'">Misc Projects</div>
             </div>
           </div>
-          <div class="nav-item" onclick="toggleNav(this)">
+          <div class="nav-item" onclick="location.href='art.html'">
             <span class="num">§ 02</span>
             <span id="nav-art">art</span>
-            <div class="dropdown">
-              <div class="dd-item" id="dd-all-illustrations" onclick="location.href='art.html'">all illustrations</div>
-              <div class="dd-item" id="dd-pixel-art" onclick="location.href='art.html'">pixel art</div>
-            </div>
           </div>
           <div class="nav-item" onclick="location.href='about.html'">
             <span class="num">§ 03</span>
@@ -719,9 +716,8 @@ window.onToggleLangContent = function(jp){
   document.getElementById('dd-jse').textContent               = 'Job Stream Express';
   document.getElementById('dd-iep').textContent               = 'Image Edit Pipeline';
   document.getElementById('dd-nt').textContent                = 'Next Train';
+  document.getElementById('dd-swpc').textContent              = 'StormworksPC';
   document.getElementById('dd-misc').textContent              = jp ? 'その他のプロジェクト' : 'Misc Projects';
-  document.getElementById('dd-all-illustrations').textContent = jp ? 'イラスト一覧' : 'all illustrations';
-  document.getElementById('dd-pixel-art').textContent         = jp ? 'ドット絵' : 'pixel art';
 
   document.getElementById('card-title-1').textContent = 'Job Stream Express';
   document.getElementById('card-sub-1').textContent   = 'python · playwright · ollama';

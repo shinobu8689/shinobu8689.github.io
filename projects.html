@@ -420,7 +420,7 @@ body.dark .nav-dd-item:hover { background: #1D4A3A; color: #EDEAE2; }
         <div class="role-line">
           <span id="page-sub">things i've built.</span>
           <span class="sep">/</span>
-          <span class="count" id="page-count">5 projects</span>
+          <span class="count" id="page-count">6 projects</span>
         </div>
         <div class="hero-divider"></div>
       </div>
@@ -520,6 +520,17 @@ var PROJECTS=[
     href:'projects/next-train.html'
   },
   {
+    icon:'ti-device-desktop',
+    image:'project_images/stormworkspc.jpg',
+    title:'StormworksPC',
+    title_ja:'StormworksPC',
+    desc:'Custom in-game OS for Stormworks with a modular app architecture, snap-based GUI, and 7 pre-installed apps.',
+    desc_ja:'Stormworks内で動作するカスタムOS。モジュール型アーキテクチャ・スナップUI・7つのプリインストールアプリを搭載。',
+    tags:['lua','stormworks engine'],
+    github:null,
+    href:'projects/stormworks-pc.html'
+  },
+  {
     icon:'ti-layout-grid',
     title:'shinobu_works',
     title_ja:'shinobu_works',
@@ -533,8 +544,8 @@ var PROJECTS=[
     icon:'ti-stack-2',
     title:'Misc Projects',
     title_ja:'その他のプロジェクト',
-    desc:"Kanban Board, StormworksPC, Nine Men's Morris, Sleep Medication App — team exercises and personal experiments.",
-    desc_ja:'Kanban Board・StormworksPC・ナイン・メンズ・モリス・睡眠補助アプリ — チーム開発と個人実験のまとめ。',
+    desc:"Kanban Board, Nine Men's Morris, Sleep Medication App — team exercises and personal experiments.",
+    desc_ja:"Kanban Board・ナイン・メンズ・モリス・睡眠補助アプリ — チーム開発と個人実験のまとめ。",
     tags:['javascript','python','lua','java'],
     github:null,
     href:'projects/misc.html'
@@ -581,7 +592,7 @@ window.onToggleLangContent = function(jp){
   var h1 = document.getElementById('page-h1');
   h1.childNodes[0].textContent = jp ? '制作実績' : 'all projects';
   document.getElementById('page-sub').textContent   = jp ? '作ったもの。' : "things i've built.";
-  document.getElementById('page-count').textContent = jp ? '5件' : '5 projects';
+  document.getElementById('page-count').textContent = jp ? '6件' : '6 projects';
   document.getElementById('sec-label').textContent  = jp ? 'すべてのプロジェクト' : 'ALL PROJECTS';
   document.getElementById('nav-home').textContent    = jp ? 'ホーム' : 'home';
   document.getElementById('nav-works').textContent   = jp ? '制作実績' : 'works';
