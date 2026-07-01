@@ -7,187 +7,531 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="sidebar.css">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:#F5F3EE;min-height:100vh;display:flex;}
-
-.main{flex:1;display:flex;flex-direction:column;}
-.center-wrap{flex:1;display:flex;flex-direction:column;gap:28px;max-width:860px;width:100%;margin:0 auto;padding:60px 40px;}
-
-.site-name{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:400;color:#7A7773;letter-spacing:0.06em;}
-.greeting{font-size:26px;font-weight:500;color:#1A1917;line-height:1.35;}
-.greeting span{font-weight:400;color:#7A7773;}
-.divider{width:100%;height:0.5px;background:#C8C5BE;}
-.section-label{font-size:11px;color:#9E9B95;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;}
-
-.profile-row{display:flex;gap:20px;align-items:flex-start;}
-.avatar{width:72px;height:72px;border-radius:10px;border:0.5px solid #D4D1CB;flex-shrink:0;overflow:hidden;}
-.avatar img{width:100%;height:100%;object-fit:cover;display:block;}
-.profile-meta{display:flex;flex-direction:column;gap:4px;justify-content:center;}
-.profile-name{font-size:16px;font-weight:500;color:#1A1917;}
-.profile-role{font-size:12px;color:#7A7773;}
-.profile-loc{font-size:11px;color:#9E9B95;font-family:'IBM Plex Mono',monospace;margin-top:2px;}
-
-.bio{font-size:13px;color:#5C5A56;line-height:1.75;max-width:580px;}
-
-.tags{display:flex;flex-wrap:wrap;gap:6px;}
-.tag{font-size:11px;font-family:'IBM Plex Mono',monospace;color:#5C5A56;background:#EAE8E3;border:0.5px solid #C8C5BE;border-radius:6px;padding:4px 10px;}
-
-.stack-sections{display:flex;flex-direction:column;gap:18px;}
-.stack-cat-label{font-size:11px;font-family:'IBM Plex Mono',monospace;color:#7A7773;margin-bottom:8px;}
-.stack-sub-label{font-size:10px;font-family:'IBM Plex Mono',monospace;color:#B0ADA6;margin-bottom:5px;margin-top:10px;}
-
-@media(max-width:768px){
-  .center-wrap{padding:80px 24px 40px;}
-  .greeting{font-size:22px;}
+:root {
+  --bg: #EDEAE2;
+  --panel: #E4E1D7;
+  --ink: #151E1B;
+  --teal-deep: #0E332E;
+  --teal: #2C685D;
+  --sage: #8FA396;
+  --phosphor: #3FCB8E;
+  --line: #B7C0B6;
 }
 
-body.dark{background:#1C1B19;}
-body.dark .site-name{color:#5C5A56;}
-body.dark .greeting{color:#E8E6E1;}
-body.dark .greeting span{color:#5C5A56;}
-body.dark .divider{background:#2E2D2A;}
-body.dark .section-label{color:#5C5A56;}
-body.dark .avatar{border-color:#2E2D2A;}
-body.dark .profile-name{color:#E8E6E1;}
-body.dark .profile-role{color:#7A7773;}
-body.dark .profile-loc{color:#5C5A56;}
-body.dark .bio{color:#7A7773;}
-body.dark .tag{background:#1E1D1B;border-color:#2E2D2A;color:#9E9B95;}
-body.dark .stack-cat-label{color:#5C5A56;}
-body.dark .stack-sub-label{color:#3A3835;}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'IBM Plex Mono', monospace;
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+.main {
+  min-height: 100vh;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-attachment: fixed;
+  position: relative;
+}
+
+.grid-fade {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, transparent 0%, var(--bg) 72%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.frame {
+  position: relative;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 32px 80px;
+  z-index: 1;
+}
+
+/* ---- topbar ---- */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--ink);
+}
+.site-mark {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--teal-deep);
+}
+.topbar-controls { display: flex; align-items: center; gap: 8px; }
+.topbar-btn {
+  background: transparent;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  padding: 5px 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.15s, color 0.15s;
+  line-height: 1;
+}
+.topbar-btn:hover { background: var(--ink); color: var(--bg); }
+.icon-sun { display: none; }
+.icon-moon { display: inline; }
+body.dark .icon-sun { display: inline; }
+body.dark .icon-moon { display: none; }
+
+/* ---- nav dropdown ---- */
+.nav-btn-wrap { position: relative; }
+.nav-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: var(--panel);
+  border: 1px solid var(--ink);
+  padding: 4px;
+  z-index: 90;
+  min-width: 150px;
+}
+.nav-btn-wrap.open .nav-dropdown { display: block; }
+.nav-dd-item {
+  display: block;
+  padding: 7px 12px;
+  font-size: 10.5px;
+  color: var(--ink);
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.1s, color 0.1s;
+}
+.nav-dd-item:hover { background: var(--teal-deep); color: var(--bg); }
+.nav-dd-item.current { color: var(--phosphor); pointer-events: none; }
+
+/* ---- file header ---- */
+.file-header {
+  margin-top: 40px;
+  border: 1px solid var(--ink);
+  background: var(--panel);
+  position: relative;
+}
+.file-header::before {
+  content: "";
+  position: absolute; top: 8px; left: 8px; right: 8px; bottom: 8px;
+  border: 1px dashed var(--sage);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero { padding: 40px 32px 44px; position: relative; z-index: 1; }
+.eyebrow {
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  color: var(--teal);
+  margin-bottom: 16px;
+}
+.eyebrow-back {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  padding: 3px 9px;
+  transition: background 0.15s, color 0.15s;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+.eyebrow-back:hover { background: var(--ink); color: var(--bg); }
+
+h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(38px, 6vw, 62px);
+  letter-spacing: -0.01em;
+  color: var(--teal-deep);
+  line-height: 1.02;
+}
+h1 .cursor {
+  display: inline-block;
+  width: 0.45ch;
+  background: var(--phosphor);
+  animation: blink 1s steps(1) infinite;
+  margin-left: 3px;
+  vertical-align: text-bottom;
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+.role-line {
+  margin-top: 18px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(14px, 1.8vw, 18px);
+  color: var(--ink);
+}
+
+.hero-divider {
+  margin-top: 28px;
+  height: 1px;
+  background: repeating-linear-gradient(90deg, var(--ink) 0 5px, transparent 5px 10px);
+  opacity: 0.4;
+}
+
+/* ---- section label ---- */
+.section-label {
+  margin: 52px 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 10.5px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--teal-deep);
+}
+.section-label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--ink);
+  opacity: 0.4;
+}
+.section-label .tri { color: var(--phosphor); }
+
+/* ---- profile panel ---- */
+.content-panel {
+  border: 1px solid var(--ink);
+  background: var(--panel);
+  padding: 28px 32px;
+}
+
+.profile-row {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+.avatar {
+  width: 72px;
+  height: 72px;
+  border: 1px solid var(--ink);
+  flex-shrink: 0;
+  overflow: hidden;
+  background: var(--teal-deep);
+}
+.avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.profile-meta { display: flex; flex-direction: column; gap: 5px; justify-content: center; }
+.profile-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--teal-deep);
+}
+.profile-role {
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: var(--teal);
+}
+.profile-loc {
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+  color: var(--sage);
+  margin-top: 2px;
+}
+
+.bio {
+  font-size: 10.5px;
+  color: var(--ink);
+  line-height: 1.85;
+  max-width: 640px;
+  opacity: 0.85;
+}
+
+/* ---- stack panel ---- */
+.stack-panel {
+  border: 1px solid var(--ink);
+  background: var(--panel);
+}
+.stack-section {
+  padding: 20px 28px;
+  border-bottom: 1px solid rgba(21, 30, 27, 0.15);
+}
+.stack-section:last-child { border-bottom: none; }
+.stack-cat {
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--phosphor);
+  margin-bottom: 12px;
+}
+.stack-sub {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sage);
+  margin-bottom: 8px;
+  margin-top: 14px;
+}
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag {
+  font-size: 9.5px;
+  font-family: 'IBM Plex Mono', monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--teal-deep);
+  border: 1px solid rgba(14, 51, 46, 0.3);
+  padding: 3px 9px;
+}
+
+/* ---- footer ---- */
+footer {
+  margin-top: 64px;
+  padding-top: 16px;
+  border-top: 1px solid var(--ink);
+  display: flex;
+  justify-content: space-between;
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  color: var(--sage);
+}
+
+/* ---- dark mode ---- */
+body.dark {
+  --bg: #0C1F1B;
+  --panel: #112920;
+  --ink: #B7C9C0;
+  --teal-deep: #3FCB8E;
+  --teal: #6BAFA0;
+  --sage: #3D6055;
+  --line: #1C3530;
+}
+body.dark .file-header { background: var(--panel); border-color: #2A4A40; }
+body.dark .file-header::before { border-color: var(--sage); }
+body.dark h1 { color: var(--teal-deep); }
+body.dark .topbar { border-color: #2A4A40; }
+body.dark .nav-dropdown { background: var(--panel); border-color: #2A4A40; }
+body.dark .nav-dd-item { color: var(--ink); }
+body.dark .nav-dd-item:hover { background: #1D4A3A; color: #EDEAE2; }
+body.dark footer { border-color: #2A4A40; }
+body.dark .content-panel { border-color: #2A4A40; }
+body.dark .stack-panel { border-color: #2A4A40; }
+body.dark .stack-section { border-bottom-color: #2A4A40; }
+body.dark .avatar { border-color: #2A4A40; }
+body.dark .tag { border-color: rgba(63, 203, 142, 0.2); color: var(--teal-deep); }
+body.dark .bio { color: var(--ink); opacity: 1; }
+
+/* ---- mobile ---- */
+@media (max-width: 768px) {
+  .frame { padding: 0 20px 60px; }
+  .hero { padding: 26px 18px 30px; }
+  .content-panel { padding: 20px 18px; }
+  .stack-section { padding: 16px 18px; }
+  .topbar-btn { font-size: 9.5px; padding: 4px 8px; }
+}
+
+.jp-loading .main { visibility: hidden; }
 </style>
 </head>
 <body data-page="about">
 <script>(function(){var s=localStorage;if(s.getItem('sw_dark')==='1')document.body.classList.add('dark');if(s.getItem('sw_jp')==='1'){document.body.dataset.jp='1';document.body.classList.add('jp-loading');}})();</script>
 
-<div class="mock">
-  <div class="main">
-    <div class="center-wrap">
-      <span class="site-name">shinobu_works</span>
+<div class="main">
+  <div class="grid-fade"></div>
+  <div class="frame">
 
-      <a class="back-link" href="index.html">
-        <i class="ti ti-arrow-left"></i>
-        <span id="back-label">back to home</span>
-      </a>
-
-      <div class="greeting" id="greeting">
-        about me<br>
-        <span>the person behind the work.</span>
-      </div>
-
-      <div class="divider"></div>
-
-      <!-- profile -->
-      <div>
-        <div class="section-label" id="lbl-profile">◤ profile</div>
-        <div class="profile-row">
-          <div class="avatar"><img src="profile_icon.png" alt="profile"></div>
-          <div class="profile-meta">
-            <div class="profile-name">shinobu_gpt</div>
-            <div class="profile-role" id="profile-role">developer &amp; pixel artist</div>
-            <div class="profile-loc" id="profile-loc">cantonese · mandarin · english · 日本語</div>
+    <div class="topbar">
+      <span class="site-mark">shinobu_works</span>
+      <div class="topbar-controls">
+        <div class="nav-btn-wrap" id="nav-btn-wrap">
+          <button class="topbar-btn" onclick="toggleNavDropdown()">
+            <i class="ti ti-layout-grid"></i><span>site</span>
+          </button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="index.html" id="nav-home">home</a>
+            <a class="nav-dd-item" href="projects.html" id="nav-works">works</a>
+            <a class="nav-dd-item" href="art.html" id="nav-art">art</a>
+            <a class="nav-dd-item current" href="about.html" id="nav-about">about</a>
+            <a class="nav-dd-item" href="contact.html" id="nav-contact">contact</a>
           </div>
         </div>
+        <button class="topbar-btn" onclick="toggleDark()">
+          <i class="ti ti-moon icon-moon"></i>
+          <i class="ti ti-sun icon-sun"></i>
+        </button>
+        <button class="topbar-btn" id="topbar-lang-btn" onclick="toggleLang()">日本語</button>
       </div>
-
-      <!-- bio -->
-      <div>
-        <div class="section-label" id="lbl-bio">bio</div>
-        <div class="bio" id="bio-text">
-          I'm a developer and pixel artist based in Melbourne. I like building small, focused tools that solve real problems — mostly in Python, sometimes with a web layer on top. When I'm not writing code I'm pushing pixels, usually for personal projects or game jams. I care about things that are clean, fast, and a little bit handmade.
-        </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <!-- stack -->
-      <div>
-        <div class="section-label" id="lbl-stack">stack &amp; tools</div>
-        <div class="stack-sections">
-          <div>
-            <div class="stack-cat-label" id="lbl-cat-lang"></div>
-            <div class="stack-sub-label" id="lbl-primary"></div>
-            <div class="tags" id="tags-primary"></div>
-            <div class="stack-sub-label" id="lbl-addl-lang"></div>
-            <div class="tags" id="tags-addl-lang"></div>
-          </div>
-          <div>
-            <div class="stack-cat-label" id="lbl-cat-fw"></div>
-            <div class="tags" id="tags-fw"></div>
-          </div>
-          <div>
-            <div class="stack-cat-label" id="lbl-cat-tools"></div>
-            <div class="tags" id="tags-tools"></div>
-          </div>
-          <div>
-            <div class="stack-cat-label" id="lbl-cat-other"></div>
-            <div class="tags" id="tags-other"></div>
-          </div>
-        </div>
-      </div>
-
-
     </div>
+
+    <div class="file-header">
+      <div class="hero">
+        <div class="eyebrow"><a class="eyebrow-back" href="index.html">← back</a>shinobu_works/about</div>
+        <h1 id="page-h1">about me<span class="cursor">&nbsp;</span></h1>
+        <div class="role-line">
+          <span id="page-sub">the person behind the work.</span>
+        </div>
+        <div class="hero-divider"></div>
+      </div>
+    </div>
+
+    <div class="section-label">
+      <span class="tri">▸</span>
+      <span id="lbl-profile">profile</span>
+    </div>
+
+    <div class="content-panel">
+      <div class="profile-row">
+        <div class="avatar"><img src="profile_icon.png" alt="profile"></div>
+        <div class="profile-meta">
+          <div class="profile-name">shinobu_gpt</div>
+          <div class="profile-role" id="profile-role">developer &amp; pixel artist</div>
+          <div class="profile-loc" id="profile-loc">cantonese · mandarin · english · japanese</div>
+        </div>
+      </div>
+      <div class="bio" id="bio-text">I'm a developer and pixel artist based in Melbourne. I like building small, focused tools that solve real problems — mostly in Python, sometimes with a web layer on top. When I'm not writing code I'm pushing pixels, usually for personal projects. I care about things that are clean, fast, and a little bit handmade.</div>
+    </div>
+
+    <div class="section-label">
+      <span class="tri">▸</span>
+      <span id="lbl-stack">stack &amp; tools</span>
+    </div>
+
+    <div class="stack-panel">
+      <div class="stack-section">
+        <div class="stack-cat" id="lbl-cat-lang">languages</div>
+        <div class="stack-sub" id="lbl-primary">primary</div>
+        <div class="tags" id="tags-primary"></div>
+        <div class="stack-sub" id="lbl-addl-lang">secondary</div>
+        <div class="tags" id="tags-addl-lang"></div>
+      </div>
+      <div class="stack-section">
+        <div class="stack-cat" id="lbl-cat-fw">frameworks</div>
+        <div class="tags" id="tags-fw"></div>
+      </div>
+      <div class="stack-section">
+        <div class="stack-cat" id="lbl-cat-tools">dev tools</div>
+        <div class="tags" id="tags-tools"></div>
+      </div>
+      <div class="stack-section">
+        <div class="stack-cat" id="lbl-cat-other">additional skills</div>
+        <div class="tags" id="tags-other"></div>
+      </div>
+    </div>
+
+    <footer>
+      <span>© 2025 All rights reserved.</span>
+      <span>shinobu_works</span>
+    </footer>
+
   </div>
 </div>
 
-<script src="sidebar.js"></script>
 <script>
-var STACK={
-  lang:{
-    primary:['java','python','javascript','typescript','lua'],
-    additional:['c / c++','haskell','assembly (mips)','sql','html / css']
+(function(){
+  var dark = localStorage.getItem('sw_dark') === '1';
+  var jp   = localStorage.getItem('sw_jp')   === '1';
+
+  function applyLang(){
+    var btn = document.getElementById('topbar-lang-btn');
+    if(btn) btn.textContent = jp ? 'English' : '日本語';
+    document.documentElement.lang = jp ? 'ja' : 'en';
+    if(typeof window.onToggleLangContent === 'function') window.onToggleLangContent(jp);
+  }
+
+  window.toggleDark = function(){
+    dark = !dark;
+    localStorage.setItem('sw_dark', dark ? '1' : '0');
+    document.body.classList.toggle('dark', dark);
+  };
+
+  window.toggleLang = function(){
+    jp = !jp;
+    localStorage.setItem('sw_jp', jp ? '1' : '0');
+    document.body.dataset.jp = jp ? '1' : '';
+    applyLang();
+  };
+
+  window.toggleNavDropdown = function(){
+    document.getElementById('nav-btn-wrap').classList.toggle('open');
+  };
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('#nav-btn-wrap')){
+      var wrap = document.getElementById('nav-btn-wrap');
+      if(wrap) wrap.classList.remove('open');
+    }
+  });
+
+  setTimeout(function(){
+    if(jp) applyLang();
+    document.body.classList.remove('jp-loading');
+  }, 0);
+})();
+</script>
+
+<script>
+var STACK = {
+  lang: {
+    primary: ['java', 'python', 'javascript', 'typescript', 'lua'],
+    additional: ['c / c++', 'haskell', 'assembly (mips)', 'sql', 'html / css']
   },
-  frameworks:{
-    en:['docker','ci/cd workflows','android development','rest apis','fastapi','linux','agile / scrum','database design'],
-    ja:['docker','ci/cd workflows','android 開発','rest apis','fastapi','linux','アジャイル開発','データベース設計']
+  frameworks: {
+    en: ['docker', 'ci/cd workflows', 'android development', 'rest apis', 'fastapi', 'linux', 'agile / scrum', 'database design'],
+    ja: ['docker', 'ci/cd workflows', 'android 開発', 'rest apis', 'fastapi', 'linux', 'アジャイル開発', 'データベース設計']
   },
-  tools:['visual studio code','visual studio','intellij idea','pycharm','android studio','jira','github','google workspace','microsoft 365','github copilot','claude code'],
-  other:{
-    en:['os fundamentals (windows, linux)','networking fundamentals','cybersecurity basics','ui/ux design principles','troubleshooting','ai prompt engineering','workflow automation & optimisation','api integration & data processing','algorithm implementation','system design & modular architecture'],
-    ja:['os基礎知識 (windows, linux)','ネットワーク基礎','サイバーセキュリティ基礎','ui/uxデザイン原則','トラブルシューティング','ai プロンプトエンジニアリング','ワークフロー自動化・最適化','api連携・データ処理','アルゴリズム実装','システム・モジュール構成設計']
+  tools: ['visual studio code', 'visual studio', 'intellij idea', 'pycharm', 'android studio', 'jira', 'github', 'google workspace', 'microsoft 365', 'github copilot', 'claude code'],
+  other: {
+    en: ['os fundamentals (windows, linux)', 'networking fundamentals', 'cybersecurity basics', 'ui/ux design principles', 'troubleshooting', 'ai prompt engineering', 'workflow automation & optimisation', 'api integration & data processing', 'algorithm implementation', 'system design & modular architecture'],
+    ja: ['os基礎知識 (windows, linux)', 'ネットワーク基礎', 'サイバーセキュリティ基礎', 'ui/uxデザイン原則', 'トラブルシューティング', 'ai プロンプトエンジニアリング', 'ワークフロー自動化・最適化', 'api連携・データ処理', 'アルゴリズム実装', 'システム・モジュール構成設計']
   }
 };
 
-function makeTags(arr){
-  return arr.map(function(t){return '<span class="tag">'+t+'</span>';}).join('');
+function makeTags(arr) {
+  return arr.map(function(t){ return '<span class="tag">' + t + '</span>'; }).join('');
 }
 
-function renderStack(jp){
-  document.getElementById('lbl-cat-lang').textContent=jp?'言語':'languages';
-  document.getElementById('lbl-primary').textContent=jp?'メイン':'primary';
-  document.getElementById('lbl-addl-lang').textContent=jp?'サブ':'secondary';
-  document.getElementById('tags-primary').innerHTML=makeTags(STACK.lang.primary);
-  document.getElementById('tags-addl-lang').innerHTML=makeTags(STACK.lang.additional);
-
-  document.getElementById('lbl-cat-fw').textContent=jp?'フレームワーク':'frameworks';
-  document.getElementById('tags-fw').innerHTML=makeTags(jp?STACK.frameworks.ja:STACK.frameworks.en);
-
-  document.getElementById('lbl-cat-tools').textContent=jp?'開発ツール':'dev tools';
-  document.getElementById('tags-tools').innerHTML=makeTags(STACK.tools);
-
-  document.getElementById('lbl-cat-other').textContent=jp?'その他':'additional skills';
-  document.getElementById('tags-other').innerHTML=makeTags(jp?STACK.other.ja:STACK.other.en);
+function renderStack(jp) {
+  document.getElementById('lbl-cat-lang').textContent   = jp ? '言語' : 'languages';
+  document.getElementById('lbl-primary').textContent    = jp ? 'メイン' : 'primary';
+  document.getElementById('lbl-addl-lang').textContent  = jp ? 'サブ' : 'secondary';
+  document.getElementById('tags-primary').innerHTML     = makeTags(STACK.lang.primary);
+  document.getElementById('tags-addl-lang').innerHTML   = makeTags(STACK.lang.additional);
+  document.getElementById('lbl-cat-fw').textContent     = jp ? 'フレームワーク' : 'frameworks';
+  document.getElementById('tags-fw').innerHTML          = makeTags(jp ? STACK.frameworks.ja : STACK.frameworks.en);
+  document.getElementById('lbl-cat-tools').textContent  = jp ? '開発ツール' : 'dev tools';
+  document.getElementById('tags-tools').innerHTML       = makeTags(STACK.tools);
+  document.getElementById('lbl-cat-other').textContent  = jp ? 'その他' : 'additional skills';
+  document.getElementById('tags-other').innerHTML       = makeTags(jp ? STACK.other.ja : STACK.other.en);
 }
 
-renderStack(document.body.dataset.jp==='1');
+renderStack(document.body.dataset.jp === '1');
 
-window.onToggleLangContent=function(jp){
-  document.getElementById('back-label').textContent=jp?'ホームへ':'back to home';
-  document.getElementById('greeting').innerHTML=jp
-    ?'自己紹介<br><span>その裏にいる人。</span>'
-    :'about me<br><span>the person behind the work.</span>';
-  document.getElementById('lbl-profile').textContent=jp?'◤ プロフィール':'◤ profile';
-  document.getElementById('profile-role').textContent=jp?'開発者・ピクセルアーティスト':'developer & pixel artist';
-  document.getElementById('profile-loc').textContent=jp?'広東語 · 中国語 · 英語 · 日本語':'cantonese · mandarin · english · japanese';
-  document.getElementById('lbl-bio').textContent=jp?'':'bio';
-  document.getElementById('bio-text').textContent=jp
-    ?'なんか開発・描いている人です。主にPythonを使って、実際の課題を解決する小さくて実用的なツールを作るのが好きです。コードを書いていない時間はピクセルアートを描いています。シンプルで、少し手作りな感じ、機能性ミニマル的なものが好きです。'
-    :'I\'m a developer and pixel artist based in Melbourne. I like building small, focused tools that solve real problems — mostly in Python, sometimes with a web layer on top. When I\'m not writing code I\'m pushing pixels, usually for personal projects. I care about things that are clean, fast, and a little bit handmade.';
-  document.getElementById('lbl-stack').textContent=jp?'技術スタック':'stack & tools';
+window.onToggleLangContent = function(jp) {
+  var h1 = document.getElementById('page-h1');
+  h1.childNodes[0].textContent = jp ? '自己紹介' : 'about me';
+  document.getElementById('page-sub').textContent = jp ? 'その裏にいる人。' : 'the person behind the work.';
+  document.getElementById('lbl-profile').textContent = jp ? 'プロフィール' : 'profile';
+  document.getElementById('profile-role').textContent = jp ? '開発者・ピクセルアーティスト' : 'developer & pixel artist';
+  document.getElementById('profile-loc').textContent = jp ? '広東語 · 中国語 · 英語 · 日本語' : 'cantonese · mandarin · english · japanese';
+  document.getElementById('bio-text').textContent = jp
+    ? 'なんか開発・描いている人です。主にPythonを使って、実際の課題を解決する小さくて実用的なツールを作るのが好きです。コードを書いていない時間はピクセルアートを描いています。シンプルで、少し手作りな感じ、機能性ミニマル的なものが好きです。'
+    : "I'm a developer and pixel artist based in Melbourne. I like building small, focused tools that solve real problems — mostly in Python, sometimes with a web layer on top. When I'm not writing code I'm pushing pixels, usually for personal projects. I care about things that are clean, fast, and a little bit handmade.";
+  document.getElementById('lbl-stack').textContent = jp ? '技術スタック' : 'stack & tools';
+  document.getElementById('nav-home').textContent    = jp ? 'ホーム' : 'home';
+  document.getElementById('nav-works').textContent   = jp ? '制作実績' : 'works';
+  document.getElementById('nav-art').textContent     = jp ? 'イラスト' : 'art';
+  document.getElementById('nav-about').textContent   = jp ? '自己紹介' : 'about';
+  document.getElementById('nav-contact').textContent = jp ? 'お問い合わせ' : 'contact';
   renderStack(jp);
 };
 </script>

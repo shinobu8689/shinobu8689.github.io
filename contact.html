@@ -7,124 +7,456 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="sidebar.css">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:#F5F3EE;min-height:100vh;display:flex;}
-
-.main{flex:1;display:flex;flex-direction:column;}
-.center-wrap{
-  flex:1;display:flex;flex-direction:column;justify-content:center;
-  gap:28px;max-width:560px;width:100%;margin:0 auto;padding:60px 40px;
+:root {
+  --bg: #EDEAE2;
+  --panel: #E4E1D7;
+  --ink: #151E1B;
+  --teal-deep: #0E332E;
+  --teal: #2C685D;
+  --sage: #8FA396;
+  --phosphor: #3FCB8E;
+  --line: #B7C0B6;
 }
 
-.site-name{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:400;color:#7A7773;letter-spacing:0.06em;}
-.page-title{font-size:26px;font-weight:500;color:#1A1917;line-height:1.35;}
-.page-title span{font-weight:400;color:#7A7773;}
-.divider{width:100%;height:0.5px;background:#C8C5BE;}
-.section-label{font-size:11px;color:#9E9B95;letter-spacing:0.08em;text-transform:uppercase;}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-.social-list{display:flex;flex-direction:column;gap:2px;}
-.social-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;text-decoration:none;color:inherit;transition:background 0.12s;}
-.social-item:hover{background:#EAE8E3;}
-.social-item i{font-size:18px;color:#7A7773;flex-shrink:0;width:22px;}
-.social-name{font-size:13px;font-weight:500;color:#1A1917;font-family:'IBM Plex Mono',monospace;}
-.social-handle{font-size:11px;color:#B0ADA6;margin-left:auto;}
-.social-arrow{font-size:13px;color:#C8C5BE;margin-left:6px;transition:color 0.12s;}
-.social-item:hover .social-arrow{color:#7A7773;}
+body {
+  font-family: 'IBM Plex Mono', monospace;
+  background: var(--bg);
+  min-height: 100vh;
+}
 
+.main {
+  min-height: 100vh;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-attachment: fixed;
+  position: relative;
+}
+
+.grid-fade {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, transparent 0%, var(--bg) 72%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.frame {
+  position: relative;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 32px 80px;
+  z-index: 1;
+}
+
+/* ---- topbar ---- */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--ink);
+}
+.site-mark {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--teal-deep);
+}
+.topbar-controls { display: flex; align-items: center; gap: 8px; }
+.topbar-btn {
+  background: transparent;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  padding: 5px 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.15s, color 0.15s;
+  line-height: 1;
+}
+.topbar-btn:hover { background: var(--ink); color: var(--bg); }
+.icon-sun { display: none; }
+.icon-moon { display: inline; }
+body.dark .icon-sun { display: inline; }
+body.dark .icon-moon { display: none; }
+
+/* ---- nav dropdown ---- */
+.nav-btn-wrap { position: relative; }
+.nav-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: var(--panel);
+  border: 1px solid var(--ink);
+  padding: 4px;
+  z-index: 90;
+  min-width: 150px;
+}
+.nav-btn-wrap.open .nav-dropdown { display: block; }
+.nav-dd-item {
+  display: block;
+  padding: 7px 12px;
+  font-size: 10.5px;
+  color: var(--ink);
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.1s, color 0.1s;
+}
+.nav-dd-item:hover { background: var(--teal-deep); color: var(--bg); }
+.nav-dd-item.current { color: var(--phosphor); pointer-events: none; }
+
+/* ---- file header ---- */
+.file-header {
+  margin-top: 40px;
+  border: 1px solid var(--ink);
+  background: var(--panel);
+  position: relative;
+}
+.file-header::before {
+  content: "";
+  position: absolute; top: 8px; left: 8px; right: 8px; bottom: 8px;
+  border: 1px dashed var(--sage);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero { padding: 40px 32px 44px; position: relative; z-index: 1; }
+.eyebrow {
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  color: var(--teal);
+  margin-bottom: 16px;
+}
+.eyebrow-back {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  padding: 3px 9px;
+  transition: background 0.15s, color 0.15s;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+.eyebrow-back:hover { background: var(--ink); color: var(--bg); }
+
+h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(38px, 6vw, 62px);
+  letter-spacing: -0.01em;
+  color: var(--teal-deep);
+  line-height: 1.02;
+}
+h1 .cursor {
+  display: inline-block;
+  width: 0.45ch;
+  background: var(--phosphor);
+  animation: blink 1s steps(1) infinite;
+  margin-left: 3px;
+  vertical-align: text-bottom;
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+.role-line {
+  margin-top: 18px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(14px, 1.8vw, 18px);
+  color: var(--ink);
+}
+
+.hero-divider {
+  margin-top: 28px;
+  height: 1px;
+  background: repeating-linear-gradient(90deg, var(--ink) 0 5px, transparent 5px 10px);
+  opacity: 0.4;
+}
+
+/* ---- section label ---- */
+.section-label {
+  margin: 52px 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 10.5px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--teal-deep);
+}
+.section-label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--ink);
+  opacity: 0.4;
+}
+.section-label .tri { color: var(--phosphor); }
+
+/* ---- contact list ---- */
+.contact-panel {
+  border: 1px solid var(--ink);
+  background: var(--panel);
+}
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid rgba(21, 30, 27, 0.15);
+  transition: background 0.12s;
+}
+.contact-item:last-child { border-bottom: none; }
+.contact-item:hover { background: var(--teal-deep); }
+.contact-item:hover .contact-name { color: var(--bg); }
+.contact-item:hover .contact-handle { color: rgba(237, 234, 226, 0.6); }
+.contact-item:hover .contact-arrow { color: var(--phosphor); }
+.contact-item:hover .contact-icon { color: var(--phosphor); }
+
+.contact-icon {
+  font-size: 18px;
+  color: var(--teal);
+  flex-shrink: 0;
+  width: 22px;
+  transition: color 0.12s;
+}
+.contact-name {
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal-deep);
+  min-width: 90px;
+  transition: color 0.12s;
+}
+.contact-handle {
+  font-size: 10.5px;
+  color: var(--sage);
+  margin-left: auto;
+  transition: color 0.12s;
+}
+.contact-arrow {
+  font-size: 15px;
+  color: var(--sage);
+  flex-shrink: 0;
+  transition: color 0.12s;
+}
+
+/* ---- note ---- */
+.note-text {
+  margin-top: 28px;
+  font-size: 10.5px;
+  color: var(--sage);
+  line-height: 1.85;
+  letter-spacing: 0.02em;
+}
+
+/* ---- footer ---- */
+footer {
+  margin-top: 64px;
+  padding-top: 16px;
+  border-top: 1px solid var(--ink);
+  display: flex;
+  justify-content: space-between;
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  color: var(--sage);
+}
+
+/* ---- dark mode ---- */
+body.dark {
+  --bg: #0C1F1B;
+  --panel: #112920;
+  --ink: #B7C9C0;
+  --teal-deep: #3FCB8E;
+  --teal: #6BAFA0;
+  --sage: #3D6055;
+  --line: #1C3530;
+}
+body.dark .file-header { background: var(--panel); border-color: #2A4A40; }
+body.dark .file-header::before { border-color: var(--sage); }
+body.dark h1 { color: var(--teal-deep); }
+body.dark .topbar { border-color: #2A4A40; }
+body.dark .nav-dropdown { background: var(--panel); border-color: #2A4A40; }
+body.dark .nav-dd-item { color: var(--ink); }
+body.dark .nav-dd-item:hover { background: #1D4A3A; color: #EDEAE2; }
+body.dark footer { border-color: #2A4A40; }
+body.dark .contact-panel { border-color: #2A4A40; }
+body.dark .contact-item { border-bottom-color: #2A4A40; }
+body.dark .contact-item:hover { background: #1D4A3A; }
+body.dark .contact-item:hover .contact-name { color: #EDEAE2; }
+body.dark .contact-item:hover .contact-handle { color: rgba(237, 234, 226, 0.5); }
+
+/* ---- mobile ---- */
 @media (max-width: 768px) {
-  .center-wrap{padding:80px 24px 40px;justify-content:flex-start;}
-  .page-title{font-size:22px;}
+  .frame { padding: 0 20px 60px; }
+  .hero { padding: 26px 18px 30px; }
+  .contact-item { padding: 14px 16px; gap: 12px; }
+  .contact-name { min-width: 70px; }
+  .topbar-btn { font-size: 9.5px; padding: 4px 8px; }
 }
 
-body.dark{background:#1C1B19;}
-body.dark .site-name{color:#5C5A56;}
-body.dark .page-title{color:#E8E6E1;}
-body.dark .page-title span{color:#5C5A56;}
-body.dark .divider{background:#2E2D2A;}
-body.dark .section-label{color:#5C5A56;}
-body.dark .social-item:hover{background:#1E1D1B;}
-body.dark .social-item i{color:#5C5A56;}
-body.dark .social-name{color:#E8E6E1;}
-body.dark .social-handle{color:#3A3835;}
-body.dark .social-arrow{color:#2E2D2A;}
-body.dark .social-item:hover .social-arrow{color:#5C5A56;}
-body.dark #resp-text{color:#5C5A56;}
+.jp-loading .main { visibility: hidden; }
 </style>
 </head>
 <body data-page="contact">
 <script>(function(){var s=localStorage;if(s.getItem('sw_dark')==='1')document.body.classList.add('dark');if(s.getItem('sw_jp')==='1'){document.body.dataset.jp='1';document.body.classList.add('jp-loading');}})();</script>
 
-<div class="mock">
-  <div class="main">
-    <div class="center-wrap">
-      <span class="site-name">shinobu_works</span>
+<div class="main">
+  <div class="grid-fade"></div>
+  <div class="frame">
 
-      <a class="back-link" href="index.html">
-        <i class="ti ti-arrow-left"></i>
-        <span id="back-label">back to home</span>
-      </a>
-
-      <div class="page-title" id="page-title">
-        find me here<br>
-        <span id="page-sub">pick your platform.</span>
-      </div>
-
-      <div class="divider"></div>
-
-      <div style="display:flex;flex-direction:column;gap:10px;">
-        <div class="section-label" id="lbl-links">◤ links</div>
-        <div class="social-list">
-          <a class="social-item" href="mailto:shinobu.digital@gmail.com">
-            <i class="ti ti-mail"></i>
-            <span class="social-name">email</span>
-            <span class="social-handle">shinobu.digital@gmail.com</span>
-            <i class="ti ti-arrow-up-right social-arrow"></i>
-          </a>
-          <a class="social-item" href="https://github.com/shinobu8689" target="_blank">
-            <i class="ti ti-brand-github"></i>
-            <span class="social-name">github</span>
-            <span class="social-handle">@shinobu8689</span>
-            <i class="ti ti-arrow-up-right social-arrow"></i>
-          </a>
-          <a class="social-item" href="https://x.com/shinobu_gpt" target="_blank">
-            <i class="ti ti-brand-x"></i>
-            <span class="social-name">twitter / x</span>
-            <span class="social-handle">@shinobu_gpt</span>
-            <i class="ti ti-arrow-up-right social-arrow"></i>
-          </a>
-          <a class="social-item" href="https://www.linkedin.com/in/cyrus-lo-4a549a328/" target="_blank">
-            <i class="ti ti-brand-linkedin"></i>
-            <span class="social-name">linkedin</span>
-            <span class="social-handle"></span>
-            <i class="ti ti-arrow-up-right social-arrow"></i>
-          </a>
+    <div class="topbar">
+      <span class="site-mark">shinobu_works</span>
+      <div class="topbar-controls">
+        <div class="nav-btn-wrap" id="nav-btn-wrap">
+          <button class="topbar-btn" onclick="toggleNavDropdown()">
+            <i class="ti ti-layout-grid"></i><span>site</span>
+          </button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="index.html" id="nav-home">home</a>
+            <a class="nav-dd-item" href="projects.html" id="nav-works">works</a>
+            <a class="nav-dd-item" href="art.html" id="nav-art">art</a>
+            <a class="nav-dd-item" href="about.html" id="nav-about">about</a>
+            <a class="nav-dd-item current" href="contact.html" id="nav-contact">contact</a>
+          </div>
         </div>
+        <button class="topbar-btn" onclick="toggleDark()">
+          <i class="ti ti-moon icon-moon"></i>
+          <i class="ti ti-sun icon-sun"></i>
+        </button>
+        <button class="topbar-btn" id="topbar-lang-btn" onclick="toggleLang()">日本語</button>
       </div>
-
-      <div class="divider"></div>
-
-      <div style="font-size:12px;color:#7A7773;line-height:1.8;" id="resp-text">
-        usually within 1–2 days.<br>
-        happy to chat about dev projects, freelance, or collabs.
-      </div>
-
     </div>
+
+    <div class="file-header">
+      <div class="hero">
+        <div class="eyebrow"><a class="eyebrow-back" href="index.html">← back</a>shinobu_works/contact</div>
+        <h1 id="page-h1">find me here<span class="cursor">&nbsp;</span></h1>
+        <div class="role-line">
+          <span id="page-sub">usually within 1–2 days.<br>happy to chat about dev projects, freelance, or opportunities.</span>
+        </div>
+        <div class="hero-divider"></div>
+      </div>
+    </div>
+
+    <div class="section-label">
+      <span class="tri">▸</span>
+      <span id="lbl-links">links</span>
+    </div>
+
+    <div class="contact-panel">
+      <a class="contact-item" href="mailto:shinobu.digital@gmail.com">
+        <i class="ti ti-mail contact-icon"></i>
+        <span class="contact-name" id="cn-email">email</span>
+        <span class="contact-handle">shinobu.digital@gmail.com</span>
+        <i class="ti ti-arrow-up-right contact-arrow"></i>
+      </a>
+      <a class="contact-item" href="https://github.com/shinobu8689" target="_blank">
+        <i class="ti ti-brand-github contact-icon"></i>
+        <span class="contact-name" id="cn-github">github</span>
+        <span class="contact-handle">@shinobu8689</span>
+        <i class="ti ti-arrow-up-right contact-arrow"></i>
+      </a>
+      <a class="contact-item" href="https://x.com/shinobu_gpt" target="_blank">
+        <i class="ti ti-brand-x contact-icon"></i>
+        <span class="contact-name" id="cn-twitter">twitter / x</span>
+        <span class="contact-handle">@shinobu_gpt</span>
+        <i class="ti ti-arrow-up-right contact-arrow"></i>
+      </a>
+      <a class="contact-item" href="https://www.linkedin.com/in/cyrus-lo-4a549a328/" target="_blank">
+        <i class="ti ti-brand-linkedin contact-icon"></i>
+        <span class="contact-name" id="cn-linkedin">linkedin</span>
+        <span class="contact-handle"></span>
+        <i class="ti ti-arrow-up-right contact-arrow"></i>
+      </a>
+    </div>
+
+    <footer>
+      <span>© 2025 All rights reserved.</span>
+      <span>shinobu_works</span>
+    </footer>
+
   </div>
 </div>
 
-<script src="sidebar.js"></script>
 <script>
-window.onToggleLangContent=function(jp){
-  document.getElementById('back-label').textContent=jp?'ホームへ':'back to home';
-  document.getElementById('page-title').childNodes[0].textContent=jp?'よかったら連絡ください。\n':'find me here\n';
-  document.getElementById('page-sub').textContent=jp?'':'pick your platform.';
-  document.getElementById('lbl-links').textContent=jp?'◤ links':'◤ links';
-  document.getElementById('resp-text').innerHTML=jp
-    ?'通常1〜2日以内に返信します。<br>開発案件やフリーランスのご相談、お気軽にどうぞ。'
-    :'usually within 1–2 days.<br>happy to chat about dev projects, freelance, or collabs.';
+(function(){
+  var dark = localStorage.getItem('sw_dark') === '1';
+  var jp   = localStorage.getItem('sw_jp')   === '1';
+
+  function applyLang(){
+    var btn = document.getElementById('topbar-lang-btn');
+    if(btn) btn.textContent = jp ? 'English' : '日本語';
+    document.documentElement.lang = jp ? 'ja' : 'en';
+    if(typeof window.onToggleLangContent === 'function') window.onToggleLangContent(jp);
+  }
+
+  window.toggleDark = function(){
+    dark = !dark;
+    localStorage.setItem('sw_dark', dark ? '1' : '0');
+    document.body.classList.toggle('dark', dark);
+  };
+
+  window.toggleLang = function(){
+    jp = !jp;
+    localStorage.setItem('sw_jp', jp ? '1' : '0');
+    document.body.dataset.jp = jp ? '1' : '';
+    applyLang();
+  };
+
+  window.toggleNavDropdown = function(){
+    document.getElementById('nav-btn-wrap').classList.toggle('open');
+  };
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('#nav-btn-wrap')){
+      var wrap = document.getElementById('nav-btn-wrap');
+      if(wrap) wrap.classList.remove('open');
+    }
+  });
+
+  setTimeout(function(){
+    if(jp) applyLang();
+    document.body.classList.remove('jp-loading');
+  }, 0);
+})();
+</script>
+
+<script>
+window.onToggleLangContent = function(jp) {
+  var h1 = document.getElementById('page-h1');
+  h1.childNodes[0].textContent = jp ? 'よかったら連絡ください。' : 'find me here';
+  document.getElementById('page-sub').innerHTML = jp
+    ? '通常1〜2日以内に返信します。<br>開発案件やフリーランスのご相談、お気軽にどうぞ。'
+    : 'usually within 1–2 days.<br>happy to chat about dev projects, freelance, or opportunities.';
+  document.getElementById('lbl-links').textContent = jp ? 'リンク' : 'links';
+  document.getElementById('cn-email').textContent   = jp ? 'メール' : 'email';
+  document.getElementById('cn-github').textContent  = 'github';
+  document.getElementById('cn-twitter').textContent = jp ? 'twitter / x' : 'twitter / x';
+  document.getElementById('cn-linkedin').textContent = 'linkedin';
+  document.getElementById('nav-home').textContent    = jp ? 'ホーム' : 'home';
+  document.getElementById('nav-works').textContent   = jp ? '制作実績' : 'works';
+  document.getElementById('nav-art').textContent     = jp ? 'イラスト' : 'art';
+  document.getElementById('nav-about').textContent   = jp ? '自己紹介' : 'about';
+  document.getElementById('nav-contact').textContent = jp ? 'お問い合わせ' : 'contact';
 };
 </script>
 </body>

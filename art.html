@@ -235,7 +235,6 @@ h1 .cursor {
   flex-direction: column;
 }
 .card:hover { transform: translateY(-3px); }
-.card:hover .scan { opacity: 1; }
 
 .card-head {
   padding: 7px 11px;
@@ -250,48 +249,19 @@ h1 .cursor {
   height: 160px;
   position: relative;
   overflow: hidden;
-  background-image: repeating-linear-gradient(
-    0deg,
-    rgba(63, 203, 142, 0.05) 0px,
-    rgba(63, 203, 142, 0.05) 1px,
-    transparent 1px,
-    transparent 3px
-  );
   flex-shrink: 0;
 }
 .card-thumb img {
   width: 100%; height: 100%;
   object-fit: cover; object-position: center;
   image-rendering: pixelated;
-  opacity: 0.75;
-  filter: saturate(0.5) brightness(0.8);
-  transition: opacity 0.25s, filter 0.25s;
   display: block;
-}
-.card:hover .card-thumb img {
-  opacity: 0.92;
-  filter: saturate(0.75) brightness(0.92);
 }
 .card-icon {
   width: 100%; height: 100%;
   display: flex; align-items: center; justify-content: center;
 }
 .card-icon i { font-size: 38px; color: var(--phosphor); opacity: 0.4; }
-.scan {
-  position: absolute; left: 0; right: 0; height: 40%;
-  background: linear-gradient(180deg, transparent, rgba(63, 203, 142, 0.15), transparent);
-  top: -40%;
-  opacity: 0;
-  animation: scan 2.8s linear infinite;
-  transition: opacity 0.2s;
-  pointer-events: none;
-}
-.phosphor-glow {
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg, transparent 55%, rgba(63, 203, 142, 0.1) 100%);
-  pointer-events: none;
-}
-@keyframes scan { to { top: 100%; } }
 
 .card-body {
   padding: 14px 13px 16px;
@@ -751,8 +721,8 @@ function buildCard(p, idx) {
   var title = (_jp && p.title_ja) ? p.title_ja : p.title;
   var desc  = (_jp && p.desc_ja)  ? p.desc_ja  : p.desc;
   var thumb = p.images && p.images.length
-    ? '<img src="' + p.images[0] + '" alt="' + title + '"><div class="scan"></div><div class="phosphor-glow"></div>'
-    : '<div class="card-icon"><i class="ti ti-grid-dots"></i></div><div class="scan"></div><div class="phosphor-glow"></div>';
+    ? '<img src="' + p.images[0] + '" alt="' + title + '">'
+    : '<div class="card-icon"><i class="ti ti-grid-dots"></i></div>';
   var tags = p.tags.map(function(t){ return '<span class="card-tag">' + t + '</span>'; }).join('');
   return '<div class="card" role="button" tabindex="0"'
     + ' onclick="openLightbox(' + idx + ')"'
