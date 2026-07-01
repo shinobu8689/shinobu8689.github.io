@@ -7,172 +7,272 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../sidebar.css">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:#F5F3EE;min-height:100vh;display:flex;}
-.main{flex:1;display:flex;flex-direction:column;}
-.center-wrap{flex:1;display:flex;flex-direction:column;gap:28px;max-width:860px;width:100%;margin:0 auto;padding:60px 40px;}
-.site-name{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:400;color:#7A7773;letter-spacing:0.06em;}
-.divider{width:100%;height:0.5px;background:#C8C5BE;}
-.section-label{font-size:11px;color:#9E9B95;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;}
-.back-link{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:#7A7773;text-decoration:none;cursor:pointer;transition:color 0.12s;}
-.back-link:hover{color:#1A1917;}
-.back-link i{font-size:14px;}
-.detail-title{font-size:28px;font-weight:500;color:#1A1917;line-height:1.3;}
-.detail-sub{font-size:14px;color:#7A7773;margin-top:6px;line-height:1.5;}
-.info-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px;}
-.info-chip{display:flex;align-items:center;gap:5px;font-size:11px;color:#7A7773;font-family:'IBM Plex Mono',monospace;}
-.info-chip i{font-size:13px;color:#9E9B95;}
-.meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;}
-.tag{font-size:10px;font-family:'IBM Plex Mono',monospace;color:#7A7773;background:#EAE8E3;border:0.5px solid #D4D1CB;border-radius:4px;padding:3px 8px;}
-.status-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-family:'IBM Plex Mono',monospace;color:#5C5A56;background:#EAE8E3;border:0.5px solid #C8C5BE;border-radius:20px;padding:3px 10px;}
-.status-dot{width:6px;height:6px;border-radius:50%;background:#9E9B95;flex-shrink:0;}
-.status-dot.active{background:#6BAF7A;}
-.status-dot.wip{background:#D4A843;}
-.meta-sep{width:0.5px;height:14px;background:#D4D1CB;}
-.ext-link{display:inline-flex;align-items:center;gap:3px;font-size:11px;color:#7A7773;text-decoration:none;transition:color 0.12s;}
-.ext-link:hover{color:#1A1917;}
-.ext-link i{font-size:12px;}
-.hero{width:100%;background:#EAE8E3;border:0.5px solid #D4D1CB;border-radius:12px;overflow:hidden;}
-.hero img{width:100%;height:auto;display:block;}
-.prose{font-size:13px;color:#5C5A56;line-height:1.8;max-width:640px;}
-.feature-list{display:flex;flex-direction:column;gap:8px;}
-.feature-item{display:flex;gap:10px;align-items:flex-start;}
-.feature-dot{width:4px;height:4px;border-radius:50%;background:#9E9B95;flex-shrink:0;margin-top:7px;}
-.feature-text{font-size:13px;color:#5C5A56;line-height:1.6;}
-.tag-group{display:flex;flex-wrap:wrap;gap:6px;}
-@media(max-width:768px){
-  .center-wrap{padding:80px 24px 40px;}
-  .detail-title{font-size:22px;}
+:root {
+  --bg: #EDEAE2; --panel: #E4E1D7; --ink: #151E1B; --teal-deep: #0E332E;
+  --teal: #2C685D; --sage: #8FA396; --phosphor: #3FCB8E; --line: #B7C0B6;
+  --amber: #C97F35; --card-screen: #0E332E;
 }
-body.dark{background:#1C1B19;}
-body.dark .site-name{color:#5C5A56;}
-body.dark .back-link{color:#5C5A56;}
-body.dark .back-link:hover{color:#E8E6E1;}
-body.dark .detail-title{color:#E8E6E1;}
-body.dark .detail-sub{color:#5C5A56;}
-body.dark .divider{background:#2E2D2A;}
-body.dark .section-label{color:#5C5A56;}
-body.dark .tag{background:#1E1D1B;border-color:#2E2D2A;color:#7A7773;}
-body.dark .status-badge{background:#1E1D1B;border-color:#2E2D2A;color:#7A7773;}
-body.dark .meta-sep{background:#2E2D2A;}
-body.dark .ext-link{color:#5C5A56;}
-body.dark .ext-link:hover{color:#E8E6E1;}
-body.dark .hero{border-color:#2E2D2A;}
-body.dark .prose{color:#7A7773;}
-body.dark .feature-dot{background:#3A3835;}
-body.dark .feature-text{color:#7A7773;}
-body.dark .info-chip{color:#5C5A56;}
-body.dark .info-chip i{color:#3A3835;}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'IBM Plex Mono', monospace; background: var(--bg); min-height: 100vh; }
+.main {
+  min-height: 100vh;
+  background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 28px 28px; background-attachment: fixed; position: relative;
+}
+.grid-fade {
+  position: fixed; inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, transparent 0%, var(--bg) 72%);
+  pointer-events: none; z-index: 0;
+}
+.frame { position: relative; max-width: 900px; width: 100%; margin: 0 auto; padding: 0 32px 80px; z-index: 1; }
+
+.topbar { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--ink); }
+.site-mark { font-size: 13px; font-weight: 500; letter-spacing: 0.06em; color: var(--teal-deep); }
+.topbar-controls { display: flex; align-items: center; gap: 8px; }
+.topbar-btn {
+  background: transparent; border: 1px solid var(--ink); color: var(--ink);
+  font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em;
+  padding: 5px 11px; cursor: pointer; display: flex; align-items: center; gap: 5px;
+  transition: background 0.15s, color 0.15s; line-height: 1;
+}
+.topbar-btn:hover { background: var(--ink); color: var(--bg); }
+.icon-sun { display: none; } .icon-moon { display: inline; }
+body.dark .icon-sun { display: inline; } body.dark .icon-moon { display: none; }
+
+.nav-btn-wrap { position: relative; }
+.nav-dropdown {
+  display: none; position: absolute; top: calc(100% + 4px); right: 0;
+  background: var(--panel); border: 1px solid var(--ink); padding: 4px; z-index: 90; min-width: 150px;
+}
+.nav-btn-wrap.open .nav-dropdown { display: block; }
+.nav-dd-item {
+  display: block; padding: 7px 12px; font-size: 10.5px; color: var(--ink);
+  cursor: pointer; letter-spacing: 0.06em; text-decoration: none; white-space: nowrap;
+  transition: background 0.1s, color 0.1s;
+}
+.nav-dd-item:hover { background: var(--teal-deep); color: var(--bg); }
+.nav-dd-item.section { color: var(--phosphor); }
+
+.file-header { margin-top: 40px; border: 1px solid var(--ink); background: var(--panel); position: relative; }
+.file-header::before {
+  content: ""; position: absolute; top: 8px; left: 8px; right: 8px; bottom: 8px;
+  border: 1px dashed var(--sage); pointer-events: none; z-index: 0;
+}
+.hero-section { padding: 40px 32px 44px; position: relative; z-index: 1; }
+.eyebrow { font-size: 10.5px; letter-spacing: 0.08em; color: var(--teal); margin-bottom: 16px; }
+.eyebrow-back {
+  display: inline-flex; align-items: center; text-decoration: none;
+  font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink); border: 1px solid var(--ink);
+  padding: 3px 9px; transition: background 0.15s, color 0.15s; vertical-align: middle; margin-right: 10px;
+}
+.eyebrow-back:hover { background: var(--ink); color: var(--bg); }
+h1 {
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+  font-size: clamp(28px, 4.5vw, 50px); letter-spacing: -0.01em; color: var(--teal-deep); line-height: 1.05;
+}
+h1 .cursor {
+  display: inline-block; width: 0.45ch; background: var(--phosphor);
+  animation: blink 1s steps(1) infinite; margin-left: 3px; vertical-align: text-bottom;
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.role-line { margin-top: 14px; font-family: 'Space Grotesk', sans-serif; font-size: clamp(13px, 1.6vw, 16px); color: var(--sage); }
+.hero-divider { margin-top: 24px; height: 1px; background: repeating-linear-gradient(90deg, var(--ink) 0 5px, transparent 5px 10px); opacity: 0.4; }
+.info-chips { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 20px; }
+.info-chip { display: flex; align-items: center; gap: 6px; font-size: 10.5px; color: var(--sage); letter-spacing: 0.04em; }
+.info-chip i { font-size: 13px; color: var(--teal); }
+.meta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 16px; }
+.tag { font-size: 9.5px; font-family: 'IBM Plex Mono', monospace; color: var(--teal); border: 1px solid var(--teal); padding: 2px 8px; letter-spacing: 0.06em; }
+.status-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 9.5px; font-family: 'IBM Plex Mono', monospace; color: var(--sage); border: 1px solid var(--sage); padding: 2px 8px; }
+.status-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--sage); flex-shrink: 0; }
+.status-dot.active { background: var(--phosphor); }
+.status-dot.wip { background: var(--amber); }
+.meta-sep { width: 1px; height: 14px; background: var(--ink); opacity: 0.25; }
+.ext-link { display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; letter-spacing: 0.08em; color: var(--teal); text-decoration: none; transition: color 0.12s; }
+.ext-link:hover { color: var(--phosphor); }
+.ext-link i { font-size: 12px; }
+
+.proj-hero {
+  position: relative; overflow: hidden; height: 300px; margin-top: 40px;
+  border: 1px solid var(--ink); background: var(--card-screen);
+  background-image: repeating-linear-gradient(0deg, rgba(63,203,142,0.05) 0px, rgba(63,203,142,0.05) 1px, transparent 1px, transparent 3px);
+}
+.proj-hero img { width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: 0.75; filter: saturate(0.5) brightness(0.8); display: block; transition: opacity 0.25s, filter 0.25s; }
+.proj-hero:hover img { opacity: 0.9; filter: saturate(0.65) brightness(0.88); }
+.scan {
+  position: absolute; left: 0; right: 0; height: 40%;
+  background: linear-gradient(180deg, transparent, rgba(63,203,142,0.15), transparent);
+  top: -40%; opacity: 0.7; animation: scan 2.8s linear infinite; pointer-events: none;
+}
+.phosphor-glow { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(63,203,142,0.1) 100%); pointer-events: none; }
+@keyframes scan { to { top: 100%; } }
+
+.section-label {
+  margin: 52px 0 20px; display: flex; align-items: center; gap: 12px;
+  font-size: 10.5px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--teal-deep);
+}
+.section-label::after { content: ""; flex: 1; height: 1px; background: var(--ink); opacity: 0.4; }
+.section-label .tri { color: var(--phosphor); }
+.prose { font-size: 13px; color: var(--ink); line-height: 1.85; max-width: 700px; opacity: 0.8; }
+.feature-list { display: flex; flex-direction: column; gap: 10px; }
+.feature-item { display: flex; gap: 12px; align-items: flex-start; }
+.feature-tri { color: var(--phosphor); font-size: 9px; flex-shrink: 0; margin-top: 4px; opacity: 0.7; line-height: 1.5; }
+.feature-text { font-size: 12.5px; color: var(--ink); line-height: 1.7; opacity: 0.8; }
+.tag-group { display: flex; flex-wrap: wrap; gap: 6px; }
+
+footer { margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--ink); display: flex; justify-content: space-between; font-size: 9.5px; letter-spacing: 0.1em; color: var(--sage); }
+
+body.dark {
+  --bg: #0C1F1B; --panel: #112920; --ink: #B7C9C0; --teal-deep: #3FCB8E;
+  --teal: #6BAFA0; --sage: #3D6055; --line: #1C3530; --card-screen: #071310;
+}
+body.dark .file-header { background: var(--panel); border-color: #2A4A40; }
+body.dark .file-header::before { border-color: var(--sage); }
+body.dark h1 { color: var(--teal-deep); }
+body.dark .topbar { border-color: #2A4A40; }
+body.dark .nav-dropdown { background: var(--panel); border-color: #2A4A40; }
+body.dark .nav-dd-item { color: var(--ink); }
+body.dark .nav-dd-item:hover { background: #1D4A3A; color: #EDEAE2; }
+body.dark footer { border-color: #2A4A40; }
+
+@media (max-width: 768px) {
+  .frame { padding: 0 20px 60px; }
+  .hero-section { padding: 26px 18px 30px; }
+  .proj-hero { height: 200px; }
+  .topbar-btn { font-size: 9.5px; padding: 4px 8px; }
+}
+.jp-loading .main { visibility: hidden; }
 </style>
 </head>
-<body data-page="">
+<body data-page="works">
 <script>(function(){var s=localStorage;if(s.getItem('sw_dark')==='1')document.body.classList.add('dark');if(s.getItem('sw_jp')==='1'){document.body.dataset.jp='1';document.body.classList.add('jp-loading');}})();</script>
 
-<div class="mock">
-  <div class="main">
-    <div class="center-wrap">
-      <span class="site-name">shinobu_works</span>
+<div class="main">
+  <div class="grid-fade"></div>
+  <div class="frame">
 
-      <a class="back-link" id="back-link" href="../projects.html">
-        <i class="ti ti-arrow-left"></i>
-        <span id="back-label">back to works</span>
-      </a>
+    <div class="topbar">
+      <span class="site-mark">shinobu_works</span>
+      <div class="topbar-controls">
+        <div class="nav-btn-wrap" id="nav-btn-wrap">
+          <button class="topbar-btn" onclick="toggleNavDropdown()">
+            <i class="ti ti-layout-grid"></i><span>site</span>
+          </button>
+          <div class="nav-dropdown">
+            <a class="nav-dd-item" href="../index.html" id="nav-home">home</a>
+            <a class="nav-dd-item section" href="../projects.html" id="nav-works">works</a>
+            <a class="nav-dd-item" href="../art.html" id="nav-art">art</a>
+            <a class="nav-dd-item" href="../about.html" id="nav-about">about</a>
+            <a class="nav-dd-item" href="../contact.html" id="nav-contact">contact</a>
+          </div>
+        </div>
+        <button class="topbar-btn" onclick="toggleDark()">
+          <i class="ti ti-moon icon-moon"></i>
+          <i class="ti ti-sun icon-sun"></i>
+        </button>
+        <button class="topbar-btn" id="topbar-lang-btn" onclick="toggleLang()">日本語</button>
+      </div>
+    </div>
 
-      <div>
-        <div class="detail-title" id="detail-title">Next Train</div>
-        <div class="detail-sub" id="detail-sub">Dashboard that displays real-time info for trains with GTFS.</div>
-        <div class="info-row">
+    <div class="file-header">
+      <div class="hero-section">
+        <div class="eyebrow"><a class="eyebrow-back" href="../projects.html">← back</a>shinobu_works/projects/next_train</div>
+        <h1 id="detail-title">Next Train<span class="cursor">&nbsp;</span></h1>
+        <div class="role-line"><span id="detail-sub">Dashboard that displays real-time info for trains with GTFS.</span></div>
+        <div class="hero-divider"></div>
+        <div class="info-chips">
           <span class="info-chip"><i class="ti ti-calendar"></i><span id="info-duration">Feb 2026 · 2 weeks</span></span>
           <span class="info-chip"><i class="ti ti-user"></i><span id="info-team">Personal Project</span></span>
           <span class="info-chip"><i class="ti ti-code"></i><span id="info-type">Full-Stack Web Application</span></span>
         </div>
+        <div class="meta-row" id="meta-row"></div>
       </div>
-
-      <div class="meta-row" id="meta-row"></div>
-
-      <div class="divider"></div>
-
-      <div class="hero">
-        <img src="../project_images/nexttrain.png" alt="Next Train screenshot">
-      </div>
-
-      <div>
-        <div class="section-label" id="lbl-overview">◤ overview</div>
-        <div class="prose" id="overview-text"></div>
-      </div>
-
-      <div class="divider"></div>
-
-      <div>
-        <div class="section-label" id="lbl-features">◤ features</div>
-        <div class="feature-list" id="feature-list"></div>
-      </div>
-
-      <div class="divider"></div>
-
-      <div id="takeaways-section">
-        <div class="section-label" id="lbl-takeaways">◤ key takeaways</div>
-        <div class="feature-list" id="takeaways-list"></div>
-      </div>
-
-      <div class="divider" id="takeaways-divider"></div>
-
-
-      <div>
-        <div class="section-label" id="lbl-stack">◤ stack &amp; tools</div>
-        <div class="tag-group" id="stack-tags"></div>
-      </div>
-
     </div>
+
+    <div class="proj-hero">
+      <img src="../project_images/nexttrain.png" alt="Next Train screenshot">
+      <div class="scan"></div>
+      <div class="phosphor-glow"></div>
+    </div>
+
+    <div class="section-label"><span class="tri">▸</span><span id="lbl-overview">OVERVIEW</span></div>
+    <div class="prose" id="overview-text"></div>
+
+    <div class="section-label"><span class="tri">▸</span><span id="lbl-features">FEATURES</span></div>
+    <div class="feature-list" id="feature-list"></div>
+
+    <div class="section-label"><span class="tri">▸</span><span id="lbl-takeaways">KEY TAKEAWAYS</span></div>
+    <div class="feature-list" id="takeaways-list"></div>
+
+    <div class="section-label"><span class="tri">▸</span><span id="lbl-stack">STACK &amp; TOOLS</span></div>
+    <div class="tag-group" id="stack-tags"></div>
+
+    <footer>
+      <span>© 2025 All rights reserved.</span>
+      <span>shinobu_works</span>
+    </footer>
+
   </div>
 </div>
 
-<script>window.SW_BASE='../';</script>
-<script src="../sidebar.js"></script>
 <script>
-var ITEM={
-  type:'project',
-  backHref:'../projects.html',
-  title:'Next Train',
-  sub:'Dashboard that displays real-time info for trains with GTFS.',
-  status:'completed',
-  duration_en:'Feb 2026 · 2 weeks',
-  duration_ja:'2026年2月（2週間）',
-  team_en:'Personal Project',
-  team_ja:'個人開発',
-  apptype_en:'Full-Stack Web Application',
-  apptype_ja:'フルスタックウェブアプリ',
-  tags:['python','fastapi','sqlite','gtfs-rt'],
-  github:'https://github.com/shinobu8689/NextTrainDashboard',
-  overview:'Next Train Dashboard is a real-time public transport monitoring application that visualises live Melbourne train operations, delays, and service statuses using GTFS and PTV data. The project was born from a simple frustration — checking when the next train arrives takes too many steps on a phone. This always-on dashboard makes that glanceable at home.',
-  features:[
+(function(){
+  var dark = localStorage.getItem('sw_dark') === '1';
+  var jp   = localStorage.getItem('sw_jp')   === '1';
+  function applyLang(){
+    var btn = document.getElementById('topbar-lang-btn');
+    if(btn) btn.textContent = jp ? 'English' : '日本語';
+    document.documentElement.lang = jp ? 'ja' : 'en';
+    if(typeof window.onToggleLangContent === 'function') window.onToggleLangContent(jp);
+  }
+  window.toggleDark = function(){ dark=!dark; localStorage.setItem('sw_dark',dark?'1':'0'); document.body.classList.toggle('dark',dark); };
+  window.toggleLang = function(){ jp=!jp; localStorage.setItem('sw_jp',jp?'1':'0'); document.body.dataset.jp=jp?'1':''; applyLang(); };
+  window.toggleNavDropdown = function(){ document.getElementById('nav-btn-wrap').classList.toggle('open'); };
+  document.addEventListener('click', function(e){ if(!e.target.closest('#nav-btn-wrap')){ var w=document.getElementById('nav-btn-wrap'); if(w) w.classList.remove('open'); } });
+  setTimeout(function(){ if(jp) applyLang(); document.body.classList.remove('jp-loading'); }, 0);
+})();
+</script>
+
+<script>
+var ITEM = {
+  title: 'Next Train',
+  sub: 'Dashboard that displays real-time info for trains with GTFS.',
+  status: 'completed',
+  duration_en: 'Feb 2026 · 2 weeks',
+  duration_ja: '2026年2月（2週間）',
+  team_en: 'Personal Project',
+  team_ja: '個人開発',
+  apptype_en: 'Full-Stack Web Application',
+  apptype_ja: 'フルスタックウェブアプリ',
+  tags: ['python','fastapi','sqlite','gtfs-rt'],
+  github: 'https://github.com/shinobu8689/NextTrainDashboard',
+  overview: 'Next Train Dashboard is a real-time public transport monitoring application that visualises live Melbourne train operations, delays, and service statuses using GTFS and PTV data. The project was born from a simple frustration — checking when the next train arrives takes too many steps on a phone. This always-on dashboard makes that glanceable at home.',
+  features: [
     'Live Train Data — real-time train tracking, arrival times, and service status updates.',
     'Delay Insights — delay visualisation with selectable station monitoring, shown per minute.',
     'Data Validity Control — automatic data expiration checks with validity notifications.',
     'GTFS-RT integration for real-time feed parsing alongside a static GTFS SQLite dataset.',
     'Clear and interactive interface designed for at-a-glance readability.'
   ],
-  takeaways:[
+  takeaways: [
     'Real-time data systems — learned how to fetch, process, and display live transport data with attention to latency and reliability.',
     'Data-driven UI/UX — improved skills in turning raw GTFS data into clear, user-friendly visualisations for everyday users.',
     'Full-stack development — built and integrated both frontend and backend into a complete, working product from scratch.'
   ],
-  stack:['html','javascript','python','fastapi','sqlite','gtfs-rt','ptv api','vs code'],
-  ja:{
-    back:'プロジェクト一覧へ',
-    sub:'GTFSデータを用いたリアルタイム列車情報ダッシュボード。',
-    overview:'スマホ・パソコンで「とある駅の次の電車はいつ」に至るまでの手順が多いと感じ、家で据え置きできる常時表示のダッシュボードとして開発しました。GTFSとPTVデータを使い、メルボルンの列車の運行状況・遅延・サービス状態をリアルタイムで可視化するアプリです。',
-    features:[
+  stack: ['html','javascript','python','fastapi','sqlite','gtfs-rt','ptv api','vs code'],
+  ja: {
+    sub: 'GTFSデータを用いたリアルタイム列車情報ダッシュボード。',
+    overview: 'スマホ・パソコンで「とある駅の次の電車はいつ」に至るまでの手順が多いと感じ、家で据え置きできる常時表示のダッシュボードとして開発しました。GTFSとPTVデータを使い、メルボルンの列車の運行状況・遅延・サービス状態をリアルタイムで可視化するアプリです。',
+    features: [
       'リアルタイム列車情報 — リアルタイムで列車位置、到着時刻、運行情報を更新。',
       '遅延情報表示 — 各路線・列車の遅延情報が分単位で表示され、駅を選択できる。',
       'データ有効性管理 — データの有効期限を自動チェックし、切れたらお知らせする。',
       'GTFS-RTのリアルタイムフィードとSQLiteの静的GTFSデータセットを統合。',
       '直感的に確認できるシンプルなUIを目指した設計。'
     ],
-    takeaways:[
+    takeaways: [
       'リアルタイムデータ処理 — 遅延や信頼性を考慮した交通データの取得・処理・表示の技術を学んだ。',
       'データ駆動型UI/UX設計 — 複雑な交通データを、利用者にとって分かりやすい形で可視化する設計を学んだ。',
       'フルスタック開発 — フロントとバックエンドを統合し、アプリ全体を一から構築した。'
@@ -180,73 +280,54 @@ var ITEM={
   }
 };
 
-var STATUS_EN={completed:'completed',wip:'in progress',archived:'archived'};
-var STATUS_JA={completed:'完成',wip:'制作中',archived:'アーカイブ'};
-var STATUS_DOT={completed:'active',wip:'wip',archived:''};
+var STATUS_EN = {completed:'completed', wip:'in progress', archived:'archived'};
+var STATUS_JA = {completed:'完成', wip:'制作中', archived:'アーカイブ'};
+var STATUS_DOT = {completed:'active', wip:'wip', archived:''};
 
 function render(jp){
-  document.getElementById('back-link').href=ITEM.backHref;
-  document.getElementById('back-label').textContent=(jp&&ITEM.ja&&ITEM.ja.back)?ITEM.ja.back:'back to works';
+  document.getElementById('detail-sub').textContent = jp&&ITEM.ja.sub ? ITEM.ja.sub : ITEM.sub;
+  document.getElementById('info-duration').textContent = jp ? ITEM.duration_ja : ITEM.duration_en;
+  document.getElementById('info-team').textContent = jp ? ITEM.team_ja : ITEM.team_en;
+  document.getElementById('info-type').textContent = jp ? ITEM.apptype_ja : ITEM.apptype_en;
 
-  document.getElementById('detail-title').textContent=ITEM.title;
-  document.getElementById('detail-sub').textContent=(jp&&ITEM.ja&&ITEM.ja.sub)?ITEM.ja.sub:ITEM.sub;
+  var meta = document.getElementById('meta-row'); meta.innerHTML = '';
+  ITEM.tags.forEach(function(t){ var s=document.createElement('span'); s.className='tag'; s.textContent=t; meta.appendChild(s); });
+  var sep=document.createElement('span'); sep.className='meta-sep'; meta.appendChild(sep);
+  var badge=document.createElement('span'); badge.className='status-badge';
+  var dot=document.createElement('span'); dot.className='status-dot '+(STATUS_DOT[ITEM.status]||'');
+  badge.appendChild(dot); badge.appendChild(document.createTextNode((jp?STATUS_JA:STATUS_EN)[ITEM.status])); meta.appendChild(badge);
+  var sep2=document.createElement('span'); sep2.className='meta-sep'; meta.appendChild(sep2);
+  var a=document.createElement('a'); a.className='ext-link'; a.href=ITEM.github; a.target='_blank';
+  a.innerHTML='github <i class="ti ti-arrow-up-right"></i>'; meta.appendChild(a);
 
-  document.getElementById('info-duration').textContent=jp?ITEM.duration_ja:ITEM.duration_en;
-  document.getElementById('info-team').textContent=jp?ITEM.team_ja:ITEM.team_en;
-  document.getElementById('info-type').textContent=jp?ITEM.apptype_ja:ITEM.apptype_en;
+  document.getElementById('lbl-overview').textContent = jp ? '概要' : 'OVERVIEW';
+  document.getElementById('overview-text').textContent = jp&&ITEM.ja.overview ? ITEM.ja.overview : ITEM.overview;
 
-  var meta=document.getElementById('meta-row');
-  meta.innerHTML='';
-  ITEM.tags.forEach(function(t){
-    var s=document.createElement('span');s.className='tag';s.textContent=t;meta.appendChild(s);
-  });
-  if(ITEM.status){
-    var sep=document.createElement('span');sep.className='meta-sep';meta.appendChild(sep);
-    var badge=document.createElement('span');badge.className='status-badge';
-    var dot=document.createElement('span');dot.className='status-dot '+(STATUS_DOT[ITEM.status]||'');
-    badge.appendChild(dot);
-    badge.appendChild(document.createTextNode((jp?STATUS_JA:STATUS_EN)[ITEM.status]||ITEM.status));
-    meta.appendChild(badge);
-  }
-  if(ITEM.github||ITEM.demo){
-    var sep2=document.createElement('span');sep2.className='meta-sep';meta.appendChild(sep2);
-    if(ITEM.github){
-      var a=document.createElement('a');a.className='ext-link';a.href=ITEM.github;a.target='_blank';
-      a.innerHTML='github<i class="ti ti-arrow-up-right"></i>';meta.appendChild(a);
-    }
-    if(ITEM.demo){
-      var a2=document.createElement('a');a2.className='ext-link';a2.href=ITEM.demo;a2.target='_blank';
-      a2.innerHTML=(jp?'デモ':'demo')+'<i class="ti ti-arrow-up-right"></i>';meta.appendChild(a2);
-    }
-  }
-
-
-  document.getElementById('lbl-overview').textContent=jp?'◤ 概要':'◤ overview';
-  document.getElementById('overview-text').textContent=(jp&&ITEM.ja&&ITEM.ja.overview)?ITEM.ja.overview:ITEM.overview;
-
-  document.getElementById('lbl-features').textContent=jp?'◤ 主な機能':'◤ features';
-  var fl=document.getElementById('feature-list');fl.innerHTML='';
-  var feats=(jp&&ITEM.ja&&ITEM.ja.features)?ITEM.ja.features:ITEM.features;
-  feats.forEach(function(f){
-    fl.innerHTML+='<div class="feature-item"><span class="feature-dot"></span><span class="feature-text">'+f+'</span></div>';
+  document.getElementById('lbl-features').textContent = jp ? '主な機能' : 'FEATURES';
+  var fl=document.getElementById('feature-list'); fl.innerHTML='';
+  (jp&&ITEM.ja.features ? ITEM.ja.features : ITEM.features).forEach(function(f){
+    fl.innerHTML+='<div class="feature-item"><span class="feature-tri">▸</span><span class="feature-text">'+f+'</span></div>';
   });
 
-  document.getElementById('lbl-takeaways').textContent=jp?'◤ 学んだこと':'◤ key takeaways';
-  var tl=document.getElementById('takeaways-list');tl.innerHTML='';
-  var tas=(jp&&ITEM.ja&&ITEM.ja.takeaways)?ITEM.ja.takeaways:ITEM.takeaways;
-  tas.forEach(function(t){
-    tl.innerHTML+='<div class="feature-item"><span class="feature-dot"></span><span class="feature-text">'+t+'</span></div>';
+  document.getElementById('lbl-takeaways').textContent = jp ? '学んだこと' : 'KEY TAKEAWAYS';
+  var tl=document.getElementById('takeaways-list'); tl.innerHTML='';
+  (jp&&ITEM.ja.takeaways ? ITEM.ja.takeaways : ITEM.takeaways).forEach(function(t){
+    tl.innerHTML+='<div class="feature-item"><span class="feature-tri">▸</span><span class="feature-text">'+t+'</span></div>';
   });
 
-  document.getElementById('lbl-stack').textContent=jp?'◤ 技術スタック':'◤ stack & tools';
-  var st=document.getElementById('stack-tags');st.innerHTML='';
-  ITEM.stack.forEach(function(t){
-    st.innerHTML+='<span class="tag">'+t+'</span>';
-  });
+  document.getElementById('lbl-stack').textContent = jp ? '技術スタック' : 'STACK & TOOLS';
+  var st=document.getElementById('stack-tags'); st.innerHTML='';
+  ITEM.stack.forEach(function(t){ st.innerHTML+='<span class="tag">'+t+'</span>'; });
+
+  document.getElementById('nav-home').textContent    = jp ? 'ホーム' : 'home';
+  document.getElementById('nav-works').textContent   = jp ? '制作実績' : 'works';
+  document.getElementById('nav-art').textContent     = jp ? 'イラスト' : 'art';
+  document.getElementById('nav-about').textContent   = jp ? '自己紹介' : 'about';
+  document.getElementById('nav-contact').textContent = jp ? 'お問い合わせ' : 'contact';
 }
 
 render(false);
-window.onToggleLangContent=function(jp){render(jp);};
+window.onToggleLangContent = function(jp){ render(jp); };
 </script>
 </body>
 </html>
