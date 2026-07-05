@@ -104,20 +104,24 @@ h1 .cursor {
 .ext-link i { font-size: 12px; }
 
 /* project hero image */
+.proj-media { margin-top: 40px; }
 .proj-hero {
-  position: relative; overflow: hidden; height: 300px; margin-top: 40px;
+  position: relative; overflow: hidden; height: 340px;
   border: 1px solid var(--ink); background: var(--card-screen);
-  background-image: repeating-linear-gradient(0deg, rgba(63,203,142,0.05) 0px, rgba(63,203,142,0.05) 1px, transparent 1px, transparent 3px);
+  display: flex; align-items: center; justify-content: center;
 }
-.proj-hero img { width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: 0.75; filter: saturate(0.5) brightness(0.8); display: block; transition: opacity 0.25s, filter 0.25s; }
-.proj-hero:hover img { opacity: 0.9; filter: saturate(0.65) brightness(0.88); }
-.scan {
-  position: absolute; left: 0; right: 0; height: 40%;
-  background: linear-gradient(180deg, transparent, rgba(63,203,142,0.15), transparent);
-  top: -40%; opacity: 0.7; animation: scan 2.8s linear infinite; pointer-events: none;
+.proj-hero img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.proj-hero iframe { width: 100%; height: 100%; border: 0; display: block; }
+.media-thumbs { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.media-thumb {
+  position: relative; width: 84px; height: 56px; flex-shrink: 0;
+  border: 1px solid var(--ink); background: var(--card-screen);
+  overflow: hidden; cursor: pointer; opacity: 0.55; transition: opacity 0.15s, border-color 0.15s;
 }
-.phosphor-glow { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(63,203,142,0.1) 100%); pointer-events: none; }
-@keyframes scan { to { top: 100%; } }
+.media-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.media-thumb:hover { opacity: 0.85; }
+.media-thumb.active { opacity: 1; border-color: var(--phosphor); }
+.media-thumb-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 18px; color: #fff; text-shadow: 0 0 4px rgba(0,0,0,0.7); pointer-events: none; }
 
 /* sections */
 .section-label {
@@ -155,7 +159,8 @@ body.dark footer { border-color: #2A4A40; }
 @media (max-width: 768px) {
   .frame { padding: 0 20px 60px; }
   .hero-section { padding: 26px 18px 30px; }
-  .proj-hero { height: 200px; }
+  .proj-hero { height: 220px; }
+  .media-thumb { width: 64px; height: 44px; }
   .topbar-btn { font-size: 9.5px; padding: 4px 8px; }
   .feature-grid { grid-template-columns: 1fr; }
 }
@@ -210,10 +215,9 @@ body.dark footer { border-color: #2A4A40; }
       </div>
     </div>
 
-    <div class="proj-hero">
-      <img src="../project_images/jobexpress.png" alt="Job Stream Express screenshot">
-      <div class="scan"></div>
-      <div class="phosphor-glow"></div>
+    <div class="proj-media">
+      <div class="proj-hero" id="media-main"></div>
+      <div class="media-thumbs" id="media-thumbs"></div>
     </div>
 
     <div class="section-label"><span class="tri">▸</span><span id="lbl-overview">OVERVIEW</span></div>
@@ -279,6 +283,9 @@ var ITEM = {
     'Agent-assisted development — used Claude Code to modularise and rewrite the entire system from scratch.'
   ],
   stack: ['python','playwright','ollama','gemma4','cli','vs code','claude code'],
+  media: [
+    { type: 'image', src: '../project_images/jobexpress.png', alt: 'Job Stream Express screenshot' }
+  ],
   ja: {
     sub: '求人検索・適性分析・応募支援を自動化したワークフロー支援ツール。',
     overview: '求人情報の多様な形式と要件を自動処理しワークフロー化することで就職活動の効率化を実現しました。旧バージョン（Job Stream Linear）の機能追加による複雑化の課題を踏まえて、拡張性と保守性を改善した設計へとゼロから書き直しています。',
@@ -313,6 +320,47 @@ function renderCards(el, items, fallbackIcon){
     var iconHtml = c.icon ? c.icon : '<i class="ti '+fallbackIcon+'"></i>';
     el.innerHTML += '<div class="feature-card"><div class="feature-card-icon">'+iconHtml+'</div><div class="feature-card-title">'+c.title+'</div><div class="feature-card-desc">'+c.desc+'</div></div>';
   });
+}
+
+function ytId(url){
+  var m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([\w-]+)/);
+  return m ? m[1] : url;
+}
+function renderMedia(){
+  var main = document.getElementById('media-main');
+  var thumbs = document.getElementById('media-thumbs');
+  var items = ITEM.media || [];
+  function show(i){
+    var item = items[i];
+    main.innerHTML = '';
+    if(item.type === 'video'){
+      var iframe = document.createElement('iframe');
+      iframe.src = 'https://www.youtube.com/embed/' + ytId(item.src);
+      iframe.title = item.alt || '';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      main.appendChild(iframe);
+    } else {
+      var img = document.createElement('img');
+      img.src = item.src; img.alt = item.alt || '';
+      main.appendChild(img);
+    }
+    Array.prototype.forEach.call(thumbs.children, function(t, idx){ t.classList.toggle('active', idx === i); });
+  }
+  thumbs.innerHTML = '';
+  items.forEach(function(item, i){
+    var t = document.createElement('div');
+    t.className = 'media-thumb';
+    if(item.type === 'video'){
+      t.innerHTML = '<img src="https://img.youtube.com/vi/'+ytId(item.src)+'/mqdefault.jpg" alt=""><i class="ti ti-player-play-filled media-thumb-play"></i>';
+    } else {
+      t.innerHTML = '<img src="'+item.src+'" alt="">';
+    }
+    t.addEventListener('click', function(){ show(i); });
+    thumbs.appendChild(t);
+  });
+  thumbs.style.display = items.length > 1 ? 'flex' : 'none';
+  if(items.length) show(0);
 }
 
 function render(jp){
@@ -352,6 +400,7 @@ function render(jp){
 }
 
 render(false);
+renderMedia();
 window.onToggleLangContent = function(jp){ render(jp); };
 </script>
 </body>
