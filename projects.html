@@ -420,7 +420,7 @@ body.dark .nav-dd-item:hover { background: #1D4A3A; color: #EDEAE2; }
         <div class="role-line">
           <span id="page-sub">things i've built.</span>
           <span class="sep">/</span>
-          <span class="count" id="page-count">6 projects</span>
+          <span class="count" id="page-count">7 projects</span>
         </div>
         <div class="hero-divider"></div>
       </div>
@@ -486,6 +486,17 @@ body.dark .nav-dd-item:hover { background: #1D4A3A; color: #EDEAE2; }
 
 <script>
 var PROJECTS=[
+  {
+    icon:'ti-clipboard-text',
+    image:'project_images/clipboardlm1.png',
+    title:'ClipboardLM',
+    title_ja:'ClipboardLM',
+    desc:'Windows clipboard manager that auto-tags and summarizes captures with a local Ollama model, with hotkey capture and tag rollup reports.',
+    desc_ja:'ローカルのOllamaモデルが自動でタグ付け・要約するWindows向けクリップボード管理アプリ。ホットキー取得とタグ別まとめレポートを搭載。',
+    tags:['c#','wpf','ef core','ollama'],
+    github:'https://github.com/shinobu8689/ClipboardLM',
+    href:'projects/clipboard-lm.html'
+  },
   {
     icon:'ti-robot',
     image:'project_images/jobexpress.png',
@@ -592,7 +603,7 @@ window.onToggleLangContent = function(jp){
   var h1 = document.getElementById('page-h1');
   h1.childNodes[0].textContent = jp ? '制作実績' : 'all projects';
   document.getElementById('page-sub').textContent   = jp ? '作ったもの。' : "things i've built.";
-  document.getElementById('page-count').textContent = jp ? '6件' : '6 projects';
+  document.getElementById('page-count').textContent = jp ? '7件' : '7 projects';
   document.getElementById('sec-label').textContent  = jp ? 'すべてのプロジェクト' : 'ALL PROJECTS';
   document.getElementById('nav-home').textContent    = jp ? 'ホーム' : 'home';
   document.getElementById('nav-works').textContent   = jp ? '制作実績' : 'works';
