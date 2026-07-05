@@ -116,10 +116,13 @@ h1 .cursor {
 .section-label::after { content: ""; flex: 1; height: 1px; background: var(--ink); opacity: 0.4; }
 .section-label .tri { color: var(--phosphor); }
 .prose { font-size: 13px; color: var(--ink); line-height: 1.85; max-width: 700px; opacity: 0.8; }
-.feature-list { display: flex; flex-direction: column; gap: 10px; }
-.feature-item { display: flex; gap: 12px; align-items: flex-start; }
-.feature-tri { color: var(--phosphor); font-size: 9px; flex-shrink: 0; margin-top: 4px; opacity: 0.7; line-height: 1.5; }
-.feature-text { font-size: 12.5px; color: var(--ink); line-height: 1.7; opacity: 0.8; }
+.feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.feature-card { border: 1px solid var(--ink); background: var(--panel); padding: 18px 16px 20px; display: flex; flex-direction: column; gap: 8px; transition: transform 0.2s ease; }
+.feature-card:hover { transform: translateY(-3px); }
+.feature-card-icon { font-size: 21px; line-height: 1; }
+.feature-card-icon i { font-size: 19px; color: var(--phosphor); }
+.feature-card-title { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 13.5px; color: var(--teal-deep); }
+.feature-card-desc { font-size: 11.5px; color: var(--sage); line-height: 1.65; }
 .tag-group { display: flex; flex-wrap: wrap; gap: 6px; }
 
 footer { margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--ink); display: flex; justify-content: space-between; font-size: 9.5px; letter-spacing: 0.1em; color: var(--sage); }
@@ -142,6 +145,10 @@ body.dark footer { border-color: #2A4A40; }
   .hero-section { padding: 26px 18px 30px; }
   .proj-hero { height: 200px; }
   .topbar-btn { font-size: 9.5px; padding: 4px 8px; }
+  .feature-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 900px) and (min-width: 769px) {
+  .feature-grid { grid-template-columns: repeat(2, 1fr); }
 }
 .jp-loading .main { visibility: hidden; }
 </style>
@@ -201,10 +208,10 @@ body.dark footer { border-color: #2A4A40; }
     <div class="prose" id="overview-text"></div>
 
     <div class="section-label"><span class="tri">▸</span><span id="lbl-features">FEATURES</span></div>
-    <div class="feature-list" id="feature-list"></div>
+    <div class="feature-grid" id="feature-list"></div>
 
     <div class="section-label"><span class="tri">▸</span><span id="lbl-takeaways">KEY TAKEAWAYS</span></div>
-    <div class="feature-list" id="takeaways-list"></div>
+    <div class="feature-grid" id="takeaways-list"></div>
 
     <div class="section-label"><span class="tri">▸</span><span id="lbl-stack">STACK &amp; TOOLS</span></div>
     <div class="tag-group" id="stack-tags"></div>
@@ -250,11 +257,9 @@ var ITEM = {
   github: 'https://github.com/shinobu8689/NextTrainDashboard',
   overview: 'Next Train Dashboard is a real-time public transport monitoring application that visualises live Melbourne train operations, delays, and service statuses using GTFS and PTV data. The project was born from a simple frustration — checking when the next train arrives takes too many steps on a phone. This always-on dashboard makes that glanceable at home.',
   features: [
-    'Live Train Data — real-time train tracking, arrival times, and service status updates.',
-    'Delay Insights — delay visualisation with selectable station monitoring, shown per minute.',
-    'Data Validity Control — automatic data expiration checks with validity notifications.',
-    'GTFS-RT integration for real-time feed parsing alongside a static GTFS SQLite dataset.',
-    'Clear and interactive interface designed for at-a-glance readability.'
+    '🚇Live Train Data — real-time train tracking, arrival times, and service status updates.',
+    '⏱️Delay Insights — delay visualisation with selectable station monitoring, shown per minute.',
+    '🔄Data Validity Control — automatic data expiration checks with validity notifications.'
   ],
   takeaways: [
     'Real-time data systems — learned how to fetch, process, and display live transport data with attention to latency and reliability.',
@@ -266,11 +271,9 @@ var ITEM = {
     sub: 'GTFSデータを用いたリアルタイム列車情報ダッシュボード。',
     overview: 'スマホ・パソコンで「とある駅の次の電車はいつ」に至るまでの手順が多いと感じ、家で据え置きできる常時表示のダッシュボードとして開発しました。GTFSとPTVデータを使い、メルボルンの列車の運行状況・遅延・サービス状態をリアルタイムで可視化するアプリです。',
     features: [
-      'リアルタイム列車情報 — リアルタイムで列車位置、到着時刻、運行情報を更新。',
-      '遅延情報表示 — 各路線・列車の遅延情報が分単位で表示され、駅を選択できる。',
-      'データ有効性管理 — データの有効期限を自動チェックし、切れたらお知らせする。',
-      'GTFS-RTのリアルタイムフィードとSQLiteの静的GTFSデータセットを統合。',
-      '直感的に確認できるシンプルなUIを目指した設計。'
+      '🚇リアルタイム列車情報 — リアルタイムで列車位置、到着時刻、運行情報を更新。',
+      '⏱️遅延情報表示 — 各路線・列車の遅延情報が分単位で表示され、駅を選択できる。',
+      '🔄データ有効性管理 — データの有効期限を自動チェックし、切れたらお知らせする。'
     ],
     takeaways: [
       'リアルタイムデータ処理 — 遅延や信頼性を考慮した交通データの取得・処理・表示の技術を学んだ。',
@@ -283,6 +286,22 @@ var ITEM = {
 var STATUS_EN = {completed:'completed', wip:'in progress', archived:'archived'};
 var STATUS_JA = {completed:'完成', wip:'制作中', archived:'アーカイブ'};
 var STATUS_DOT = {completed:'active', wip:'wip', archived:''};
+
+function parseCard(str){
+  var m = str.match(/^(\p{Extended_Pictographic}️?)\s*/u);
+  var icon = m ? m[1] : null;
+  var rest = m ? str.slice(m[0].length) : str;
+  var idx = rest.indexOf(' — ');
+  return { icon: icon, title: idx>=0 ? rest.slice(0, idx) : rest, desc: idx>=0 ? rest.slice(idx+3) : '' };
+}
+function renderCards(el, items, fallbackIcon){
+  el.innerHTML = '';
+  items.forEach(function(str){
+    var c = parseCard(str);
+    var iconHtml = c.icon ? c.icon : '<i class="ti '+fallbackIcon+'"></i>';
+    el.innerHTML += '<div class="feature-card"><div class="feature-card-icon">'+iconHtml+'</div><div class="feature-card-title">'+c.title+'</div><div class="feature-card-desc">'+c.desc+'</div></div>';
+  });
+}
 
 function render(jp){
   document.getElementById('detail-sub').textContent = jp&&ITEM.ja.sub ? ITEM.ja.sub : ITEM.sub;
@@ -304,16 +323,10 @@ function render(jp){
   document.getElementById('overview-text').textContent = jp&&ITEM.ja.overview ? ITEM.ja.overview : ITEM.overview;
 
   document.getElementById('lbl-features').textContent = jp ? '主な機能' : 'FEATURES';
-  var fl=document.getElementById('feature-list'); fl.innerHTML='';
-  (jp&&ITEM.ja.features ? ITEM.ja.features : ITEM.features).forEach(function(f){
-    fl.innerHTML+='<div class="feature-item"><span class="feature-tri">▸</span><span class="feature-text">'+f+'</span></div>';
-  });
+  renderCards(document.getElementById('feature-list'), jp&&ITEM.ja.features ? ITEM.ja.features : ITEM.features, 'ti-sparkles');
 
   document.getElementById('lbl-takeaways').textContent = jp ? '学んだこと' : 'KEY TAKEAWAYS';
-  var tl=document.getElementById('takeaways-list'); tl.innerHTML='';
-  (jp&&ITEM.ja.takeaways ? ITEM.ja.takeaways : ITEM.takeaways).forEach(function(t){
-    tl.innerHTML+='<div class="feature-item"><span class="feature-tri">▸</span><span class="feature-text">'+t+'</span></div>';
-  });
+  renderCards(document.getElementById('takeaways-list'), jp&&ITEM.ja.takeaways ? ITEM.ja.takeaways : ITEM.takeaways, 'ti-bulb');
 
   document.getElementById('lbl-stack').textContent = jp ? '技術スタック' : 'STACK & TOOLS';
   var st=document.getElementById('stack-tags'); st.innerHTML='';
