@@ -348,6 +348,23 @@ h1 .cursor {
   color: var(--teal);
   text-transform: uppercase;
 }
+.blog-card {
+  text-decoration: none;
+}
+.blog-card .card-body {
+  min-height: 112px;
+}
+.blog-card .card-date {
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  color: var(--teal);
+  margin-bottom: 8px;
+}
+.blog-card .card-desc {
+  font-size: 10.5px;
+  color: var(--sage);
+  line-height: 1.55;
+}
 
 .more-row {
   margin-top: 22px;
@@ -543,6 +560,19 @@ body.dark .card { border-color: #2A4A40; }
 
     <div class="section-label">
       <span class="tri">▸</span>
+      <span id="blog-sec-label">RECENT POSTS</span>
+    </div>
+
+    <div class="cards" id="blog-grid"></div>
+
+    <div class="more-row">
+      <div class="more-btn" id="blog-more-btn" onclick="location.href='blog.html'">
+        <span>see all</span><i class="ti ti-arrow-right" style="font-size:13px"></i>
+      </div>
+    </div>
+
+    <div class="section-label">
+      <span class="tri">▸</span>
       <span id="sec-label">RECENT WORKS</span>
     </div>
 
@@ -701,6 +731,10 @@ window.onToggleLangContent = function(jp){
   document.getElementById('role-main').textContent  = jp ? '個人開発者' : 'DEVELOPER';
   document.getElementById('role-sub').textContent   = jp ? 'ドット絵の人' : 'CASUAL PIXEL ARTIST';
   document.getElementById('role-loc').textContent   = jp ? 'メルボルン' : 'MELBOURNE';
+  document.getElementById('blog-sec-label').textContent = jp ? '最近の投稿' : 'RECENT POSTS';
+  document.getElementById('blog-more-btn').innerHTML = jp
+    ? '<span>もっと見る</span><i class="ti ti-arrow-right" style="font-size:13px"></i>'
+    : '<span>see all</span><i class="ti ti-arrow-right" style="font-size:13px"></i>';
   document.getElementById('sec-label').textContent  = jp ? '制作実績（一部）' : 'RECENT WORKS';
   document.getElementById('more-btn').innerHTML = jp
     ? '<span>もっと見る</span><i class="ti ti-arrow-right" style="font-size:13px"></i>'
@@ -733,6 +767,64 @@ window.onToggleLangContent = function(jp){
   document.getElementById('card-title-3').textContent = 'ClipboardLM';
   document.getElementById('card-sub-3').textContent   = 'c# · wpf · ollama';
 };
+</script>
+<script>
+(function(){
+  var blogPosts = [];
+
+  function esc(value){
+    return String(value || '').replace(/[&<>"']/g, function(character){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character];
+    });
+  }
+
+  function renderBlogPosts(jp){
+    var posts = blogPosts.slice().sort(function(a, b){
+      return new Date(b.date) - new Date(a.date);
+    }).slice(0, 3);
+    document.getElementById('blog-grid').innerHTML = posts.map(function(post, index){
+      var title = jp ? (post.title_jp || post.title_en || post.unique_id) : (post.title_en || post.title_jp || post.unique_id);
+      var excerpt = jp ? (post.excerpt_jp || post.excerpt_en || '') : (post.excerpt_en || post.excerpt_jp || '');
+      var date = new Date(post.date + 'T00:00:00').toLocaleDateString(jp ? 'ja-JP' : 'en-GB', {year:'numeric', month:'short', day:'numeric'});
+      var image = post.thumbnail
+        ? '<img src="' + esc('blog/posts/' + post.unique_id + '/' + post.thumbnail) + '" alt="' + esc(title) + '">'
+        : '';
+      return '<a class="card blog-card" href="blog/index.html?id=' + encodeURIComponent(post.unique_id) + '">' +
+        '<div class="card-head">Post ' + String(index + 1).padStart(2, '0') + '</div>' +
+        '<div class="card-thumb">' + image + '<div class="scan"></div><div class="phosphor-glow"></div></div>' +
+        '<div class="card-body"><div class="card-title">' + esc(title) + '</div>' +
+        '<div class="card-date">' + esc(date) + '</div><div class="card-desc">' + esc(excerpt) + '</div></div></a>';
+    }).join('');
+  }
+
+  window.onToggleLangContent = (function(original){
+    return function(jp){
+      original(jp);
+      renderBlogPosts(jp);
+    };
+  })(window.onToggleLangContent);
+
+  fetch('blog/index.json')
+    .then(function(response){
+      if(!response.ok) throw Error('post index unavailable');
+      return response.json();
+    })
+    .then(function(ids){
+      return Promise.all(ids.map(function(id){
+        return fetch('blog/posts/' + encodeURIComponent(id) + '/meta.json').then(function(response){
+          if(!response.ok) throw Error('post metadata unavailable');
+          return response.json();
+        });
+      }));
+    })
+    .then(function(posts){
+      blogPosts = posts;
+      renderBlogPosts(localStorage.getItem('sw_jp') === '1');
+    })
+    .catch(function(){
+      document.getElementById('blog-grid').innerHTML = '';
+    });
+})();
 </script>
 </body>
 </html>

@@ -47,7 +47,7 @@ function dateText(value) {
 }
 function renderPosts() {
 	document.getElementById('page-h1').childNodes[0].textContent = jp ? 'ブログ' : 'blog';
-	document.getElementById('page-sub').textContent = jp ? 'メモ、レビュー、日々の発見。' : 'notes, reviews, and small discoveries.';
+	document.getElementById('page-sub').textContent = jp ? 'メモ、雑談、レビュー。' : 'notes, reviews, and small discoveries.';
 	document.getElementById('page-count').textContent = jp ? posts.length + '件' : posts.length + ' posts';
 	document.getElementById('sec-label').textContent = jp ? 'すべての投稿' : 'ALL POSTS';
 	document.getElementById('nav-home').textContent = jp ? 'ホーム' : 'home';
