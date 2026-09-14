@@ -475,6 +475,7 @@ body.dark .card { border-color: #2A4A40; }
             <a class="nav-dd-item current" href="index.html" id="tb-nav-home">home</a>
             <a class="nav-dd-item" href="projects.html" id="tb-nav-works">works</a>
             <a class="nav-dd-item" href="art.html" id="tb-nav-art">art</a>
+            <a class="nav-dd-item" href="blog.html" id="tb-nav-blog">blog</a>
             <a class="nav-dd-item" href="about.html" id="tb-nav-about">about</a>
             <a class="nav-dd-item" href="contact.html" id="tb-nav-contact">contact</a>
           </div>
@@ -524,12 +525,16 @@ body.dark .card { border-color: #2A4A40; }
             <span class="num">§ 02</span>
             <span id="nav-art">art</span>
           </div>
-          <div class="nav-item" onclick="location.href='about.html'">
+          <div class="nav-item" onclick="location.href='blog.html'">
             <span class="num">§ 03</span>
+            <span id="nav-blog">blog</span>
+          </div>
+          <div class="nav-item" onclick="location.href='about.html'">
+            <span class="num">§ 04</span>
             <span id="nav-about">about</span>
           </div>
           <div class="nav-item" onclick="location.href='contact.html'">
-            <span class="num">§ 04</span>
+            <span class="num">§ 05</span>
             <span id="nav-contact">contact</span>
           </div>
         </div>
@@ -703,12 +708,14 @@ window.onToggleLangContent = function(jp){
 
   document.getElementById('nav-works').textContent   = jp ? '制作実績' : 'works';
   document.getElementById('nav-art').textContent     = jp ? 'イラスト' : 'art';
+  document.getElementById('nav-blog').textContent    = jp ? 'ブログ' : 'blog';
   document.getElementById('nav-about').textContent   = jp ? '自己紹介' : 'about';
   document.getElementById('nav-contact').textContent = jp ? 'お問い合わせ' : 'contact';
 
   document.getElementById('tb-nav-home').textContent    = jp ? 'ホーム' : 'home';
   document.getElementById('tb-nav-works').textContent   = jp ? '制作実績' : 'works';
   document.getElementById('tb-nav-art').textContent     = jp ? 'イラスト' : 'art';
+  document.getElementById('tb-nav-blog').textContent    = jp ? 'ブログ' : 'blog';
   document.getElementById('tb-nav-about').textContent   = jp ? '自己紹介' : 'about';
   document.getElementById('tb-nav-contact').textContent = jp ? 'お問い合わせ' : 'contact';
 
