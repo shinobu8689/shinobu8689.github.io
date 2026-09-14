@@ -420,7 +420,7 @@ body.dark .nav-dd-item:hover { background: #1D4A3A; color: #EDEAE2; }
         <div class="role-line">
           <span id="page-sub">things i've built.</span>
           <span class="sep">/</span>
-          <span class="count" id="page-count">7 projects</span>
+          <span class="count" id="page-count">8 projects</span>
         </div>
         <div class="hero-divider"></div>
       </div>
@@ -486,6 +486,17 @@ body.dark .nav-dd-item:hover { background: #1D4A3A; color: #EDEAE2; }
 
 <script>
 var PROJECTS=[
+  {
+    icon:'ti-cpu',
+    image:'project_images/agentcore1.png',
+    title:'Agent Core',
+    title_ja:'Agent Core',
+    desc:'Self-hosted home AI agent with a dedicated local compute core, isolated private/shared NAS storage, and multi-channel access via Discord, voice, and an ambient display.',
+    desc_ja:'専用のローカル演算コアと、プライベート／共有に分離したNASストレージを備えた自宅設置型AIエージェント。Discord・音声・アンビエントディスプレイからアクセス可能。',
+    tags:['ai-agent','local-llm','docker'],
+    github:null,
+    href:'projects/agent-core.html'
+  },
   {
     icon:'ti-clipboard-text',
     image:'project_images/clipboardlm1.png',
@@ -613,7 +624,7 @@ window.onToggleLangContent = function(jp){
   var h1 = document.getElementById('page-h1');
   h1.childNodes[0].textContent = jp ? '制作実績' : 'all projects';
   document.getElementById('page-sub').textContent   = jp ? '作ったもの。' : "things i've built.";
-  document.getElementById('page-count').textContent = jp ? '7件' : '7 projects';
+  document.getElementById('page-count').textContent = jp ? '8件' : '8 projects';
   document.getElementById('sec-label').textContent  = jp ? 'すべてのプロジェクト' : 'ALL PROJECTS';
   document.getElementById('nav-home').textContent    = jp ? 'ホーム' : 'home';
   document.getElementById('nav-works').textContent   = jp ? '制作実績' : 'works';
