@@ -1,0 +1,13 @@
+{
+  "unique_id": "hello_world",
+  "date": "2026-09-14",
+  "post_type": "Update",
+  "thumbnail": "1.png",
+  "main_lang": ["jp"],
+  "content_en": "en.md",
+  "content_jp": "jp.md",
+  "title_en": "Hello, World.",
+  "title_jp": "Hello, World.",
+  "excerpt_en": "Started a blog, a place to dump random thoughts and updates.",
+  "excerpt_jp": "ブログを始めました。ここに思ったことや更新情報を置いていきます。"
+}
