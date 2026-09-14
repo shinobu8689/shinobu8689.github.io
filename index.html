@@ -785,7 +785,10 @@ window.onToggleLangContent = function(jp){
     document.getElementById('blog-grid').innerHTML = posts.map(function(post, index){
       var title = jp ? (post.title_jp || post.title_en || post.unique_id) : (post.title_en || post.title_jp || post.unique_id);
       var excerpt = jp ? (post.excerpt_jp || post.excerpt_en || '') : (post.excerpt_en || post.excerpt_jp || '');
-      var date = new Date(post.date + 'T00:00:00').toLocaleDateString(jp ? 'ja-JP' : 'en-GB', {year:'numeric', month:'short', day:'numeric'});
+      var dateValue = new Date(post.date + 'T00:00:00');
+      var date = jp
+        ? dateValue.getFullYear() + '.' + String(dateValue.getMonth() + 1).padStart(2, '0') + '.' + String(dateValue.getDate()).padStart(2, '0')
+        : dateValue.toLocaleDateString('en-GB', {year:'numeric', month:'short', day:'numeric'});
       var image = post.thumbnail
         ? '<img src="' + esc('blog/posts/' + post.unique_id + '/' + post.thumbnail) + '" alt="' + esc(title) + '">'
         : '';
